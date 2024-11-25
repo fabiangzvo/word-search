@@ -22,7 +22,7 @@ module.exports = {
       themes: {
         light: {
           colors: {
-            primary: colors.emerald,
+            primary: { ...colors.emerald, DEFAULT: colors.emerald[500] },
             default: colors.emerald,
           },
         },
