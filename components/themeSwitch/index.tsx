@@ -1,29 +1,27 @@
 "use client";
 
-import { FC } from "react";
+import { JSX, useCallback } from "react";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 import { SwitchProps, useSwitch } from "@nextui-org/switch";
 import { useTheme } from "next-themes";
 import { useIsSSR } from "@react-aria/ssr";
+import { MoonIcon, SunIcon } from "lucide-react";
 import clsx from "clsx";
-
-import { SunFilledIcon, MoonFilledIcon } from "@/components/icons";
 
 export interface ThemeSwitchProps {
   className?: string;
   classNames?: SwitchProps["classNames"];
 }
 
-export const ThemeSwitch: FC<ThemeSwitchProps> = ({
-  className,
-  classNames,
-}) => {
+export default function ThemeSwitch(props: ThemeSwitchProps): JSX.Element {
+  const { className, classNames } = props;
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
 
-  const onChange = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  };
+  const onChange = useCallback(
+    () => (theme === "light" ? setTheme("dark") : setTheme("light")),
+    [theme]
+  );
 
   const {
     Component,
@@ -34,7 +32,9 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
     getWrapperProps,
   } = useSwitch({
     isSelected: theme === "light" || isSSR,
-    "aria-label": `Switch to ${theme === "light" || isSSR ? "dark" : "light"} mode`,
+    "aria-label": `Switch to ${
+      theme === "light" || isSSR ? "dark" : "light"
+    } mode`,
     onChange,
   });
 
@@ -44,7 +44,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
         className: clsx(
           "px-px transition-opacity hover:opacity-80 cursor-pointer",
           className,
-          classNames?.base,
+          classNames?.base
         ),
       })}
     >
@@ -66,16 +66,12 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
               "px-0",
               "mx-0",
             ],
-            classNames?.wrapper,
+            classNames?.wrapper
           ),
         })}
       >
-        {!isSelected || isSSR ? (
-          <SunFilledIcon size={22} />
-        ) : (
-          <MoonFilledIcon size={22} />
-        )}
+        {!isSelected || isSSR ? <SunIcon size={22} /> : <MoonIcon size={22} />}
       </div>
     </Component>
   );
-};
+}

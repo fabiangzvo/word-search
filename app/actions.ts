@@ -1,23 +1,79 @@
 "use server";
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import {
+  GoogleGenerativeAI,
+  ResponseSchema,
+  SchemaType,
+} from "@google/generative-ai";
 
+import db from "@lib/db";
+import { generateWordSearch } from "@utils/wordSearchGenerator";
 import { extractJsonObject } from "@utils/json";
 
-export async function createWordSearch(): Promise<Record<string, any>> {
+const schemaResponse: ResponseSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    questions: {
+      type: SchemaType.ARRAY,
+      description: "list of word search questions and answers",
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          label: {
+            type: SchemaType.STRING,
+            description:
+              "question which contains the answer found in the word search",
+          },
+          answer: {
+            type: SchemaType.STRING,
+            description:
+              "answer of question and it is in the word search puzzle",
+          },
+        },
+        required: ["label", "answer"],
+      },
+    },
+  },
+};
+
+export async function createWordSearch(
+  gameId: string
+): Promise<Record<string, any>> {
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const puzzle = await db.collection("puzzle").find({ gameId }).toArray();
+    if (puzzle.length >= 1) {
+      return puzzle[0];
+    } else {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
+      const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: schemaResponse,
+        },
+      });
 
-    const prompt =
-      "Crear un sopa de letras de 10x10 con una tematica de partes de computadores de 10 preguntas, con un nivel de dificultad avanzado, limitarse a devolver respuesta en formato json, donde en la propiedad matriz va la sopa de letras, en la propiedad questions es una arreglo de objetos donde tiene las propiedades de label donde se encuentra la pregunta, answer es la respuesta";
+      const prompt =
+        "Genera 5 preguntas sobre el tema 'informática' con respuestas de una sola palabra.";
 
-    const result = await model.generateContent(prompt);
-    const response = result.response.text();
-    console.log(response);
-    return extractJsonObject(response);
+      const result = await model.generateContent(prompt);
+      const response = result.response.text();
+      const data = extractJsonObject(response);
+
+      const { grid } = generateWordSearch(
+        data.questions.map((item: any) => item.answer.toUpperCase()),
+        15
+      );
+      await db.collection("puzzle").insertOne({
+        gameId,
+        ...data,
+        matrix: grid,
+      });
+
+      return { ...data, matrix: grid };
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return {};
   }

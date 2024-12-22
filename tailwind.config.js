@@ -22,8 +22,14 @@ module.exports = {
       themes: {
         light: {
           colors: {
-            primary: { ...colors.emerald, DEFAULT: colors.emerald[500] },
-            default: colors.emerald,
+            primary: { ...colors.lime, DEFAULT: colors.lime[500] },
+            default: { ...colors.lime, DEFAULT: colors.lime[500] },
+          },
+        },
+        dark: {
+          colors: {
+            primary: { ...colors.fuchsia, DEFAULT: colors.fuchsia[500] },
+            default: { ...colors.fuchsia, DEFAULT: colors.fuchsia[500] },
           },
         },
       },
