@@ -1,4 +1,6 @@
-import { JSX, useMemo } from "react";
+"use client";
+
+import { JSX, useMemo, useCallback } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -14,6 +16,7 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
 import { GithubIcon } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 import { siteConfig } from "@config/site";
 import ThemeSwitch from "@components/themeSwitch";
@@ -26,6 +29,19 @@ const loginButton = (
 );
 
 export default function Navbar(): JSX.Element {
+  const session = useSession();
+  console.log(session);
+
+  const logout = useCallback(async () => {
+    await signOut({ redirect: true, callbackUrl: "/" });
+  }, []);
+
+  const logoutButton = (
+    <Button onClick={logout} color="primary" href="/login" variant="flat">
+      Cerrar sesión
+    </Button>
+  );
+
   const items = useMemo(
     () =>
       siteConfig.navItems.slice(1).map((item) => (
@@ -75,7 +91,9 @@ export default function Navbar(): JSX.Element {
         <NavbarItem className="hidden lg:flex">
           <SearchInput />
         </NavbarItem>
-        <NavbarItem className="hidden md:flex">{loginButton}</NavbarItem>
+        <NavbarItem className="hidden md:flex">
+          {session.status === "authenticated" ? logoutButton : loginButton}
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
@@ -91,7 +109,7 @@ export default function Navbar(): JSX.Element {
         <div className="mx-4 mt-2 flex flex-col gap-2 items-center">
           {items}
         </div>
-        {loginButton}
+        {session.status === "authenticated" ? logoutButton : loginButton}
       </NavbarMenu>
     </NextUINavbar>
   );

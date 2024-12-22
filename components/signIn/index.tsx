@@ -12,13 +12,11 @@ export default function index(): JSX.Element {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: true,
-      callbackUrl: "/game/as",
+      callbackUrl: "/dashboard",
     });
 
     if (res?.error) {
       alert(res.error);
-    } else {
-      alert("Login successful!");
     }
   }
 
