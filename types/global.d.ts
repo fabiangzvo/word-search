@@ -1,6 +1,5 @@
-import { MongoClient, Db } from "mongodb";
+import mongoose from "mongoose";
 
 declare global {
-  var _mongoClient: MongoClient | undefined;
-  var _mongoDbInstance: Db;
+  var mongoose: mongoose;
 }

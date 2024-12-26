@@ -1,33 +1,32 @@
-import { MongoClient, Db } from "mongodb";
+import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
-const uri = process.env.MONGODB_URI || "";
-const options = {};
+let cached = global.mongoose;
 
-let client: MongoClient;
-let db: Db;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
-if (!process.env.MONGODB_URI) {
-  throw new Error(
-    "Por favor, define la variable de entorno MONGODB_URI en tu archivo .env.local"
+async function mongooseConnect(): Promise<typeof mongoose> {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!process.env.MONGODB_URI) {
+    throw new Error("Please define the MONGODB_URI environment variable");
+  }
+
+  cached.promise = mongoose.connect(process.env.MONGODB_URI);
+
+  cached.conn = await cached.promise;
+
+  return cached.conn;
+}
+
+export async function getClient(): Promise<MongoClient> {
+  return await mongooseConnect().then(
+    (instance) => instance.connection.getClient() as unknown as MongoClient
   );
 }
 
-if (process.env.NODE_ENV === "development") {
-  if (!global._mongoClient) {
-    client = new MongoClient(uri, options);
-    global._mongoClient = client;
-  } else {
-    client = global._mongoClient;
-  }
-
-  if (!global._mongoDbInstance) {
-    global._mongoDbInstance = client.db("puzzle");
-  }
-  db = global._mongoDbInstance;
-} else {
-  client = new MongoClient(uri, options);
-  db = client.db("puzzle");
-}
-
-export { client };
-export default db;
+export default mongooseConnect;

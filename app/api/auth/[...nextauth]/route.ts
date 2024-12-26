@@ -1,11 +1,12 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import db, { client } from "@lib/db";
+import { getClient } from "@lib/db";
+import Users, { IUser } from "@models/users";
 import { compare } from "bcrypt";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 
 export const authOptions: AuthOptions = {
-  adapter: MongoDBAdapter(client.connect()),
+  adapter: MongoDBAdapter(getClient()),
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
@@ -19,9 +20,9 @@ export const authOptions: AuthOptions = {
           throw new Error("Email and password are required");
         }
 
-        const user = await db
-          .collection("users")
-          .findOne({ email: credentials.email });
+        const user = await Users.findOne<IUser>({
+          email: credentials.email,
+        }).exec();
 
         if (!user) {
           throw new Error("No user found with the provided email");
@@ -35,11 +36,10 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        // Return the user object (can include additional properties)
         return {
-          id: user._id.toString(),
-          email: user.email,
-          name: user.name,
+          id: user._id ?? "",
+          email: user.email ?? "",
+          name: user.name ?? "",
         };
       },
     }),
@@ -76,8 +76,6 @@ export const authOptions: AuthOptions = {
   },
 };
 
-// Crear el handler para NextAuth
 const handler = NextAuth(authOptions);
 
-// Exportar los métodos HTTP necesarios
 export { handler as GET, handler as POST };

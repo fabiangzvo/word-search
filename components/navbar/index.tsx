@@ -30,7 +30,6 @@ const loginButton = (
 
 export default function Navbar(): JSX.Element {
   const session = useSession();
-  console.log(session);
 
   const logout = useCallback(async () => {
     await signOut({ redirect: true, callbackUrl: "/" });
