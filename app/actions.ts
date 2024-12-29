@@ -6,7 +6,7 @@ import {
   SchemaType,
 } from "@google/generative-ai";
 
-import db from "@lib/db";
+import Puzzle from "@models/puzzle";
 import { generateWordSearch } from "@utils/wordSearchGenerator";
 import { extractJsonObject } from "@utils/json";
 
@@ -40,7 +40,7 @@ export async function createWordSearch(
   gameId: string
 ): Promise<Record<string, any>> {
   try {
-    const puzzle = await db.collection("puzzle").find({ gameId }).toArray();
+    const puzzle = await Puzzle.find({ gameId }).exec();
     if (puzzle.length >= 1) {
       return puzzle[0];
     } else {
@@ -64,13 +64,14 @@ export async function createWordSearch(
         data.questions.map((item: any) => item.answer.toUpperCase()),
         15
       );
-      await db.collection("puzzle").insertOne({
+
+      const insertResult = await new Puzzle({
         gameId,
         ...data,
         matrix: grid,
-      });
+      }).save();
 
-      return { ...data, matrix: grid };
+      return { ...insertResult, matrix: grid };
     }
   } catch (error) {
     console.error(error);

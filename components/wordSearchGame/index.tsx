@@ -31,6 +31,8 @@ interface ActivePlayer {
   lastActive: number;
 }
 
+type Cell = [number, number][];
+
 const ActivePlayersList: React.FC<{ players: ActivePlayer[] }> = ({
   players,
 }) => (
@@ -56,9 +58,9 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
   questions,
   gameId,
 }) => {
-  const [selectedCells, setSelectedCells] = useState<[number, number][]>([]);
+  const [selectedCells, setSelectedCells] = useState<Cell>([]);
   const [foundWords, setFoundWords] = useState<string[]>([]);
-  const [foundCells, setFoundCells] = useState<[number, number][]>([]);
+  const [foundCells, setFoundCells] = useState<Cell>([]);
   const [isSelecting, setIsSelecting] = useState(false);
   const [isTouching, setIsTouching] = useState(false);
   const [gameMode, setGameMode] = useState<"words" | "questions">("words");
@@ -177,7 +179,7 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
       setSelectedCells([[row, col]]);
       setIsSelecting(true);
     } else {
-      const newSelectedCells = [...selectedCells, [row, col]];
+      const newSelectedCells: Cell = [...selectedCells, [row, col]];
       setSelectedCells(newSelectedCells);
       checkWord(newSelectedCells);
     }

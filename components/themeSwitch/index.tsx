@@ -1,6 +1,6 @@
 "use client";
 
-import { JSX, useCallback } from "react";
+import { JSX, useCallback, FunctionComponent } from "react";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 import { SwitchProps, useSwitch } from "@nextui-org/switch";
 import { useTheme } from "next-themes";
@@ -38,8 +38,10 @@ export default function ThemeSwitch(props: ThemeSwitchProps): JSX.Element {
     onChange,
   });
 
+  const SwitchComponent = Component as FunctionComponent;
+
   return (
-    <Component
+    <SwitchComponent
       {...getBaseProps({
         className: clsx(
           "px-px transition-opacity hover:opacity-80 cursor-pointer",
@@ -72,6 +74,6 @@ export default function ThemeSwitch(props: ThemeSwitchProps): JSX.Element {
       >
         {!isSelected || isSSR ? <SunIcon size={22} /> : <MoonIcon size={22} />}
       </div>
-    </Component>
+    </SwitchComponent>
   );
 }

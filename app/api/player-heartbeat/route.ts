@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-declare global {
-  var gameStates: {
-    [gameId: string]: {
-      activePlayers: { username: string; lastActive: number }[];
-    };
-  };
-}
-
 if (typeof global.gameStates === "undefined") {
   global.gameStates = {};
 }
@@ -16,7 +8,12 @@ export async function POST(request: NextRequest) {
   const { gameId, username } = await request.json();
 
   if (!global.gameStates[gameId]) {
-    global.gameStates[gameId] = { activePlayers: [] };
+    global.gameStates[gameId] = {
+      playerScores: [],
+      foundWords: [],
+      foundCells: [],
+      activePlayers: [],
+    };
   }
 
   const gameState = global.gameStates[gameId];

@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
       });
     }
   } else if (type === "gameCompleted") {
-    const winner = playerScores.reduce((a, b) =>
+    const winner = playerScores.reduce((a: any, b: any) =>
       a.score > b.score ? a : b
     ).username;
     gameState.playerScores = playerScores;
