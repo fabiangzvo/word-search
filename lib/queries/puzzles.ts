@@ -1,13 +1,13 @@
 "use server";
-import { FilterQuery } from "mongoose";
 
 import Puzzle from "@models/puzzle";
-import { IPuzzle } from "@models/puzzle";
+import { GetPuzzle, IPuzzle } from "@/types/puzzle";
 
-export async function getAllPuzzles(
-  params?: FilterQuery<IPuzzle>
-): Promise<IPuzzle[]> {
-  const response = await Puzzle.find<IPuzzle>(params || {}).exec();
+export async function getAllPuzzles({
+  filters,
+  projection,
+}: GetPuzzle): Promise<IPuzzle[]> {
+  const response = await Puzzle.find<IPuzzle>(filters || {}, projection).exec();
 
   return response;
 }

@@ -1,16 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-interface Question {
-  label: string;
-  answer: string;
-}
-
-export interface IPuzzle extends Document {
-  questions: Question[];
-  matrix: string[][];
-  isPublic: boolean;
-  owner: mongoose.Types.ObjectId;
-}
+import { IPuzzle } from "@/types/puzzle";
 
 const puzzleSchema = new Schema<IPuzzle>({
   questions: {
