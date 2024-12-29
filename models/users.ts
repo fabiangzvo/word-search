@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcrypt";
 
-export interface IUser extends Document<string> {
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
@@ -25,5 +25,5 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-export default mongoose.models.puzzle ||
+export default mongoose.models.user ||
   mongoose.model<IUser>("user", userSchema);

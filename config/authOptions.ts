@@ -21,7 +21,7 @@ export const authOptions: AuthOptions = {
           throw new Error("Email and password are required");
         }
 
-        const user = await Users.findOne<IUser>({
+        const user = await Users.findOne({
           email: credentials.email,
         }).exec();
 
@@ -38,7 +38,7 @@ export const authOptions: AuthOptions = {
         }
 
         return {
-          id: user._id ?? "",
+          id: user?._id?.toString() ?? "",
           email: user.email ?? "",
           name: user.name ?? "",
         };
