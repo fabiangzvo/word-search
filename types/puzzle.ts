@@ -5,8 +5,12 @@ export interface Question {
   answer: string;
 }
 
+export type Difficult = "easy" | "medium" | "hard";
+
 export interface IPuzzle extends Document {
   title: string;
+  difficult: Difficult;
+  cols: number;
   questions: Question[];
   matrix: string[][];
   isPublic: boolean;
@@ -16,7 +20,14 @@ export interface IPuzzle extends Document {
 
 export type InsertPuzzle = Pick<
   IPuzzle,
-  "title" | "questions" | "matrix" | "isPublic" | "owner" | "categories"
+  | "title"
+  | "questions"
+  | "matrix"
+  | "isPublic"
+  | "owner"
+  | "categories"
+  | "difficult"
+  | "cols"
 >;
 
 export interface GetPuzzle {
@@ -32,4 +43,17 @@ export interface IPuzzleClient {
   isPublic: boolean;
   owner: string;
   categories: string[];
+}
+
+export interface IPuzzleItem {
+  _id: string;
+  title: string;
+  difficult: Difficult;
+  cols: number;
+  questionCount: number;
+  isPublic: boolean;
+  categories: {
+    name: string;
+    _id: string;
+  }[];
 }

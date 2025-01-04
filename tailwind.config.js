@@ -14,6 +14,9 @@ module.exports = {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
       },
+      gridTemplateColumns: {
+        cards: "repeat(auto-fit, minmax(290px, 1fr))",
+      },
     },
   },
   darkMode: "class",

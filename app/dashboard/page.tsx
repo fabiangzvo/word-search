@@ -3,14 +3,23 @@ import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 
 import { getSession } from "@lib/session";
-import { getAllPuzzles } from "@lib/queries/puzzle";
+import { getPuzzles } from "@lib/queries/puzzle";
 import PuzzleList from "@components/puzzleList";
+import { IPuzzleItem } from "@/types/puzzle";
 
 async function Dashboard(): Promise<JSX.Element> {
   const session = await getSession();
-  const puzzles = await getAllPuzzles({
+  const puzzles = await getPuzzles<IPuzzleItem[]>({
     filters: { owner: session?.user?.id },
-    projection: { questionsCount: { $size: "$questions" } },
+    projection: {
+      questionsCount: { $size: "$questions" },
+      title: true,
+      categories: true,
+      difficult: true,
+      cols: true,
+      isPublic: true,
+      _id: true,
+    },
   });
 
   return (

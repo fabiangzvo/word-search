@@ -40,7 +40,7 @@ function CreatePuzzle(): JSX.Element {
       });
 
     toast("Sopa de letras creada!", {
-      type: "default",
+      type: "success",
       position: "bottom-right",
     });
 

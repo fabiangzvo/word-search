@@ -1,6 +1,7 @@
 "use server";
 
 import { Types } from "mongoose";
+import { revalidatePath } from "next/cache";
 
 import { InsertPuzzle, IPuzzleClient } from "@/types/puzzle";
 import { FormCreatePuzzle } from "@schemas/puzzle";
@@ -45,6 +46,8 @@ export async function createPuzzle(
     );
     const record: InsertPuzzle = {
       title: formData.title,
+      difficult: formData.difficult,
+      cols: formData.numberOfRows,
       questions: questions,
       matrix: grid,
       isPublic: true,
@@ -53,6 +56,8 @@ export async function createPuzzle(
     };
 
     const insertResult = await insertPuzzle(record);
+
+    revalidatePath("/dashboard");
 
     return insertResult.toJSON({ flattenObjectIds: true }) as IPuzzleClient;
   } catch (e) {
