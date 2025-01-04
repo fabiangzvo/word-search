@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
 import { IUser } from "@/types/user";
@@ -21,5 +21,5 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-export default mongoose.models.user ||
-  mongoose.model<IUser>("user", userSchema);
+export default (mongoose.models.users as Model<IUser>) ||
+  mongoose.model<IUser>("users", userSchema);

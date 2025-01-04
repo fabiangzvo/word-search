@@ -20,7 +20,10 @@
       }
     ],
     "paths": {
-      "@*": ["./*"]
+      "@*": ["./*"],
+      "@models/*": ["./lib/models/*"],
+      "@queries/*": ["./lib/queries/*"],
+      "@schemas/*": ["./lib/schemas/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

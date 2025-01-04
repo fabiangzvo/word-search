@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 
 import { getClient } from "@lib/db";
-import Users, { IUser } from "@models/users";
+import Users from "@lib/models/user";
 
 export const authOptions: AuthOptions = {
   adapter: MongoDBAdapter(getClient()),

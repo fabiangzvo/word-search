@@ -1,7 +1,14 @@
 "use client";
 
 import { JSX } from "react";
-import { Button, Card, CardBody, Input, Link } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Link,
+  CardHeader,
+} from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 
 import PasswordInput from "@components/passwordInput";
@@ -22,13 +29,15 @@ export default function index(): JSX.Element {
 
   return (
     <section id="register" className="py-24 px-6">
-      <div className="max-w-xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-6">
-          Ingresa y empieza a jugar ahora
-        </h2>
+      <div className="max-w-2xl mx-auto text-center">
         <Card className="p-6">
+          <CardHeader className="flex justify-center">
+            <h2 className="text-3xl font-bold mb-8">
+              Ingresa y empieza a jugar ahora
+            </h2>
+          </CardHeader>
           <CardBody>
-            <form action={handleSubmit} className="space-y-4">
+            <form action={handleSubmit} className="space-y-8">
               <Input
                 type="email"
                 name="email"
@@ -38,12 +47,12 @@ export default function index(): JSX.Element {
               />
               <PasswordInput />
               <Button type="submit" color="primary" className="w-full">
-                Crear Cuenta
+                Ingresar
               </Button>
               <p className="flex w-full justify-center">
                 ¿Ya estás registrado?&nbsp;
-                <Link color="primary" href="/login" className="font-bold">
-                  Iniciar sesión
+                <Link color="primary" href="/#register" className="font-bold">
+                  Crear cuenta
                 </Link>
               </p>
             </form>
