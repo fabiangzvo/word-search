@@ -1,7 +1,12 @@
 "use server";
 
 import Puzzle from "@lib/models/puzzle";
-import { GetPuzzle, InsertPuzzle, IPuzzle } from "@/types/puzzle";
+import {
+  GetPuzzle,
+  InsertPuzzle,
+  IPuzzle,
+  IPuzzleDetail,
+} from "@/types/puzzle";
 
 export async function getPuzzles<T>({
   filters,
@@ -29,4 +34,15 @@ export async function removePuzzle(puzzleId: string): Promise<boolean> {
   const response = await Puzzle.findByIdAndDelete(puzzleId);
 
   return !!response;
+}
+
+export async function getDetailPuzzle(
+  puzzleId: string
+): Promise<IPuzzleDetail | null> {
+  const response = await Puzzle.findById<IPuzzleDetail>(puzzleId)
+    .populate("categories")
+    .populate("owner")
+    .exec();
+
+  return response;
 }

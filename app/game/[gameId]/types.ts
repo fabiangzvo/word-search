@@ -1,3 +1,3 @@
 export interface GameProps {
-  params: { gameId: string };
+  params: Promise<{ slug: string }>;
 }

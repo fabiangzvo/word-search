@@ -1,16 +1,18 @@
-import { JSX } from "react";
+import { type JSX } from 'react'
+import { getPuzzles } from '@lib/queries/puzzle'
+import PuzzleList from '@components/puzzleList'
+import Banner from '@components/svg/banner'
 
-import { getPuzzles } from "@lib/queries/puzzle";
-import PuzzleList from "@components/puzzleList";
-import { IPuzzleItem } from "@/types/puzzle";
-import Banner from "@components/svg/banner";
-import { fontKanit } from "@config/fonts";
+import { type IPuzzleItem } from '@/types/puzzle'
+
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
 async function Explore(): Promise<JSX.Element> {
   const puzzles = await getPuzzles<IPuzzleItem[]>({
     filters: { isPublic: true },
     projection: {
-      questionsCount: { $size: "$questions" },
+      questionsCount: { $size: '$questions' },
       title: true,
       categories: true,
       difficult: true,
@@ -18,7 +20,7 @@ async function Explore(): Promise<JSX.Element> {
       isPublic: true,
       _id: true,
     },
-  });
+  })
 
   return (
     <div>
@@ -29,9 +31,9 @@ async function Explore(): Promise<JSX.Element> {
         </h1>
         <Banner />
       </div>
-      <PuzzleList puzzles={puzzles} hideOptions />
+      <PuzzleList hideOptions puzzles={puzzles} />
     </div>
-  );
+  )
 }
 
-export default Explore;
+export default Explore

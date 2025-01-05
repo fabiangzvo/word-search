@@ -1,4 +1,4 @@
-import React, { useCallback, JSX } from "react";
+import { useCallback, JSX } from "react";
 
 import LetterCell from "../letterCell";
 import { WordSearchGridProps } from "./types";

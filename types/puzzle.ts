@@ -1,5 +1,8 @@
 import { FilterQuery, ProjectionFields, Document, Types } from "mongoose";
 
+import { ICategoryDetail } from "./category";
+import { IUserDetail } from "./user";
+
 export interface Question {
   label: string;
   answer: string;
@@ -38,6 +41,8 @@ export interface GetPuzzle {
 export interface IPuzzleClient {
   _id: string;
   title: string;
+  difficult: Difficult;
+  cols: number;
   questions: Question[];
   matrix: string[][];
   isPublic: boolean;
@@ -52,8 +57,17 @@ export interface IPuzzleItem {
   cols: number;
   questionCount: number;
   isPublic: boolean;
-  categories: {
-    name: string;
-    _id: string;
-  }[];
+  categories: ICategoryDetail[];
+}
+
+export interface IPuzzleDetail {
+  _id: string;
+  title: string;
+  difficult: Difficult;
+  cols: number;
+  questions: Question[];
+  matrix: string[][];
+  isPublic: boolean;
+  owner: IUserDetail;
+  categories: ICategoryDetail[];
 }

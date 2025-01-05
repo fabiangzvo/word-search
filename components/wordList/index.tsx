@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, JSX } from "react";
 import Confetti from "react-confetti";
 
 import { WordListProps } from "./types";

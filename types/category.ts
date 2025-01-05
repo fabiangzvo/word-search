@@ -8,3 +8,8 @@ export interface GetCategories {
   filters?: FilterQuery<ICategory>;
   projection?: ProjectionFields<ICategory>;
 }
+
+export interface ICategoryDetail {
+  _id: string;
+  name: string;
+}

@@ -1,22 +1,26 @@
-import { WordSearchGame } from "@components/wordSearchGame";
+import { JSX } from "react";
+import { notFound } from "next/navigation";
 
-import { createWordSearch } from "../../actions";
+import { WordSearchGame } from "@components/wordSearchGame";
+import { getDetailPuzzle } from "@queries/puzzle";
+
 import { GameProps } from "./types";
 
-export default async function Home(props: GameProps) {
-  const {
-    params: { gameId },
-  } = props;
+async function Page({ params }: GameProps): Promise<JSX.Element> {
+  const { slug } = await params;
+  const puzzle = await getDetailPuzzle(slug);
 
-  const response = await createWordSearch(gameId);
+  if (!puzzle) notFound();
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <WordSearchGame
-        grid={response.matrix}
-        questions={response.questions}
-        gameId={gameId}
+        grid={puzzle.matrix}
+        questions={puzzle.questions}
+        gameId={slug}
       />
     </section>
   );
 }
+
+export default Page;
