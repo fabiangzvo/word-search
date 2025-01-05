@@ -9,14 +9,19 @@ import PuzzleCard from "./components/card";
 
 interface PuzzleListProps {
   puzzles: IPuzzleItem[];
+  hideOptions?: boolean;
 }
 
-function PuzzleList({ puzzles }: PuzzleListProps): JSX.Element {
-  console.log(puzzles);
+function PuzzleList({
+  puzzles,
+  hideOptions = false,
+}: PuzzleListProps): JSX.Element {
   const items = useMemo(
     () =>
       puzzles.length > 0 ? (
-        puzzles.map((puzzle) => <PuzzleCard key={puzzle._id} {...puzzle} />)
+        puzzles.map((puzzle) => (
+          <PuzzleCard key={puzzle._id} {...puzzle} hideOptions={hideOptions} />
+        ))
       ) : (
         <EmptyContent />
       ),

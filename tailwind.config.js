@@ -13,6 +13,7 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
+        kanit: ["var(--font-kanit)"],
       },
       gridTemplateColumns: {
         cards: "repeat(auto-fit, minmax(290px, 1fr))",

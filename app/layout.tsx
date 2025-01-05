@@ -5,7 +5,7 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
 import { siteConfig } from "@config/site";
-import { fontSans } from "@config/fonts";
+import { fontSans, fontKanit, fontMono } from "@config/fonts";
 import Navbar from "@components/navbar";
 import Footer from "@components/footer";
 
@@ -40,7 +40,9 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          fontSans.variable,
+          fontKanit.variable,
+          fontMono.variable
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>

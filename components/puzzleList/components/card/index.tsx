@@ -13,9 +13,21 @@ import { IPuzzleItem } from "@/types/puzzle";
 
 import Options from "../options/index";
 
-function PuzzleCard(props: IPuzzleItem): JSX.Element {
-  const { title, categories, cols, difficult, isPublic, questionCount, _id } =
-    props;
+interface PuzzleCardProps extends IPuzzleItem {
+  hideOptions?: boolean;
+}
+
+function PuzzleCard(props: PuzzleCardProps): JSX.Element {
+  const {
+    title,
+    categories,
+    cols,
+    difficult,
+    isPublic,
+    questionCount,
+    _id,
+    hideOptions,
+  } = props;
 
   const categoryItems = useMemo(
     () =>
@@ -37,7 +49,7 @@ function PuzzleCard(props: IPuzzleItem): JSX.Element {
         >
           {title}
         </Link>
-        <Options puzzleId={_id} />
+        {!hideOptions && <Options puzzleId={_id} />}
       </CardHeader>
       <Divider />
       <CardBody className="w-full gap-2">

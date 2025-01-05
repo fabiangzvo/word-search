@@ -67,6 +67,7 @@ function CreatePuzzle(): JSX.Element {
           {...register("title", { required: "Este campo es requerido." })}
         />
         <Input
+          className="max-md:col-span-2"
           isInvalid={!!errors.topic?.message}
           errorMessage={errors.topic?.message}
           label="Tematica"
@@ -75,6 +76,7 @@ function CreatePuzzle(): JSX.Element {
           {...register("topic", { required: "Este campo es requerido." })}
         />
         <Input
+          className="max-md:col-span-2"
           isInvalid={!!errors.numberOfQuestions?.message}
           errorMessage={errors.numberOfQuestions?.message}
           label="Número de columnas"
@@ -84,6 +86,7 @@ function CreatePuzzle(): JSX.Element {
           {...register("numberOfRows", { valueAsNumber: true })}
         />
         <Input
+          className="max-md:col-span-2"
           isInvalid={!!errors.numberOfQuestions?.message}
           errorMessage={errors.numberOfQuestions?.message}
           label="Número de preguntas"
@@ -93,6 +96,7 @@ function CreatePuzzle(): JSX.Element {
           {...register("numberOfQuestions", { valueAsNumber: true })}
         />
         <Select
+          className="max-md:col-span-2"
           label="Dificultad"
           variant="bordered"
           placeholder="Selecciona una opción"

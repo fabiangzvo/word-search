@@ -61,7 +61,7 @@ export async function createPuzzle(
 
     return insertResult.toJSON({ flattenObjectIds: true }) as IPuzzleClient;
   } catch (e) {
-    console.log(e);
+    console.error(e);
 
     return null;
   }

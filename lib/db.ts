@@ -12,7 +12,7 @@ export async function registerModels(): Promise<void> {
 
       if (!mongoose.models[modelName]) {
         mongoose.model(modelName, model.schema);
-        console.log(`Model registered: ${modelName}`);
+        console.info(`Model registered: ${modelName}`);
       }
     }
   }

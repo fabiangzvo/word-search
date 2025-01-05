@@ -36,7 +36,7 @@ function Options({ puzzleId }: OptionProps): JSX.Element {
         notification.settings.type = "warning";
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
 
       notification.message =
         "Ha ocurrido un error y no se ha podido eliminar la sopa de letras.";
