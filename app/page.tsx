@@ -1,8 +1,7 @@
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
-import { Star, Users, Brain, Trophy, ChevronRight } from "lucide-react";
-
-import RedirectButton from "@components/button";
-import SignUp from "@components/signUp";
+import { Button, Card, CardBody, CardHeader } from '@nextui-org/react'
+import { Star, Users, Brain, Trophy, ChevronRight } from 'lucide-react'
+import RedirectButton from '@components/button'
+import SignUp from '@components/signUp'
 
 export default function LandingPage() {
   return (
@@ -23,7 +22,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 px-6">
+      <section className="py-24 px-6" id="features">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Características Principales
@@ -78,7 +77,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-24 px-6">
+      <section className="py-24 px-6" id="pricing">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Planes Disponibles
@@ -104,7 +103,7 @@ export default function LandingPage() {
                     Juego multijugador limitado
                   </li>
                 </ul>
-                <Button color="primary" className="w-full mt-6">
+                <Button className="w-full mt-6" color="primary">
                   Comenzar Gratis
                 </Button>
               </CardBody>
@@ -135,8 +134,8 @@ export default function LandingPage() {
                   </li>
                 </ul>
                 <Button
-                  color="primary"
                   className="w-full mt-6"
+                  color="primary"
                   variant="shadow"
                 >
                   Obtener Premium
@@ -148,5 +147,5 @@ export default function LandingPage() {
       </section>
       <SignUp />
     </div>
-  );
+  )
 }

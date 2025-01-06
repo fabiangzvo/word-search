@@ -1,4 +1,4 @@
-import { JSX, useMemo } from "react";
+import { type JSX, useMemo } from 'react'
 import {
   Card,
   CardHeader,
@@ -7,14 +7,14 @@ import {
   Divider,
   Chip,
   Link,
-} from "@nextui-org/react";
+} from '@nextui-org/react'
 
-import { IPuzzleItem } from "@/types/puzzle";
+import Options from '../options/index'
 
-import Options from "../options/index";
+import { type IPuzzleItem } from '@/types/puzzle'
 
 interface PuzzleCardProps extends IPuzzleItem {
-  hideOptions?: boolean;
+  hideOptions?: boolean
 }
 
 function PuzzleCard(props: PuzzleCardProps): JSX.Element {
@@ -27,7 +27,7 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
     questionCount,
     _id,
     hideOptions,
-  } = props;
+  } = props
 
   const categoryItems = useMemo(
     () =>
@@ -38,7 +38,7 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
       )),
 
     [categories]
-  );
+  )
 
   return (
     <Card className="w-full cursor-default">
@@ -65,13 +65,13 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
         </p>
         <p>
           <span className="font-semibold">Visibilidad:</span>&nbsp;
-          {isPublic ? "Pública" : "Privada"}
+          {isPublic ? 'Pública' : 'Privada'}
         </p>
       </CardBody>
       <Divider />
       <CardFooter className="flex gap-5">{categoryItems}</CardFooter>
     </Card>
-  );
+  )
 }
 
-export default PuzzleCard;
+export default PuzzleCard

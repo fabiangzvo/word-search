@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { JSX } from "react";
+import { type JSX } from 'react'
 import {
   Button,
   Card,
@@ -8,27 +8,26 @@ import {
   Input,
   Link,
   CardHeader,
-} from "@nextui-org/react";
-import { signIn } from "next-auth/react";
-
-import PasswordInput from "@components/passwordInput";
+} from '@nextui-org/react'
+import { signIn } from 'next-auth/react'
+import PasswordInput from '@components/passwordInput'
 
 export default function index(): JSX.Element {
   async function handleSubmit(formData: FormData): Promise<void> {
-    const res = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
+    const res = await signIn('credentials', {
+      email: formData.get('email'),
+      password: formData.get('password'),
       redirect: true,
-      callbackUrl: "/dashboard",
-    });
+      callbackUrl: '/dashboard',
+    })
 
     if (res?.error) {
-      alert(res.error);
+      alert(res.error)
     }
   }
 
   return (
-    <section id="register" className="py-24 px-6">
+    <section className="py-24 px-6" id="register">
       <div className="max-w-2xl mx-auto text-center">
         <Card className="p-6">
           <CardHeader className="flex justify-center">
@@ -39,19 +38,19 @@ export default function index(): JSX.Element {
           <CardBody>
             <form action={handleSubmit} className="space-y-8">
               <Input
-                type="email"
-                name="email"
                 label="Email"
+                name="email"
                 placeholder="tu@email.com"
+                type="email"
                 variant="bordered"
               />
               <PasswordInput />
-              <Button type="submit" color="primary" className="w-full">
+              <Button className="w-full" color="primary" type="submit">
                 Ingresar
               </Button>
               <p className="flex w-full justify-center">
                 ¿Ya estás registrado?&nbsp;
-                <Link color="primary" href="/#register" className="font-bold">
+                <Link className="font-bold" color="primary" href="/#register">
                   Crear cuenta
                 </Link>
               </p>
@@ -60,5 +59,5 @@ export default function index(): JSX.Element {
         </Card>
       </div>
     </section>
-  );
+  )
 }

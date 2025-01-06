@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { JSX, useMemo, useCallback } from "react";
+import { type JSX, useMemo, useCallback } from 'react'
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -8,38 +8,37 @@ import {
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
-} from "@nextui-org/navbar";
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
-import { link as linkStyles } from "@nextui-org/theme";
-import NextLink from "next/link";
-import clsx from "clsx";
-import Image from "next/image";
-import { GithubIcon } from "lucide-react";
-import { useSession, signOut } from "next-auth/react";
-
-import { siteConfig } from "@config/site";
-import ThemeSwitch from "@components/themeSwitch";
-import SearchInput from "@components/searchInput";
+} from '@nextui-org/navbar'
+import { Button } from '@nextui-org/button'
+import { Link } from '@nextui-org/link'
+import { link as linkStyles } from '@nextui-org/theme'
+import NextLink from 'next/link'
+import clsx from 'clsx'
+import Image from 'next/image'
+import { GithubIcon } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { siteConfig } from '@config/site'
+import ThemeSwitch from '@components/themeSwitch'
+import SearchInput from '@components/searchInput'
 
 const loginButton = (
   <Button as={Link} color="primary" href="/login" variant="flat">
     Iniciar Sesión
   </Button>
-);
+)
 
 export default function Navbar(): JSX.Element {
-  const session = useSession();
+  const session = useSession()
 
   const logout = useCallback(async () => {
-    await signOut({ redirect: true, callbackUrl: "/" });
-  }, []);
+    await signOut({ redirect: true, callbackUrl: '/' })
+  }, [])
 
   const logoutButton = (
-    <Button onClick={logout} color="primary" href="/login" variant="flat">
+    <Button color="primary" href="/login" variant="flat" onClick={logout}>
       Cerrar sesión
     </Button>
-  );
+  )
 
   const items = useMemo(
     () =>
@@ -47,8 +46,8 @@ export default function Navbar(): JSX.Element {
         <NavbarItem key={item.href}>
           <NextLink
             className={clsx(
-              linkStyles({ color: "foreground" }),
-              "data-[active=true]:text-primary data-[active=true]:font-medium"
+              linkStyles({ color: 'foreground' }),
+              'data-[active=true]:text-primary data-[active=true]:font-medium'
             )}
             color="foreground"
             href={item.href}
@@ -58,7 +57,7 @@ export default function Navbar(): JSX.Element {
         </NavbarItem>
       )),
     []
-  );
+  )
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -66,10 +65,10 @@ export default function Navbar(): JSX.Element {
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Image
-              src="/brain_transparent.png"
               alt="BrainWord Logo"
-              width={50}
               height={50}
+              src="/brain_transparent.png"
+              width={50}
             />
             <p className="font-bold text-inherit">MindGrid</p>
           </NextLink>
@@ -91,7 +90,7 @@ export default function Navbar(): JSX.Element {
           <SearchInput />
         </NavbarItem>
         <NavbarItem className="hidden md:flex">
-          {session.status === "authenticated" ? logoutButton : loginButton}
+          {session.status === 'authenticated' ? logoutButton : loginButton}
         </NavbarItem>
       </NavbarContent>
 
@@ -108,8 +107,8 @@ export default function Navbar(): JSX.Element {
         <div className="mx-4 mt-2 flex flex-col gap-2 items-center">
           {items}
         </div>
-        {session.status === "authenticated" ? logoutButton : loginButton}
+        {session.status === 'authenticated' ? logoutButton : loginButton}
       </NavbarMenu>
     </NextUINavbar>
-  );
+  )
 }

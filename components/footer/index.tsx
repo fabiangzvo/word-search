@@ -1,8 +1,7 @@
-import { JSX } from "react";
-import { Link } from "@nextui-org/link";
-import Image from "next/image";
-
-import { siteConfig } from "@config/site";
+import { type JSX } from 'react'
+import { Link } from '@nextui-org/link'
+import Image from 'next/image'
+import { siteConfig } from '@config/site'
 
 export default function Footer(): JSX.Element {
   return (
@@ -11,11 +10,11 @@ export default function Footer(): JSX.Element {
         <div className="max-md:flex max-md:w-full max-md:justify-center">
           <div className="flex items-center mb-4">
             <Image
-              src="/brain_transparent.png"
               alt="MindGrid Logo"
-              width={40}
-              height={40}
               className="mr-1"
+              height={40}
+              src="/brain_transparent.png"
+              width={40}
             />
             <span className="font-bold mr-1">MindGrid</span>
           </div>
@@ -24,17 +23,17 @@ export default function Footer(): JSX.Element {
           <h4 className="font-semibold mb-4">Enlaces</h4>
           <ul className="space-y-2">
             <li>
-              <Link href="#" color="foreground">
+              <Link color="foreground" href="#">
                 Inicio
               </Link>
             </li>
             <li>
-              <Link href="#" color="foreground">
+              <Link color="foreground" href="#">
                 Características
               </Link>
             </li>
             <li>
-              <Link href="#" color="foreground">
+              <Link color="foreground" href="#">
                 Precios
               </Link>
             </li>
@@ -44,23 +43,23 @@ export default function Footer(): JSX.Element {
           <h4 className="font-semibold mb-4">Sígue al desarrollador</h4>
           <div className="flex space-x-4">
             <Link
+              color="foreground"
               href={siteConfig.links.portfolio}
               target="_blank"
-              color="foreground"
             >
               Portafolio
             </Link>
             <Link
+              color="foreground"
               href={siteConfig.links.twitter}
               target="_blank"
-              color="foreground"
             >
               Twitter
             </Link>
             <Link
+              color="foreground"
               href={siteConfig.links.github}
               target="_blank"
-              color="foreground"
             >
               Github
             </Link>
@@ -74,5 +73,5 @@ export default function Footer(): JSX.Element {
         </p>
       </div>
     </footer>
-  );
+  )
 }

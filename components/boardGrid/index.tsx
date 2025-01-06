@@ -1,7 +1,8 @@
-import { useCallback, JSX } from "react";
+import { useCallback, type JSX } from 'react'
 
-import LetterCell from "../letterCell";
-import { WordSearchGridProps } from "./types";
+import LetterCell from '../letterCell'
+
+import { type WordSearchGridProps } from './types'
 
 export default function WordSearchGrid(
   props: WordSearchGridProps
@@ -15,42 +16,46 @@ export default function WordSearchGrid(
     isSelecting,
     onTouchStart,
     onTouchEnd,
-  } = props;
+  } = props
 
   const handleTouchStart = useCallback(() => {
-    onTouchStart();
-  }, [onTouchStart]);
+    onTouchStart()
+  }, [onTouchStart])
 
   const handleTouchEnd = useCallback(() => {
-    onTouchEnd();
-    onSelectionEnd();
-  }, [onTouchEnd, onSelectionEnd]);
+    onTouchEnd()
+    onSelectionEnd()
+  }, [onTouchEnd, onSelectionEnd])
 
   return (
     <div
       className="grid gap-1 sm:gap-2 p-4 bg-emerald-100 dark:bg-black rounded-xl shadow-lg"
+      role="button"
       style={{ gridTemplateColumns: `repeat(${grid.length}, 1fr)` }}
+      tabIndex={0}
       onMouseLeave={onSelectionEnd}
       onMouseUp={onSelectionEnd}
-      onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onTouchStart={handleTouchStart}
     >
       {grid.map((row, rowIndex) =>
         row.map((letter, colIndex) => (
           <LetterCell
             key={`${rowIndex}-${colIndex}`}
-            letter={letter}
-            isSelected={selectedCells.some(
-              ([r, c]) => r === rowIndex && c === colIndex
-            )}
             isFound={foundCells.some(
               ([r, c]) => r === rowIndex && c === colIndex
             )}
-            onSelect={() => onCellSelect(rowIndex, colIndex)}
+            isSelected={selectedCells.some(
+              ([r, c]) => r === rowIndex && c === colIndex
+            )}
+            letter={letter}
             onMouseEnter={() => isSelecting && onCellSelect(rowIndex, colIndex)}
+            onSelect={() => {
+              onCellSelect(rowIndex, colIndex)
+            }}
           />
         ))
       )}
     </div>
-  );
+  )
 }

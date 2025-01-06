@@ -1,6 +1,6 @@
-import SignIn from "@components/signIn";
+import SignIn from '@components/signIn'
 function Login() {
-  return <SignIn />;
+  return <SignIn />
 }
 
-export default Login;
+export default Login

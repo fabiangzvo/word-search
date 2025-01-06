@@ -1,5 +1,5 @@
-import { JSX } from "react";
-import { Link } from "@nextui-org/link";
+import { type JSX } from 'react'
+import { Link } from '@nextui-org/link'
 
 function EmptyContent(): JSX.Element {
   return (
@@ -7,7 +7,7 @@ function EmptyContent(): JSX.Element {
       No hay sopas de letras creadas por ti, puedes crear una ó&nbsp;
       <Link href="/explore">explorar</Link> las que la comunidad ha compartido.
     </p>
-  );
+  )
 }
 
-export default EmptyContent;
+export default EmptyContent

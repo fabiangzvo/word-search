@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Modal,
   ModalContent,
@@ -6,16 +6,16 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-} from "@nextui-org/react";
+} from '@nextui-org/react'
 
 interface CompletionModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onRestart: () => void;
-  completionTime: number;
-  winner: string;
-  playerScore: number;
-  winnerScore: number;
+  isOpen: boolean
+  onClose: () => void
+  onRestart: () => void
+  completionTime: number
+  winner: string
+  playerScore: number
+  winnerScore: number
 }
 
 export const CompletionModal: React.FC<CompletionModalProps> = ({
@@ -28,13 +28,14 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
   winnerScore,
 }) => {
   const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60000);
-    const seconds = ((time % 60000) / 1000).toFixed(2);
-    return `${minutes}:${seconds.padStart(5, "0")}`;
-  };
+    const minutes = Math.floor(time / 60000)
+    const seconds = ((time % 60000) / 1000).toFixed(2)
+
+    return `${minutes}:${seconds.padStart(5, '0')}`
+  }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} placement="center" backdrop="blur">
+    <Modal backdrop="blur" isOpen={isOpen} placement="center" onClose={onClose}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">
           Puzzle Completed!
@@ -57,5 +58,5 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}

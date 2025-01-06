@@ -1,37 +1,37 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from "react";
-import WordSearchGrid from "../boardGrid";
-import WordList from "../wordList";
-import GameModeSelector from "../gameModeSelector";
-import { UsernameModal } from "../usernameModal";
-import { CompletionModal } from "../completionModal";
-import { PlayerJoinNotification } from "../playerJoinNotification";
+import React, { useState, useEffect } from 'react'
+import Confetti from 'react-confetti'
 
-import Confetti from "react-confetti";
+import WordSearchGrid from '../boardGrid'
+import WordList from '../wordList'
+import GameModeSelector from '../gameModeSelector'
+import { UsernameModal } from '../usernameModal'
+import { CompletionModal } from '../completionModal'
+import { PlayerJoinNotification } from '../playerJoinNotification'
 
 interface Question {
-  label: string;
-  answer: string;
+  label: string
+  answer: string
 }
 
 interface WordSearchGameProps {
-  grid: string[][];
-  questions: Question[];
-  gameId: string;
+  grid: string[][]
+  questions: Question[]
+  gameId: string
 }
 
 interface PlayerScore {
-  username: string;
-  score: number;
+  username: string
+  score: number
 }
 
 interface ActivePlayer {
-  username: string;
-  lastActive: number;
+  username: string
+  lastActive: number
 }
 
-type Cell = [number, number][];
+type Cell = Array<[number, number]>
 
 const ActivePlayersList: React.FC<{ players: ActivePlayer[] }> = ({
   players,
@@ -51,107 +51,115 @@ const ActivePlayersList: React.FC<{ players: ActivePlayer[] }> = ({
       ))}
     </ul>
   </div>
-);
+)
 
 export const WordSearchGame: React.FC<WordSearchGameProps> = ({
   grid,
   questions,
   gameId,
 }) => {
-  const [selectedCells, setSelectedCells] = useState<Cell>([]);
-  const [foundWords, setFoundWords] = useState<string[]>([]);
-  const [foundCells, setFoundCells] = useState<Cell>([]);
-  const [isSelecting, setIsSelecting] = useState(false);
-  const [isTouching, setIsTouching] = useState(false);
-  const [gameMode, setGameMode] = useState<"words" | "questions">("words");
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [startTime, setStartTime] = useState<number | null>(null);
-  const [completionTime, setCompletionTime] = useState<number | null>(null);
-  const [isCompletionModalOpen, setIsCompletionModalOpen] = useState(false);
-  const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(true);
-  const [username, setUsername] = useState("");
-  const [playerScores, setPlayerScores] = useState<PlayerScore[]>([]);
-  const [winner, setWinner] = useState("");
-  const [activePlayers, setActivePlayers] = useState<ActivePlayer[]>([]);
+  const [selectedCells, setSelectedCells] = useState<Cell>([])
+  const [foundWords, setFoundWords] = useState<string[]>([])
+  const [foundCells, setFoundCells] = useState<Cell>([])
+  const [isSelecting, setIsSelecting] = useState(false)
+  const [isTouching, setIsTouching] = useState(false)
+  const [gameMode, setGameMode] = useState<'words' | 'questions'>('words')
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [_startTime, setStartTime] = useState<number | null>(null)
+  const [completionTime, setCompletionTime] = useState<number | null>(null)
+  const [isCompletionModalOpen, setIsCompletionModalOpen] = useState(false)
+  const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(true)
+  const [username, setUsername] = useState('')
+  const [playerScores, setPlayerScores] = useState<PlayerScore[]>([])
+  const [winner, setWinner] = useState('')
+  const [activePlayers, setActivePlayers] = useState<ActivePlayer[]>([])
   const [newPlayerNotification, setNewPlayerNotification] = useState<
     string | null
-  >(null);
+  >(null)
   const [wordFoundNotification, setWordFoundNotification] = useState<
     string | null
-  >(null);
-  const words = questions.map((q) => q.answer);
+  >(null)
+  const words = questions.map((q) => q.answer)
 
   useEffect(() => {
     if (username) {
-      const eventSource = new EventSource(`/api/game-updates?gameId=${gameId}`);
+      const eventSource = new EventSource(`/api/game-updates?gameId=${gameId}`)
+
       eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.type === "wordFound") {
-          setPlayerScores(data.playerScores);
-          setFoundWords(data.foundWords);
-          setFoundCells(data.foundCells);
+        const data = JSON.parse(event.data)
+
+        if (data.type === 'wordFound') {
+          setPlayerScores(data.playerScores)
+          setFoundWords(data.foundWords)
+          setFoundCells(data.foundCells)
           if (data.foundBy !== username) {
-            setWordFoundNotification(`${data.foundBy} found a word!`);
-            setTimeout(() => setWordFoundNotification(null), 3000);
+            setWordFoundNotification(`${data.foundBy} found a word!`)
+            setTimeout(() => {
+              setWordFoundNotification(null)
+            }, 3000)
           }
-        } else if (data.type === "gameCompleted") {
-          setCompletionTime(data.completionTime);
-          setWinner(data.winner);
-          setPlayerScores(data.playerScores);
-          setIsCompletionModalOpen(true);
-        } else if (data.type === "playerJoin") {
+        } else if (data.type === 'gameCompleted') {
+          setCompletionTime(data.completionTime)
+          setWinner(data.winner)
+          setPlayerScores(data.playerScores)
+          setIsCompletionModalOpen(true)
+        } else if (data.type === 'playerJoin') {
           setActivePlayers((prevPlayers) => {
             if (!prevPlayers.some((p) => p.username === data.player.username)) {
-              setNewPlayerNotification(data.player.username);
-              setTimeout(() => setNewPlayerNotification(null), 3000);
-              return [...prevPlayers, data.player];
+              setNewPlayerNotification(data.player.username)
+              setTimeout(() => {
+                setNewPlayerNotification(null)
+              }, 3000)
+
+              return [...prevPlayers, data.player]
             }
-            return prevPlayers;
-          });
-        } else if (data.type === "playerLeave") {
+
+            return prevPlayers
+          })
+        } else if (data.type === 'playerLeave') {
           setActivePlayers((prevPlayers) =>
             prevPlayers.filter((p) => p.username !== data.username)
-          );
+          )
           setPlayerScores((prevScores) =>
             prevScores.filter((p) => p.username !== data.username)
-          );
-        } else if (data.type === "initialState") {
-          setPlayerScores(data.playerScores);
-          setFoundWords(data.foundWords);
-          setFoundCells(data.foundCells);
-          setActivePlayers(data.activePlayers);
+          )
+        } else if (data.type === 'initialState') {
+          setPlayerScores(data.playerScores)
+          setFoundWords(data.foundWords)
+          setFoundCells(data.foundCells)
+          setActivePlayers(data.activePlayers)
         }
-      };
+      }
 
       // Send a heartbeat every 30 seconds to keep the player active
       const heartbeatInterval = setInterval(() => {
-        fetch("/api/player-heartbeat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        fetch('/api/player-heartbeat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ gameId, username }),
-        });
-      }, 30000);
+        })
+      }, 30000)
 
       // Handle page unload
       const handleUnload = () => {
-        fetch("/api/game-updates", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type: "playerLeave", gameId, username }),
+        fetch('/api/game-updates', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'playerLeave', gameId, username }),
           keepalive: true,
-        });
-      };
+        })
+      }
 
-      window.addEventListener("beforeunload", handleUnload);
+      window.addEventListener('beforeunload', handleUnload)
 
       return () => {
-        eventSource.close();
-        clearInterval(heartbeatInterval);
-        window.removeEventListener("beforeunload", handleUnload);
-        handleUnload();
-      };
+        eventSource.close()
+        clearInterval(heartbeatInterval)
+        window.removeEventListener('beforeunload', handleUnload)
+        handleUnload()
+      }
     }
-  }, [username, gameId]);
+  }, [username, gameId])
 
   // useEffect(() => {
   //   if (foundWords.length === 0 && startTime === null) {
@@ -174,50 +182,55 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
   //   }
   // }, [foundWords, words, startTime, gameId, playerScores]);
 
-  const handleCellSelect = (row: number, col: number) => {
+  const handleCellSelect = (row: number, col: number): void => {
     if (!isSelecting) {
-      setSelectedCells([[row, col]]);
-      setIsSelecting(true);
+      setSelectedCells([[row, col]])
+      setIsSelecting(true)
     } else {
-      const newSelectedCells: Cell = [...selectedCells, [row, col]];
-      setSelectedCells(newSelectedCells);
-      checkWord(newSelectedCells);
-    }
-  };
+      const newSelectedCells: Cell = [...selectedCells, [row, col]]
 
-  const handleSelectionEnd = () => {
-    setIsSelecting(false);
+      setSelectedCells(newSelectedCells)
+      checkWord(newSelectedCells)
+    }
+  }
+
+  const handleSelectionEnd = (): void => {
+    setIsSelecting(false)
     if (selectedCells.length > 1) {
-      checkWord(selectedCells);
+      checkWord(selectedCells)
     }
-    setSelectedCells([]);
-  };
+    setSelectedCells([])
+  }
 
-  const checkWord = (cells: [number, number][]) => {
-    const selectedWord = cells.map(([row, col]) => grid[row][col]).join("");
-    const reversedWord = selectedWord.split("").reverse().join("");
+  const checkWord = (cells: Array<[number, number]>): void => {
+    const selectedWord = cells.map(([row, col]) => grid[row][col]).join('')
+    const reversedWord = selectedWord.split('').reverse().join('')
 
     for (const word of words) {
       if (selectedWord === word || reversedWord === word) {
         if (!foundWords.includes(word)) {
-          const newFoundWords = [...foundWords, word];
-          setFoundWords(newFoundWords);
-          setFoundCells([...foundCells, ...cells]);
-          setShowConfetti(true);
-          setTimeout(() => setShowConfetti(false), 3000);
+          const newFoundWords = [...foundWords, word]
+
+          setFoundWords(newFoundWords)
+          setFoundCells([...foundCells, ...cells])
+          setShowConfetti(true)
+          setTimeout(() => {
+            setShowConfetti(false)
+          }, 3000)
 
           const newPlayerScores = playerScores.map((player) =>
             player.username === username
               ? { ...player, score: player.score + 1 }
               : player
-          );
-          setPlayerScores(newPlayerScores);
+          )
 
-          fetch("/api/game-updates", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+          setPlayerScores(newPlayerScores)
+
+          fetch('/api/game-updates', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              type: "wordFound",
+              type: 'wordFound',
               gameId,
               username,
               word,
@@ -225,53 +238,53 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
               foundWords: newFoundWords,
               foundCells: [...foundCells, ...cells],
             }),
-          });
+          })
         }
-        break;
+        break
       }
     }
-  };
+  }
 
-  const handleSelectAllWords = () => {
-    setFoundWords(words);
+  const handleSelectAllWords = (): void => {
+    setFoundWords(words)
     setFoundCells(
       grid.flatMap((row, rowIndex) =>
         row.map((_, colIndex) => [rowIndex, colIndex] as [number, number])
       )
-    );
-  };
+    )
+  }
 
-  const handleTouchStart = () => {
-    setIsTouching(true);
-  };
+  const handleTouchStart = (): void => {
+    setIsTouching(true)
+  }
 
-  const handleTouchEnd = () => {
-    setIsTouching(false);
-  };
+  const handleTouchEnd = (): void => {
+    setIsTouching(false)
+  }
 
-  const handleModeChange = (mode: "words" | "questions") => {
-    setGameMode(mode);
-  };
+  const handleModeChange = (mode: 'words' | 'questions'): void => {
+    setGameMode(mode)
+  }
 
-  const handleRestart = () => {
-    setFoundWords([]);
-    setFoundCells([]);
-    setStartTime(Date.now());
-    setCompletionTime(null);
-    setIsCompletionModalOpen(false);
-    setPlayerScores(playerScores.map((player) => ({ ...player, score: 0 })));
-  };
+  const handleRestart = (): void => {
+    setFoundWords([])
+    setFoundCells([])
+    setStartTime(Date.now())
+    setCompletionTime(null)
+    setIsCompletionModalOpen(false)
+    setPlayerScores(playerScores.map((player) => ({ ...player, score: 0 })))
+  }
 
-  const handleUsernameSubmit = (newUsername: string) => {
-    setUsername(newUsername);
-    setIsUsernameModalOpen(false);
-    setPlayerScores([...playerScores, { username: newUsername, score: 0 }]);
-    fetch("/api/player-join", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+  const handleUsernameSubmit = (newUsername: string): void => {
+    setUsername(newUsername)
+    setIsUsernameModalOpen(false)
+    setPlayerScores([...playerScores, { username: newUsername, score: 0 }])
+    fetch('/api/player-join', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ gameId, username: newUsername }),
-    });
-  };
+    })
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-4 min-h-screen bg-emerald-50 dark:bg-black transition-colors duration-200">
@@ -283,37 +296,39 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
       <ActivePlayersList players={activePlayers} />
       <GameModeSelector mode={gameMode} onModeChange={handleModeChange} />
       <button
-        onClick={handleSelectAllWords}
         className="mb-6 px-6 py-3 bg-emerald-500 dark:bg-fuchsia-600 hover:bg-emerald-600 dark:hover:bg-fuchsia-700 text-white rounded-lg shadow-md transition-colors duration-200 text-lg font-semibold"
+        onClick={handleSelectAllWords}
       >
-        {gameMode === "words" ? "Reveal All Words" : "Reveal All Answers"}
+        {gameMode === 'words' ? 'Reveal All Words' : 'Reveal All Answers'}
       </button>
       <WordSearchGrid
-        grid={grid}
-        selectedCells={selectedCells}
         foundCells={foundCells}
+        grid={grid}
+        isSelecting={isSelecting ?? isTouching}
+        selectedCells={selectedCells}
         onCellSelect={handleCellSelect}
         onSelectionEnd={handleSelectionEnd}
-        isSelecting={isSelecting || isTouching}
-        onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onTouchStart={handleTouchStart}
       />
-      <WordList questions={questions} foundWords={foundWords} mode={gameMode} />
-      {showConfetti && <Confetti recycle={false} numberOfPieces={200} />}
+      <WordList foundWords={foundWords} mode={gameMode} questions={questions} />
+      {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
       <CompletionModal
+        completionTime={completionTime ?? 0}
         isOpen={isCompletionModalOpen}
-        onClose={() => setIsCompletionModalOpen(false)}
-        onRestart={handleRestart}
-        completionTime={completionTime || 0}
-        winner={winner}
         playerScore={
-          playerScores.find((player) => player.username === username)?.score ||
+          playerScores.find((player) => player.username === username)?.score ??
           0
         }
+        winner={winner}
         winnerScore={playerScores.reduce(
           (max, player) => Math.max(max, player.score),
           0
         )}
+        onClose={() => {
+          setIsCompletionModalOpen(false)
+        }}
+        onRestart={handleRestart}
       />
       <UsernameModal
         isOpen={isUsernameModalOpen}
@@ -328,5 +343,5 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}

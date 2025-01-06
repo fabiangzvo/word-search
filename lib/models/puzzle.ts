@@ -1,6 +1,6 @@
-import mongoose, { Model, Schema } from "mongoose";
+import mongoose, { type Model, Schema } from 'mongoose'
 
-import { IPuzzle } from "@/types/puzzle";
+import { type IPuzzle } from '@/types/puzzle'
 
 const puzzleSchema = new Schema<IPuzzle>(
   {
@@ -18,11 +18,11 @@ const puzzleSchema = new Schema<IPuzzle>(
     },
     matrix: { type: [[String]], required: true },
     isPublic: { type: Boolean, default: true },
-    owner: { type: Schema.Types.ObjectId, ref: "users", required: true },
+    owner: { type: Schema.Types.ObjectId, ref: 'users', required: true },
     categories: [
       {
         type: Schema.Types.ObjectId,
-        ref: "categories",
+        ref: 'categories',
         required: true,
       },
     ],
@@ -30,7 +30,7 @@ const puzzleSchema = new Schema<IPuzzle>(
   {
     timestamps: true,
   }
-);
+)
 
 export default (mongoose.models.puzzles as Model<IPuzzle>) ||
-  mongoose.model<IPuzzle>("puzzles", puzzleSchema);
+  mongoose.model<IPuzzle>('puzzles', puzzleSchema)

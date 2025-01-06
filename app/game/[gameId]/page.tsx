@@ -1,26 +1,25 @@
-import { JSX } from "react";
-import { notFound } from "next/navigation";
+import { type JSX } from 'react'
+import { notFound } from 'next/navigation'
+import { WordSearchGame } from '@components/wordSearchGame'
+import { getDetailPuzzle } from '@queries/puzzle'
 
-import { WordSearchGame } from "@components/wordSearchGame";
-import { getDetailPuzzle } from "@queries/puzzle";
-
-import { GameProps } from "./types";
+import { type GameProps } from './types'
 
 async function Page({ params }: GameProps): Promise<JSX.Element> {
-  const { slug } = await params;
-  const puzzle = await getDetailPuzzle(slug);
+  const { slug } = await params
+  const puzzle = await getDetailPuzzle(slug)
 
-  if (!puzzle) notFound();
+  if (!puzzle) notFound()
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <WordSearchGame
+        gameId={slug}
         grid={puzzle.matrix}
         questions={puzzle.questions}
-        gameId={slug}
       />
     </section>
-  );
+  )
 }
 
-export default Page;
+export default Page

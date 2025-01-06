@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from 'next/server'
 
-if (typeof global.gameStates === "undefined") {
-  global.gameStates = {};
+if (typeof global.gameStates === 'undefined') {
+  global.gameStates = {}
 }
 
 export async function POST(request: NextRequest) {
-  const { gameId, username } = await request.json();
+  const { gameId, username } = await request.json()
 
   if (!global.gameStates[gameId]) {
     global.gameStates[gameId] = {
@@ -13,41 +13,42 @@ export async function POST(request: NextRequest) {
       foundWords: [],
       foundCells: [],
       activePlayers: [],
-    };
+    }
   }
 
-  const gameState = global.gameStates[gameId];
-  const currentTime = Date.now();
+  const gameState = global.gameStates[gameId]
+  const currentTime = Date.now()
   const playerIndex = gameState.activePlayers.findIndex(
     (p) => p.username === username
-  );
+  )
 
   if (playerIndex !== -1) {
-    gameState.activePlayers[playerIndex].lastActive = currentTime;
+    gameState.activePlayers[playerIndex].lastActive = currentTime
   } else {
-    gameState.activePlayers.push({ username, lastActive: currentTime });
+    gameState.activePlayers.push({ username, lastActive: currentTime })
   }
 
   // Remove inactive players (inactive for more than 1 minute)
   const inactivePlayers = gameState.activePlayers.filter(
     (p) => currentTime - p.lastActive > 60000
-  );
+  )
+
   gameState.activePlayers = gameState.activePlayers.filter(
     (p) => currentTime - p.lastActive <= 60000
-  );
+  )
 
   // Notify about player disconnects
   for (const inactivePlayer of inactivePlayers) {
     await fetch(`${request.nextUrl.origin}/api/game-updates`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        type: "playerLeave",
+        type: 'playerLeave',
         gameId,
         username: inactivePlayer.username,
       }),
-    });
+    })
   }
 
-  return NextResponse.json({ message: "Heartbeat received" });
+  return NextResponse.json({ message: 'Heartbeat received' })
 }

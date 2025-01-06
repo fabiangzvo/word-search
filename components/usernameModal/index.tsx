@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Modal,
   ModalContent,
@@ -7,32 +7,32 @@ import {
   ModalFooter,
   Button,
   Input,
-} from "@nextui-org/react";
+} from '@nextui-org/react'
 
 interface UsernameModalProps {
-  isOpen: boolean;
-  onClose: (username: string) => void;
+  isOpen: boolean
+  onClose: (username: string) => void
 }
 
 export const UsernameModal: React.FC<UsernameModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('')
 
   const handleSubmit = () => {
     if (username.trim()) {
-      onClose(username.trim());
+      onClose(username.trim())
     }
-  };
+  }
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={() => {}}
-      placement="center"
       backdrop="blur"
       isDismissable={false}
+      isOpen={isOpen}
+      placement="center"
+      onClose={() => {}}
     >
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">
@@ -43,19 +43,21 @@ export const UsernameModal: React.FC<UsernameModalProps> = ({
             label="Username"
             placeholder="Enter your username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value)
+            }}
           />
         </ModalBody>
         <ModalFooter>
           <Button
             color="primary"
-            onPress={handleSubmit}
             disabled={!username.trim()}
+            onPress={handleSubmit}
           >
             Start Game
           </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}

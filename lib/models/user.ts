@@ -1,7 +1,7 @@
-import mongoose, { Model, Schema } from "mongoose";
-import bcrypt from "bcrypt";
+import mongoose, { type Model, Schema } from 'mongoose'
+import bcrypt from 'bcrypt'
 
-import { IUser } from "@/types/user";
+import { type IUser } from '@/types/user'
 
 const userSchema = new Schema<IUser>(
   {
@@ -15,16 +15,17 @@ const userSchema = new Schema<IUser>(
   {
     timestamps: true,
   }
-);
+)
 
-userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(10)
+
+    this.password = await bcrypt.hash(this.password, salt)
   }
 
-  next();
-});
+  next()
+})
 
 export default (mongoose.models.users as Model<IUser>) ||
-  mongoose.model<IUser>("users", userSchema);
+  mongoose.model<IUser>('users', userSchema)

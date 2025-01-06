@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react'
 
-import { IconSvgProps } from "@/types/icon";
+import { type IconSvgProps } from '@/types/icon'
 
 export const TwitterIcon: React.FC<IconSvgProps> = ({
   size = 24,
@@ -20,8 +20,8 @@ export const TwitterIcon: React.FC<IconSvgProps> = ({
         fill="currentColor"
       />
     </svg>
-  );
-};
+  )
+}
 
 export const GithubIcon: React.FC<IconSvgProps> = ({
   size = 24,
@@ -43,5 +43,5 @@ export const GithubIcon: React.FC<IconSvgProps> = ({
         fillRule="evenodd"
       />
     </svg>
-  );
-};
+  )
+}

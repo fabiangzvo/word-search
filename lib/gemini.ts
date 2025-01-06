@@ -1,59 +1,59 @@
-"use server";
+'use server'
 
 import {
   GoogleGenerativeAI,
-  ResponseSchema,
+  type ResponseSchema,
   SchemaType,
-} from "@google/generative-ai";
+} from '@google/generative-ai'
+import { extractJsonObject } from '@utils/json'
 
-import { extractJsonObject } from "@utils/json";
-import { GeminiResponse } from "@/types/gemini";
+import { type GeminiResponse } from '@/types/gemini'
 
 const schemaResponse: ResponseSchema = {
   type: SchemaType.OBJECT,
   properties: {
     questions: {
       type: SchemaType.ARRAY,
-      description: "list of word search questions and answers",
+      description: 'list of word search questions and answers',
       items: {
         type: SchemaType.OBJECT,
         properties: {
           label: {
             type: SchemaType.STRING,
             description:
-              "question which contains the answer found in the word search",
+              'question which contains the answer found in the word search',
           },
           answer: {
             type: SchemaType.STRING,
             description:
-              "answer of question and it is in the word search puzzle",
+              'answer of question and it is in the word search puzzle',
           },
         },
-        required: ["label", "answer"],
+        required: ['label', 'answer'],
       },
     },
   },
-};
+}
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? '')
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: 'gemini-1.5-flash',
   generationConfig: {
-    responseMimeType: "application/json",
+    responseMimeType: 'application/json',
     responseSchema: schemaResponse,
   },
-});
+})
 
 export async function GenerateQuestions(
   numberOfQuestions: number,
   topics: string
 ): Promise<GeminiResponse> {
-  const prompt = `Generate ${numberOfQuestions} questions on the topic '${topics}' with one-word answers.`;
+  const prompt = `Generate ${numberOfQuestions} questions on the topic '${topics}' with one-word answers.`
 
-  const result = await model.generateContent(prompt);
+  const result = await model.generateContent(prompt)
 
-  const response = result.response.text();
-  const data = extractJsonObject(response);
+  const response = result.response.text()
+  const data = extractJsonObject(response)
 
-  return data as GeminiResponse;
+  return data as GeminiResponse
 }
