@@ -2,7 +2,6 @@
 
 import { type JSX, useEffect, useState } from 'react'
 import colors from 'tailwindcss/colors'
-
 import { useTheme } from 'next-themes'
 
 type ColorType = {

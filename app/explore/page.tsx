@@ -1,10 +1,10 @@
 import { type JSX } from 'react'
-
 import { getPuzzles } from '@lib/queries/puzzle'
 import PuzzleList from '@components/puzzleList'
 import Banner from '@components/svg/banner'
-import { type IPuzzleItem } from '@/types/puzzle'
 import mongooseConnect from '@lib/db'
+
+import { type IPuzzleItem } from '@/types/puzzle'
 
 export const dynamic = 'force-dynamic'
 //export const dynamicParams = false

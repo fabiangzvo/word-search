@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from 'next/server'
-
 import User from '@lib/models/user'
 
 export async function POST(request: NextRequest) {
