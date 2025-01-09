@@ -4,11 +4,14 @@ import PuzzleList from '@components/puzzleList'
 import Banner from '@components/svg/banner'
 
 import { type IPuzzleItem } from '@/types/puzzle'
+import mongooseConnect from '@lib/db'
 
 export const dynamic = 'force-dynamic'
 //export const dynamicParams = false
 
 async function Explore(): Promise<JSX.Element> {
+  await mongooseConnect()
+
   const puzzles = await getPuzzles<IPuzzleItem[]>({
     filters: { isPublic: true },
     projection: {

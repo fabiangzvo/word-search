@@ -33,7 +33,6 @@ export default function index(): JSX.Element {
       return
     }
 
-    alert('Registration successful!')
   }
 
   return (
