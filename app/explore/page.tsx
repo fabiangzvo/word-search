@@ -5,8 +5,8 @@ import Banner from '@components/svg/banner'
 
 import { type IPuzzleItem } from '@/types/puzzle'
 
-export const dynamic = 'force-dynamic'
-export const dynamicParams = false
+//export const dynamic = 'force-dynamic'
+//export const dynamicParams = false
 
 async function Explore(): Promise<JSX.Element> {
   const puzzles = await getPuzzles<IPuzzleItem[]>({

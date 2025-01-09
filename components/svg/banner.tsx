@@ -1,13 +1,16 @@
 'use client'
 
+import { type JSX, useMemo } from 'react'
 import colors from 'tailwindcss/colors'
 import { useTheme } from 'next-themes'
-import { type JSX } from 'react'
 
 function Banner(): JSX.Element {
   const { theme } = useTheme()
 
-  const currentColor = theme === 'light' ? colors.lime : colors.fuchsia
+  const currentColor = useMemo(
+    () => (theme === 'light' ? colors.lime : colors.fuchsia),
+    [theme]
+  )
 
   return (
     <svg
@@ -19,8 +22,16 @@ function Banner(): JSX.Element {
     >
       <defs>
         <linearGradient id="a" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor={currentColor[700]} />
-          <stop offset="1" stopColor={currentColor[400]} />
+          <stop
+            suppressHydrationWarning={true}
+            offset="0"
+            stopColor={currentColor[700]}
+          />
+          <stop
+            suppressHydrationWarning={true}
+            offset="1"
+            stopColor={currentColor[400]}
+          />
         </linearGradient>
       </defs>
       <pattern height="24" id="b" patternUnits="userSpaceOnUse" width="24">
