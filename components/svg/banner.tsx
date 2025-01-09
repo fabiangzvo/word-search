@@ -1,16 +1,34 @@
 'use client'
 
-import { type JSX, useMemo } from 'react'
+import { type JSX, useEffect, useState } from 'react'
 import colors from 'tailwindcss/colors'
+
 import { useTheme } from 'next-themes'
 
+type ColorType = {
+  '50': string
+  '100': string
+  '200': string
+  '300': string
+  '400': string
+  '500': string
+  '600': string
+  '700': string
+  '800': string
+  '900': string
+  '950': string
+}
+
 function Banner(): JSX.Element {
+  const [currentColor, setCurrentColor] = useState<ColorType>(colors.lime)
+
   const { theme } = useTheme()
 
-  const currentColor = useMemo(
-    () => (theme === 'light' ? colors.lime : colors.fuchsia),
-    [theme]
-  )
+  useEffect(() => {
+    const currentColor = theme === 'light' ? colors.lime : colors.fuchsia
+
+    setCurrentColor(currentColor)
+  }, [theme])
 
   return (
     <svg
