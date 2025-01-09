@@ -1,13 +1,16 @@
 import { type JSX } from 'react'
 import { Button } from '@nextui-org/button'
 import { Link } from '@nextui-org/link'
+
 import { getSession } from '@lib/session'
 import { getPuzzles } from '@lib/queries/puzzle'
 import PuzzleList from '@components/puzzleList'
-
 import { type IPuzzleItem } from '@/types/puzzle'
+import mongooseConnect from '@lib/db'
 
 async function Dashboard(): Promise<JSX.Element> {
+  await mongooseConnect()
+
   const session = await getSession()
   const puzzles = await getPuzzles<IPuzzleItem[]>({
     filters: { owner: session?.user?.id },
