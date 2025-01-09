@@ -23,14 +23,14 @@ function Banner(): JSX.Element {
       <defs>
         <linearGradient id="a" x1="0" x2="0" y1="0" y2="1">
           <stop
-            suppressHydrationWarning={true}
             offset="0"
             stopColor={currentColor[700]}
+            suppressHydrationWarning={true}
           />
           <stop
-            suppressHydrationWarning={true}
             offset="1"
             stopColor={currentColor[400]}
+            suppressHydrationWarning={true}
           />
         </linearGradient>
       </defs>
