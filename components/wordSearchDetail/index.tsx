@@ -15,7 +15,7 @@ export default function WordSearchDetail(
         row.map((letter, colIndex) => (
           <div
             key={`${rowIndex}-${colIndex}`}
-            className="p-2 text-medium font-bold rounded-lg transition-all duration-200 ease-in-out bg-default-500 text-white border-2 border-default-600 dark:border-default-400 flex justify-center items-center"
+            className="p-2 text-medium font-bold rounded-lg transition-all duration-200 ease-in-out bg-default-500 text-white border-2 dark:border-default-400 flex justify-center items-center"
           >
             {letter}
           </div>

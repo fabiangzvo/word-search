@@ -1,7 +1,7 @@
 import { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { Check } from 'lucide-react'
-import { Chip } from '@nextui-org/react'
+import { Chip, Button, Link } from '@nextui-org/react'
 
 import { getDetailPuzzle } from '@lib/queries/puzzle'
 import WordSearchDetail from '@components/wordSearchDetail'
@@ -37,7 +37,14 @@ async function PuzzleDetail({
     </Chip>
   ))
 
-  const showPuzzle = session?.user?.id === puzzle.owner._id.toString()
+  const isOwner = session?.user?.id === puzzle.owner._id.toString()
+  const gridComponent = isOwner ? (
+    <WordSearchDetail grid={puzzle.matrix} />
+  ) : (
+    <p className="text-foreground-400 text-center my-8">
+      El tablero solo es visible para el creador o al momento de jugar.
+    </p>
+  )
 
   return (
     <div className="cursor-default">
@@ -53,13 +60,17 @@ async function PuzzleDetail({
         Creada por:&nbsp;
         <span className="font-bold text-default-500">{puzzle.owner.name}</span>
       </h3>
-      {showPuzzle ? (
-        <WordSearchDetail grid={puzzle.matrix} />
-      ) : (
-        <p className="text-foreground-400 text-center my-8">
-          El tablero solo es visible para el creador o al momento de jugar.
-        </p>
-      )}
+      <div className="w-full flex justify-end mb-8">
+        <Button
+          as={Link}
+          className="font-bold"
+          color="primary"
+          href={`/puzzle/${id}`}
+        >
+          Jugar
+        </Button>
+      </div>
+      {gridComponent}
       <h2 className="text-2xl font-bold mb-4 mt-10">Preguntas:</h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">{questionList}</ul>
       <h2 className="text-2xl font-bold mb-4 mt-10">Categorias:</h2>

@@ -29,7 +29,7 @@ async function Dashboard(): Promise<JSX.Element> {
     <div>
       <div className="flex justify-between">
         <h1 className="text-lg font-bold mb-6">Hola {session?.user.name}</h1>
-        <Button as={Link} color="primary" href="/puzzle/create" variant="flat">
+        <Button as={Link} color="primary" href="/puzzle/create">
           Crear sopa de letras
         </Button>
       </div>

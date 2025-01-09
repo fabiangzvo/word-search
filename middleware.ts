@@ -4,14 +4,12 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req: NextRequest) {
   const isLogin = req.nextUrl.pathname === '/login'
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  const isPublicRoute = req.nextUrl.pathname.match(/\/(explore|puzzle\/detail)/)
 
-  if (req.nextUrl.pathname.match(/\/(explore|puzzle\/detail)/))
-    return NextResponse.next()
-
-  if (!session && !isLogin)
+  if (!session && !isLogin && !isPublicRoute)
     return NextResponse.redirect(new URL('/login', req.url))
 
-  if (session && isLogin)
+  if (session && isLogin && !isPublicRoute)
     return NextResponse.redirect(new URL('/dashboard', req.url))
 
   return NextResponse.next()
