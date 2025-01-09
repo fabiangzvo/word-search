@@ -3,76 +3,71 @@ import { compare } from "bcrypt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 
-import { getClient } from "@lib/db";
-import Users from "@lib/models/user";
+import { getClient } from '@lib/db'
+import Users from '@lib/models/user'
 
 export const authOptions: AuthOptions = {
   adapter: MongoDBAdapter(getClient()),
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and password are required");
-        }
+        if (!credentials?.email || !credentials?.password)
+          throw new Error('Email and password are required')
 
         const user = await Users.findOne({
           email: credentials.email,
-        }).exec();
-
-        if (!user) {
-          throw new Error("No user found with the provided email");
-        }
+        }).exec()
+        if (!user) throw new Error('No user found with the provided email')
 
         const isPasswordValid = await compare(
           credentials.password,
           user.password
-        );
-        if (!isPasswordValid) {
-          throw new Error("Invalid credentials");
-        }
+        )
+
+        if (!isPasswordValid) throw new Error('Invalid credentials')
 
         return {
-          id: user?._id?.toString() ?? "",
-          email: user.email ?? "",
-          name: user.name ?? "",
-        };
+          id: user?._id?.toString() ?? '',
+          email: user.email ?? '',
+          name: user.name ?? '',
+        }
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
+        token.id = user.id
+        token.email = user.email
+        token.name = user.name
       }
 
-      return token;
+      return token
     },
     async session({ session, token }) {
       if (!token) {
-        return session;
+        return session
       }
 
       session.user = {
         id: token.id as string,
         email: token.email as string,
         name: token.name as string,
-      };
+      }
 
-      return session;
+      return session
     },
   },
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
-};
+}
