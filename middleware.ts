@@ -5,7 +5,8 @@ export async function middleware(req: NextRequest) {
   const isLogin = req.nextUrl.pathname === '/login'
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
-  if (req.nextUrl.pathname.startsWith('/explore')) return NextResponse.next()
+  if (req.nextUrl.pathname.match(/\/(explore|puzzle\/detail)/))
+    return NextResponse.next()
 
   if (!session && !isLogin)
     return NextResponse.redirect(new URL('/login', req.url))
