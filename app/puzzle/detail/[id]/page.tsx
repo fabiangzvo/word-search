@@ -1,11 +1,13 @@
 import { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { Check } from 'lucide-react'
-import { Chip, Button, Link } from '@nextui-org/react'
+import { Chip } from '@nextui-org/react'
 
 import { getDetailPuzzle } from '@lib/queries/puzzle'
 import WordSearchDetail from '@components/wordSearchDetail'
 import { getSession } from '@lib/session'
+import PlayButton from '@components/playButton'
+import mongooseConnect from '@lib/db'
 
 import { PuzzleDetailProps } from './types'
 
@@ -13,7 +15,9 @@ async function PuzzleDetail({
   params,
 }: PuzzleDetailProps): Promise<JSX.Element> {
   const { id } = await params
+
   const session = await getSession()
+  await mongooseConnect()
 
   const puzzle = await getDetailPuzzle(id)
 
@@ -61,14 +65,7 @@ async function PuzzleDetail({
         <span className="font-bold text-default-500">{puzzle.owner.name}</span>
       </h3>
       <div className="w-full flex justify-end mb-8">
-        <Button
-          as={Link}
-          className="font-bold"
-          color="primary"
-          href={`/puzzle/${id}`}
-        >
-          Jugar
-        </Button>
+        <PlayButton puzzleId={id} />
       </div>
       {gridComponent}
       <h2 className="text-2xl font-bold mb-4 mt-10">Preguntas:</h2>

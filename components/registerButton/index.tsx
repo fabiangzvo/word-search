@@ -1,15 +1,16 @@
 'use client'
 
+import { type JSX, useCallback } from 'react'
 import { Button } from '@nextui-org/react'
 import { ChevronRight } from 'lucide-react'
 
-export default function ClientButton() {
-  const handleClick = () => {
+export default function ClientButton(): JSX.Element {
+  const handleClick = useCallback(() => {
     window.location.href = '#register'
-  }
+  }, [])
 
   return (
-    <Button color="primary" size="lg" onClick={handleClick}>
+    <Button color="primary" size="lg" onPress={handleClick}>
       Juega Ahora
       <ChevronRight />
     </Button>

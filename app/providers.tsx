@@ -27,7 +27,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
       </NextUIProvider>
       <ToastContainer
         autoClose={3000}
-        className="text-black dark:text-white"
+        className="!text-black dark:!text-white bg-background"
         position="bottom-right"
         theme={theme as Theme}
       />
