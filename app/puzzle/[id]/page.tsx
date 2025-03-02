@@ -17,7 +17,7 @@ async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
     <div>
       <h1 className="text-2xl font-bold text-center">{game.puzzle.title}</h1>
       <Game
-        _id={game._id}
+        gameId={game._id}
         finishedAt={game.finishedAt}
         puzzle={game.puzzle}
         responses={game.responses}

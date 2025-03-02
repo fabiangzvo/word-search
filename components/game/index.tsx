@@ -1,35 +1,60 @@
 'use client'
 
-import { JSX, useState, useEffect } from 'react'
-import { io, type Socket } from 'socket.io-client'
+import { JSX, useState, useMemo, useCallback } from 'react'
+import Confetti from 'react-confetti'
 
-import { IGameDetailClient } from '@/types/game'
+import type { Cell } from '@/types/boardGrid'
 
 import Preview from './components/preview'
-
-interface GameProps extends IGameDetailClient {}
+import BoardGrid from './components/board'
+import { GameProps } from './types'
 
 export default function Game(props: GameProps): JSX.Element {
-  const { puzzle, users, _id } = props
+  const { puzzle, users, gameId } = props
 
-  const [socket, setSocket] = useState<Socket>()
+  const [foundWords, setFoundWords] = useState<string[]>([])
+  const [foundCells, setFoundCells] = useState<Cell>([])
+  const [showConfetti, setShowConfetti] = useState<boolean>(false)
 
-  useEffect(() => {
-    const sock = io('ws://localhost:8080')
-    sock.on('connect', () => {
-      console.log('Conexión establecida')
-    })
+  const { answers, grid } = useMemo(() => {
+    const { matrix, questions } = puzzle
+    const answers = questions.map((question) => question.answer)
 
-    setSocket(sock)
+    return { answers, grid: matrix }
+  }, [puzzle])
 
-    return () => {
-      sock.disconnect()
-    }
-  }, [])
+  const checkWord = useCallback(
+    (cells: Cell): void => {
+      const selectedWord = cells
+        .map(([row, col]) => grid[row][col])
+        .join('')
+        .toLowerCase()
+      const reversedWord = selectedWord.split('').reverse().join('')
+
+      for (const word of answers) {
+        if (selectedWord === word || reversedWord === word) {
+          if (!foundWords.includes(word)) {
+            const newFoundWords = [...foundWords, word]
+
+            setFoundWords(newFoundWords)
+            setFoundCells([...foundCells, ...cells])
+            setShowConfetti(true)
+            setTimeout(() => {
+              setShowConfetti(false)
+            }, 3000)
+          }
+          break
+        }
+      }
+    },
+    [puzzle, foundCells, answers, grid, foundWords]
+  )
 
   return (
     <div>
+      <BoardGrid grid={grid} foundCells={foundCells} checkWord={checkWord} />
       <Preview puzzle={puzzle} users={users} />
+      {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
     </div>
   )
 }
