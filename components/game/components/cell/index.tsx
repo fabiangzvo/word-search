@@ -44,6 +44,7 @@ export default function LetterCell(props: LetterCellProps): JSX.Element {
     },
     [onSelect]
   )
+
   return (
     <button
       className={buttonVariants({ color: severity })}

@@ -1,16 +1,16 @@
 'use client'
 
+import type { Cell } from '@/types/boardGrid'
+
 import { JSX, useState, useMemo, useCallback } from 'react'
 import Confetti from 'react-confetti'
-
-import type { Cell } from '@/types/boardGrid'
 
 import Preview from './components/preview'
 import BoardGrid from './components/board'
 import { GameProps } from './types'
 
 export default function Game(props: GameProps): JSX.Element {
-  const { puzzle, users, gameId } = props
+  const { puzzle, users } = props
 
   const [foundWords, setFoundWords] = useState<string[]>([])
   const [foundCells, setFoundCells] = useState<Cell>([])
@@ -52,7 +52,7 @@ export default function Game(props: GameProps): JSX.Element {
 
   return (
     <div>
-      <BoardGrid grid={grid} foundCells={foundCells} checkWord={checkWord} />
+      <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
       <Preview puzzle={puzzle} users={users} />
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
     </div>

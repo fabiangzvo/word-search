@@ -9,7 +9,7 @@ interface PreviewProps {
 }
 
 function Preview(props: PreviewProps): JSX.Element {
-  const { users, puzzle } = props
+  const { users } = props
 
   const currentUsers = useMemo(() => {
     return users.map((user) => {

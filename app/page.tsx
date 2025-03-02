@@ -1,6 +1,5 @@
 import { Button, Card, CardBody, CardHeader } from '@nextui-org/react'
 import { Star, Users, Brain, Trophy, ChevronRight } from 'lucide-react'
-
 import RedirectButton from '@components/registerButton'
 import SignUp from '@components/signUp'
 

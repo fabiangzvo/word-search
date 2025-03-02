@@ -2,7 +2,6 @@ import { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { Check } from 'lucide-react'
 import { Chip } from '@nextui-org/react'
-
 import { getDetailPuzzle } from '@lib/queries/puzzle'
 import WordSearchDetail from '@components/wordSearchDetail'
 import { getSession } from '@lib/session'
@@ -17,6 +16,7 @@ async function PuzzleDetail({
   const { id } = await params
 
   const session = await getSession()
+
   await mongooseConnect()
 
   const puzzle = await getDetailPuzzle(id)

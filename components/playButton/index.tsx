@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-
 import { insertGame } from '@queries/game'
+
 import { INotification } from '@/types/notification'
 
 function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {

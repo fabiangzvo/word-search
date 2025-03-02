@@ -1,9 +1,10 @@
 import { JSX, useCallback, useState, useMemo } from 'react'
 
-import { Cell } from '@/types/boardGrid'
+import LetterCell from '../cell'
 
 import { BoardProps } from './types'
-import LetterCell from '../cell'
+
+import { Cell } from '@/types/boardGrid'
 
 function Board(props: BoardProps): JSX.Element {
   const { grid, foundCells, checkWord } = props
@@ -57,8 +58,8 @@ function Board(props: BoardProps): JSX.Element {
         row.map((letter, colIndex) => (
           <LetterCell
             key={`${rowIndex}-${colIndex}`}
-            severity={getCellSeverity(rowIndex, colIndex)}
             letter={letter}
+            severity={getCellSeverity(rowIndex, colIndex)}
             onMouseEnter={() =>
               isSelecting && handleCellSelect(rowIndex, colIndex)
             }

@@ -1,6 +1,5 @@
 import { JSX } from 'react'
 import { notFound } from 'next/navigation'
-
 import Game from '@components/game'
 import { getDetailGame } from '@lib/queries/game'
 
@@ -17,8 +16,8 @@ async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
     <div>
       <h1 className="text-2xl font-bold text-center">{game.puzzle.title}</h1>
       <Game
-        gameId={game._id}
         finishedAt={game.finishedAt}
+        gameId={game._id}
         puzzle={game.puzzle}
         responses={game.responses}
         startedAt={game.startedAt}

@@ -1,4 +1,4 @@
-import { type JSX } from 'react'
+import type { JSX } from 'react'
 
 import { getPuzzles } from '@lib/queries/puzzle'
 import PuzzleList from '@components/puzzleList'
