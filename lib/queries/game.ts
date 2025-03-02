@@ -19,11 +19,15 @@ export async function insertGame(game: InsertGame): Promise<IGameClient> {
 export async function getDetailGame(
   gameId: string
 ): Promise<IGameDetailClient | null> {
-  const response = await Game.findById<IGameDetailClient>(gameId)
+  const response = await Game.findById(gameId)
     .populate('puzzle')
     .populate('users')
     .populate('winner')
     .exec()
 
-  return response
+  if (!response) return null
+
+  const gameDetail = response?.toJSON({ flattenObjectIds: true }) as unknown
+
+  return gameDetail as IGameDetailClient
 }
