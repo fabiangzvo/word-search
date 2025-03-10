@@ -5,9 +5,9 @@ import type { Cell } from '@/types/boardGrid'
 import { JSX, useState, useMemo, useCallback } from 'react'
 import Confetti from 'react-confetti'
 
-import Preview from './components/preview'
 import BoardGrid from './components/board'
 import { GameProps } from './types'
+import WordList from '@components/wordList'
 
 export default function Game(props: GameProps): JSX.Element {
   const { puzzle, users } = props
@@ -53,7 +53,11 @@ export default function Game(props: GameProps): JSX.Element {
   return (
     <div>
       <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
-      <Preview puzzle={puzzle} users={users} />
+      <WordList
+        foundWords={foundWords}
+        mode="words"
+        questions={puzzle.questions}
+      />
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
     </div>
   )
