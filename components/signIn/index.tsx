@@ -17,7 +17,6 @@ export default function index(): JSX.Element {
     const res = await signIn('credentials', {
       email: formData.get('email'),
       password: formData.get('password'),
-      redirect: true,
       callbackUrl: '/dashboard',
     })
 
