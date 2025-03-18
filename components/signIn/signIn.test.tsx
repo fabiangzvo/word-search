@@ -31,6 +31,6 @@ describe('<SignIn />', () => {
       fireEvent.click(button)
     })
 
-    //expect(screen.getByText('Invalid credentials')).toD
+    expect(screen.getByText('Invalid credentials')).toBeInTheDocument()
   })
 })

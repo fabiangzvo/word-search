@@ -12,17 +12,19 @@ import {
 import { signIn } from 'next-auth/react'
 import PasswordInput from '@components/passwordInput'
 
-export default function index(): JSX.Element {
+interface SignInProps {
+  error?: string
+}
+
+export default function index(props: SignInProps): JSX.Element {
+  const { error } = props
+
   async function handleSubmit(formData: FormData): Promise<void> {
-    const res = await signIn('credentials', {
+    await signIn('credentials', {
       email: formData.get('email'),
       password: formData.get('password'),
       callbackUrl: '/dashboard',
     })
-
-    if (res?.error) {
-      alert(res.error)
-    }
   }
 
   return (
@@ -44,6 +46,9 @@ export default function index(): JSX.Element {
                 variant="bordered"
               />
               <PasswordInput />
+              <p className="text-danger-400 font-semibold text-lg text-center">
+                {error}
+              </p>
               <Button className="w-full" color="primary" type="submit">
                 Ingresar
               </Button>
