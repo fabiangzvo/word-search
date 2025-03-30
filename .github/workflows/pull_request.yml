@@ -1,10 +1,10 @@
 name: Run actions
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} push a new commit ${{ github.commit_message }} 🚀
 on:
   push:
     branches: [master]
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -13,8 +13,28 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x' # Ajusta según tu versión de Node.js (ej. .nvmrc o package.json)
-          cache: 'yarn'        # Habilita la caché de Yarn
+          node-version: "22.x"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        run: yarn test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Environment Variables
+        run: cp .env.example .env
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22.x"
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -23,6 +43,3 @@ jobs:
         run: yarn build
         env:
           CI: true
-
-      - name: Run tests
-        run: yarn test
