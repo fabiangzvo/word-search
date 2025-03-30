@@ -9,13 +9,13 @@ import {
   Link,
   CardHeader,
 } from '@nextui-org/react'
-
 import PasswordInput from '@components/passwordInput'
+
 import { handleSubmit } from '@/lib/actions/authentication'
 
-export default function index(): JSX.Element {
+export default function SignIn(): JSX.Element {
   const [error, onSubmitForm, isLoading] = useActionState(handleSubmit, '')
-  
+
   return (
     <section className="py-24 px-6" id="register">
       <div className="max-w-2xl mx-auto text-center">
@@ -28,20 +28,25 @@ export default function index(): JSX.Element {
           <CardBody>
             <form action={onSubmitForm} className="space-y-8">
               <Input
+                isRequired
+                disabled={isLoading}
+                errorMessage="Completa este campo"
                 label="Email"
                 name="email"
                 placeholder="tu@email.com"
                 type="email"
                 variant="bordered"
-                isRequired
-                errorMessage="Completa este campo"
-                disabled={isLoading}
               />
-              <PasswordInput disabled={isLoading}/>
+              <PasswordInput disabled={isLoading} />
               <p className="text-danger-400 font-semibold text-lg text-center">
                 {error}
               </p>
-              <Button className="w-full" color="primary" type="submit" isLoading={isLoading}>
+              <Button
+                className="w-full"
+                color="primary"
+                isLoading={isLoading}
+                type="submit"
+              >
                 Ingresar
               </Button>
               <p className="flex w-full justify-center">

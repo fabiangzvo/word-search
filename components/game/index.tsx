@@ -4,13 +4,13 @@ import type { Cell } from '@/types/boardGrid'
 
 import { JSX, useState, useMemo, useCallback } from 'react'
 import Confetti from 'react-confetti'
+import WordList from '@components/wordList'
 
 import BoardGrid from './components/board'
 import { GameProps } from './types'
-import WordList from '@components/wordList'
 
 export default function Game(props: GameProps): JSX.Element {
-  const { puzzle, users } = props
+  const { puzzle } = props
 
   const [foundWords, setFoundWords] = useState<string[]>([])
   const [foundCells, setFoundCells] = useState<Cell>([])

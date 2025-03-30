@@ -27,11 +27,11 @@ export default function WordList(props: WordListProps): JSX.Element {
                 )}
               >
                 {foundWords.includes(question.answer) ? (
-                  <Check strokeWidth={4} className="w-6 h-6 mr-2" />
+                  <Check className="w-6 h-6 mr-2" strokeWidth={4} />
                 ) : (
                   <WholeWord
-                    strokeWidth={2}
                     className="w-6 h-6 mr-2 text-default-600"
+                    strokeWidth={2}
                   />
                 )}
                 {question.answer}
@@ -41,14 +41,14 @@ export default function WordList(props: WordListProps): JSX.Element {
                 <p className="text-lg font-medium mb-1">{question.label}</p>
                 {foundWords.includes(question.answer) ? (
                   <span className="text-lg font-bold text-default-600 flex items-center">
-                    <Check strokeWidth={4} className="w-6 h-6 mr-2" />
+                    <Check className="w-6 h-6 mr-2" strokeWidth={4} />
                     {question.answer}
                   </span>
                 ) : (
                   <div className="flex text-lg font-bold">
                     <WholeWord
-                      strokeWidth={2}
                       className="w-6 h-6 mr-2 text-default-600"
+                      strokeWidth={2}
                     />
                     {Array(question.answer.length).fill('_ ')}
                   </div>

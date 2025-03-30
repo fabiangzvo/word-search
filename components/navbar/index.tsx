@@ -22,7 +22,7 @@ import ThemeSwitch from '@components/themeSwitch'
 import SearchInput from '@components/searchInput'
 
 const loginButton = (
-  <Button as={NextLink} color="primary" href="/login" variant="flat" prefetch>
+  <Button prefetch as={NextLink} color="primary" href="/login" variant="flat">
     Iniciar Sesión
   </Button>
 )
@@ -45,13 +45,13 @@ export default function Navbar(): JSX.Element {
       siteConfig.navItems.slice(1).map((item) => (
         <NavbarItem key={item.href}>
           <NextLink
+            prefetch
             className={clsx(
               linkStyles({ color: 'foreground' }),
               'data-[active=true]:text-primary data-[active=true]:font-medium'
             )}
             color="foreground"
             href={item.href}
-            prefetch
           >
             {item.label}
           </NextLink>

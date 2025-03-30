@@ -11,7 +11,7 @@ async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
   const game = await getDetailGame(id)
 
   if (!game) notFound()
-  console.log(game.puzzle.owner)
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-center">{game.puzzle.title}</h1>

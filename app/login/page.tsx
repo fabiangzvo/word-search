@@ -1,5 +1,4 @@
 import { JSX } from 'react'
-
 import SignIn from '@components/signIn'
 
 function Login(): JSX.Element {
