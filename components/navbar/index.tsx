@@ -22,7 +22,7 @@ import ThemeSwitch from '@components/themeSwitch'
 import SearchInput from '@components/searchInput'
 
 const loginButton = (
-  <Button as={Link} color="primary" href="/login" variant="flat">
+  <Button as={NextLink} color="primary" href="/login" variant="flat" prefetch>
     Iniciar Sesión
   </Button>
 )
@@ -35,7 +35,7 @@ export default function Navbar(): JSX.Element {
   }, [])
 
   const logoutButton = (
-    <Button color="primary" href="/login" variant="flat" onClick={logout}>
+    <Button color="primary" href="/login" variant="flat" onPress={logout}>
       Cerrar sesión
     </Button>
   )
@@ -51,6 +51,7 @@ export default function Navbar(): JSX.Element {
             )}
             color="foreground"
             href={item.href}
+            prefetch
           >
             {item.label}
           </NextLink>
