@@ -1,6 +1,6 @@
 'use client'
 
-import { type JSX } from 'react'
+import { type JSX, useActionState } from 'react'
 import {
   Button,
   Card,
@@ -9,24 +9,13 @@ import {
   Link,
   CardHeader,
 } from '@nextui-org/react'
-import { signIn } from 'next-auth/react'
+
 import PasswordInput from '@components/passwordInput'
+import { handleSubmit } from '@/lib/actions/authentication'
 
-interface SignInProps {
-  error?: string
-}
-
-export default function index(props: SignInProps): JSX.Element {
-  const { error } = props
-
-  async function handleSubmit(formData: FormData): Promise<void> {
-    await signIn('credentials', {
-      email: formData.get('email'),
-      password: formData.get('password'),
-      callbackUrl: '/dashboard',
-    })
-  }
-
+export default function index(): JSX.Element {
+  const [error, onSubmitForm, isLoading] = useActionState(handleSubmit, '')
+  
   return (
     <section className="py-24 px-6" id="register">
       <div className="max-w-2xl mx-auto text-center">
@@ -37,19 +26,22 @@ export default function index(props: SignInProps): JSX.Element {
             </h2>
           </CardHeader>
           <CardBody>
-            <form action={handleSubmit} className="space-y-8">
+            <form action={onSubmitForm} className="space-y-8">
               <Input
                 label="Email"
                 name="email"
                 placeholder="tu@email.com"
                 type="email"
                 variant="bordered"
+                isRequired
+                errorMessage="Completa este campo"
+                disabled={isLoading}
               />
-              <PasswordInput />
+              <PasswordInput disabled={isLoading}/>
               <p className="text-danger-400 font-semibold text-lg text-center">
                 {error}
               </p>
-              <Button className="w-full" color="primary" type="submit">
+              <Button className="w-full" color="primary" type="submit" isLoading={isLoading}>
                 Ingresar
               </Button>
               <p className="flex w-full justify-center">

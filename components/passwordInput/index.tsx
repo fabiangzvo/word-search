@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useCallback, useMemo, type JSX } from 'react'
-import { Input, Tooltip } from '@nextui-org/react'
+import { Input, Tooltip,InputProps } from '@nextui-org/react'
 import { EyeIcon, EyeClosedIcon } from 'lucide-react'
 
-function PasswordInput(): JSX.Element {
+
+function PasswordInput(props: Omit<InputProps, 'type'>): JSX.Element {
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
   const toggleVisibility = useCallback(() => {
@@ -50,6 +51,9 @@ function PasswordInput(): JSX.Element {
       placeholder="tu contraseña"
       type={type}
       variant="bordered"
+      isRequired
+      errorMessage="Completa este campo"
+      {...props}
     />
   )
 }

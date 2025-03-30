@@ -18,16 +18,12 @@ export const authOptions: AuthOptions = {
       },
       authorize: async (credentials) => {
         if (!credentials?.email || !credentials?.password)
-          throw new Error(
-            encodeURIComponent(
-              'El correo y la contraseña son campos obligatorios'
-            )
-          )
+          throw new Error('El correo y la contraseña son campos obligatorios')
 
         const user = await Users.findOne({
           email: credentials.email,
         }).exec()
-        if (!user) throw new Error(encodeURIComponent(`No existe el usuario`))
+        if (!user) throw new Error('Usuario no registrado')
 
         const isPasswordValid = await compare(
           credentials.password,
@@ -35,7 +31,7 @@ export const authOptions: AuthOptions = {
         )
 
         if (!isPasswordValid)
-          throw new Error(encodeURIComponent('Credenciales inválidas'))
+          throw new Error('Credenciales inválidas')
 
         return {
           id: user?._id?.toString() ?? '',
