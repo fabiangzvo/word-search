@@ -1,5 +1,5 @@
 name: Run actions
-run-name: ${{ github.actor }} push a new commit ${{ github.commit_message }} 🚀
+run-name: ${{ github.actor }} pushed new commit => '${{ github.event.head_commit.message || 'empty message' }}' 🚀
 on:
   push:
     branches: [master]
