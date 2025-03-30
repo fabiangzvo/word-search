@@ -21,7 +21,7 @@ export async function getDetailGame(
 ): Promise<IGameDetailClient | null> {
   const response = await Game.findById(gameId)
     .populate('puzzle')
-    .populate('puzzle.owner')
+    .populate({ path: 'puzzle', populate: { path: 'owner' } })
     .populate('users')
     .populate('winner')
     .exec()
