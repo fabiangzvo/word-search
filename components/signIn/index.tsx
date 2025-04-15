@@ -17,7 +17,7 @@ export default function SignIn(): JSX.Element {
   const [error, onSubmitForm, isLoading] = useActionState(handleSubmit, '')
 
   return (
-    <section className="py-24 px-6" id="register">
+    <section className="py-24 container mx-auto max-w-7xl px-6 flex-grow" id="register">
       <div className="max-w-2xl mx-auto text-center">
         <Card className="p-6">
           <CardHeader className="flex justify-center">

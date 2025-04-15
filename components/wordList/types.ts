@@ -3,8 +3,15 @@ export interface Question {
   answer: string
 }
 
+export type Mode = 'words' | 'questions'
+
 export interface WordListProps {
   questions: Question[]
   foundWords: string[]
-  mode: 'words' | 'questions'
+  mode: Mode
+}
+
+export interface WordItemProps extends Question {
+  isFound: boolean
+  mode: Mode
 }

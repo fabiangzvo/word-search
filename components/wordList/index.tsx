@@ -8,15 +8,24 @@ export default function WordList(props: WordListProps): JSX.Element {
   const { questions, foundWords, mode } = props
 
   const title = useMemo(
-    () => (mode === 'words' ? 'Palabras:' : 'Preguntas:'),
+    () => (mode === 'words' ? 'Palabras' : 'Pistas'),
     [mode]
   )
 
+  const list = useMemo(
+    () =>
+      questions.map((question) => ({
+        ...question,
+        isFound: foundWords.includes(question.answer),
+      })),
+    [questions, foundWords]
+  )
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4 mt-10">{title}</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {questions.map((question) => (
+    <div className="border border-primary-500 rounded-xl h-min w-64 p-4">
+      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+      <ul className="grid grid-cols-1 gap-4">
+        {list.map((question) => (
           <li key={question.answer} className="mb-2">
             {mode === 'words' ? (
               <span

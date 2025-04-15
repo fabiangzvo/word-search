@@ -6,7 +6,9 @@ import {
   type InsertGame,
   type IGameClient,
   type IGameDetailClient,
+  type IGame,
 } from '@/types/game'
+import { UpdateQuery } from 'mongoose'
 
 export async function insertGame(game: InsertGame): Promise<IGameClient> {
   const response = await new Game(game).save()
@@ -22,13 +24,26 @@ export async function getDetailGame(
   const response = await Game.findById(gameId)
     .populate('puzzle')
     .populate({ path: 'puzzle', populate: { path: 'owner' } })
-    .populate('users')
+    .populate('users', '-password')
     .populate('winner')
     .exec()
 
   if (!response) return null
 
-  const gameDetail = response?.toJSON({ flattenObjectIds: true }) as unknown
+  const record = response.toJSON({
+    flattenObjectIds: true,
+  }) as unknown
 
-  return gameDetail as IGameDetailClient
+  return record as IGameDetailClient
+}
+
+export async function updateGame(
+  gameId: string,
+  game: UpdateQuery<IGame>
+): Promise<IGameClient> {
+  const response = await Game.findByIdAndUpdate(gameId, game, {
+    new: true,
+  })
+
+  return response?.toJSON({ flattenObjectIds: true }) as unknown as IGameClient
 }

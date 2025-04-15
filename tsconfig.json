@@ -24,6 +24,7 @@
       "@models/*": ["./lib/models/*"],
       "@queries/*": ["./lib/queries/*"],
       "@schemas/*": ["./lib/schemas/*"],
+      "@actions/*": ["./lib/actions/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -2,12 +2,14 @@ import { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import Game from '@components/game'
 import { getDetailGame } from '@lib/queries/game'
+import mongooseConnect from '@lib/db'
 
 import { type PuzzleGameProps } from './types'
 
 async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
   const { id } = await params
 
+  await mongooseConnect()
   const game = await getDetailGame(id)
 
   if (!game) notFound()

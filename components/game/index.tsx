@@ -1,10 +1,10 @@
 'use client'
 
-import type { Cell } from '@/types/boardGrid'
-
 import { JSX, useState, useMemo, useCallback } from 'react'
 import Confetti from 'react-confetti'
+
 import WordList from '@components/wordList'
+import type { Cell } from '@/types/boardGrid'
 
 import BoardGrid from './components/board'
 import { GameProps } from './types'
@@ -29,6 +29,7 @@ export default function Game(props: GameProps): JSX.Element {
         .map(([row, col]) => grid[row][col])
         .join('')
         .toLowerCase()
+
       const reversedWord = selectedWord.split('').reverse().join('')
 
       for (const word of answers) {
@@ -51,7 +52,7 @@ export default function Game(props: GameProps): JSX.Element {
   )
 
   return (
-    <div>
+    <div className="flex gap-6">
       <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
       <WordList
         foundWords={foundWords}
