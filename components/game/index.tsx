@@ -52,7 +52,7 @@ export default function Game(props: GameProps): JSX.Element {
   )
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 max-md:flex-col max-md:overflow-x-auto">
       <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
       <WordList
         foundWords={foundWords}

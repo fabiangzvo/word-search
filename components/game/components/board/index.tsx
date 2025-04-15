@@ -72,7 +72,7 @@ function Board(props: BoardProps): JSX.Element {
 
   return (
     <div
-      className="grid gap-1 sm:gap-2 p-4 bg-default-400 bg-opacity-30 rounded-xl shadow-lg"
+      className="grid gap-1 sm:gap-2 p-4 bg-default-400 bg-opacity-30 rounded-xl shadow-lg overflow-x-auto"
       role="button"
       style={{ gridTemplateColumns: `repeat(${grid.length}, 1fr)` }}
       tabIndex={0}

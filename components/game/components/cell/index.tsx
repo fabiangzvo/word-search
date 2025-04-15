@@ -4,11 +4,11 @@ import { tv } from 'tailwind-variants'
 import { type LetterCellProps } from './types'
 
 export const buttonVariants = tv({
-  base: 'px-2 py-1 text-lg sm:text-xl font-bold rounded-lg transition-all duration-200 ease-in-out text-white bg-default-500 hover:bg-default-400 dark:hover:bg-default-700 border-2 border-default-500 dark:border-default-500',
+  base: 'w-8 h-8 text-base sm:text-lg font-bold rounded-lg transition-all duration-200 ease-in-out text-white bg-default-500 hover:bg-default-400 dark:hover:bg-default-700 border-2 border-default-500 dark:border-default-500',
   variants: {
     color: {
       found:
-        'bg-default-800 border-default-700 dark:border-default-900 pointer-events-none',
+        'bg-default-700 border-default-600 dark:border-default-950 dark:bg-default-800 pointer-events-none',
       selected:
         'bg-default-600 dark:bg-default-800 shadow-lg border-default-700 dark:border-default-500 hover:bg-default-600 dark:hover:bg-default-800',
     },
