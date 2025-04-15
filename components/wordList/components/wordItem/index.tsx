@@ -1,9 +1,8 @@
 import { JSX } from 'react'
 
-import { type WordItemProps } from '../../types'
+//import { type WordItemProps } from '../../types'
 
-function WordItem(_props: WordItemProps): JSX.Element {
-
+function WordItem(): JSX.Element {
   return <div>index</div>
 }
 

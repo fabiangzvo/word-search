@@ -1,14 +1,7 @@
 'use client'
 
 import { type JSX } from 'react'
-import {
-  Button,
-  Card,
-  CardBody,
-  Input,
-  Link,
-  CardHeader,
-} from '@nextui-org/react'
+import { Button, Card, CardBody, Input, Link, CardHeader } from '@heroui/react'
 import PasswordInput from '@components/passwordInput'
 
 export default function index(): JSX.Element {

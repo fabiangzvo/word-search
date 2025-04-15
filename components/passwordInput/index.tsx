@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback, useMemo, type JSX } from 'react'
-import { Input, Tooltip, InputProps } from '@nextui-org/react'
+import { Input, Tooltip, InputProps } from '@heroui/react'
 import { EyeIcon, EyeClosedIcon } from 'lucide-react'
 
 function PasswordInput(props: Omit<InputProps, 'type'>): JSX.Element {

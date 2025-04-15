@@ -1,6 +1,6 @@
 import { type JSX } from 'react'
-import { Button } from '@nextui-org/button'
-import { Link } from '@nextui-org/link'
+import { Button } from '@heroui/button'
+import { Link } from '@heroui/link'
 import { getSession } from '@lib/session'
 import { getPuzzles } from '@lib/queries/puzzle'
 import PuzzleList from '@components/puzzleList'
@@ -26,7 +26,7 @@ async function Dashboard(): Promise<JSX.Element> {
   })
 
   return (
-    <div className='min-h-[70vh]'>
+    <div className="min-h-[70vh]">
       <div className="flex justify-between">
         <h1 className="text-lg font-bold mb-6">Hola {session?.user.name}</h1>
         <Button as={Link} color="primary" href="/puzzle/create">

@@ -1,6 +1,7 @@
 'use server'
 
 import Game from '@lib/models/game'
+import { UpdateQuery } from 'mongoose'
 
 import {
   type InsertGame,
@@ -8,7 +9,6 @@ import {
   type IGameDetailClient,
   type IGame,
 } from '@/types/game'
-import { UpdateQuery } from 'mongoose'
 
 export async function insertGame(game: InsertGame): Promise<IGameClient> {
   const response = await new Game(game).save()

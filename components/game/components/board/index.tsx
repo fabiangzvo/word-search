@@ -1,6 +1,7 @@
 import { JSX, useCallback, useState, useMemo } from 'react'
 
 import LetterCell from '../cell'
+
 import { BoardProps } from './types'
 
 import { Cell } from '@/types/boardGrid'

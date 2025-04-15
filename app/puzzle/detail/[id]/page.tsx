@@ -1,7 +1,7 @@
 import { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { Check } from 'lucide-react'
-import { Chip } from '@nextui-org/react'
+import { Chip } from '@heroui/react'
 import { getDetailPuzzle } from '@lib/queries/puzzle'
 import WordSearchDetail from '@components/wordSearchDetail'
 import { getSession } from '@lib/session'

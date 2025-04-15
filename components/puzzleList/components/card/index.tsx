@@ -7,7 +7,7 @@ import {
   Divider,
   Chip,
   Link,
-} from '@nextui-org/react'
+} from '@heroui/react'
 
 import Options from '../options/index'
 

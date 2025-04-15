@@ -1,4 +1,5 @@
-import { Button, Card, CardBody, CardHeader } from '@nextui-org/react'
+import { Card, CardBody, CardHeader } from '@heroui/card'
+import { Button } from '@heroui/button'
 import { Star, Users, Brain, Trophy, ChevronRight } from 'lucide-react'
 import RedirectButton from '@components/registerButton'
 import SignUp from '@components/signUp'

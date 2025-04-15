@@ -5,7 +5,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { EllipsisVertical } from 'lucide-react'
 import { toast } from 'react-toastify'
 import { removePuzzle } from '@queries/puzzle'

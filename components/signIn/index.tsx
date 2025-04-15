@@ -1,14 +1,7 @@
 'use client'
 
 import { type JSX, useActionState } from 'react'
-import {
-  Button,
-  Card,
-  CardBody,
-  Input,
-  Link,
-  CardHeader,
-} from '@nextui-org/react'
+import { Button, Card, CardBody, Input, Link, CardHeader } from '@heroui/react'
 import PasswordInput from '@components/passwordInput'
 
 import { handleSubmit } from '@/lib/actions/authentication'
@@ -17,7 +10,10 @@ export default function SignIn(): JSX.Element {
   const [error, onSubmitForm, isLoading] = useActionState(handleSubmit, '')
 
   return (
-    <section className="py-24 container mx-auto max-w-7xl px-6 flex-grow" id="register">
+    <section
+      className="py-24 container mx-auto max-w-7xl px-6 flex-grow"
+      id="register"
+    >
       <div className="max-w-2xl mx-auto text-center">
         <Card className="p-6">
           <CardHeader className="flex justify-center">

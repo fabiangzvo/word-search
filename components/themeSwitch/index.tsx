@@ -2,7 +2,7 @@
 
 import { type JSX, useCallback, type FunctionComponent } from 'react'
 import { VisuallyHidden } from '@react-aria/visually-hidden'
-import { type SwitchProps, useSwitch } from '@nextui-org/switch'
+import { type SwitchProps, useSwitch } from '@heroui/switch'
 import { useTheme } from 'next-themes'
 import { useIsSSR } from '@react-aria/ssr'
 import { MoonIcon, SunIcon } from 'lucide-react'

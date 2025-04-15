@@ -1,5 +1,5 @@
 import { type JSX } from 'react'
-import { Link } from '@nextui-org/link'
+import { Link } from '@heroui/link'
 
 function EmptyContent(): JSX.Element {
   return (

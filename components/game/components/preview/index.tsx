@@ -1,9 +1,9 @@
 import { JSX, useMemo, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { updateUsersByGame } from '@actions/game'
 
 import { IPuzzleDetail } from '@/types/puzzle'
 import { IUserDetail } from '@/types/user'
-import { updateUsersByGame } from '@actions/game'
 
 interface PreviewProps {
   users: IUserDetail[]
@@ -12,7 +12,7 @@ interface PreviewProps {
 }
 
 function Preview(props: PreviewProps): JSX.Element {
-  const { users, puzzle, gameId } = props
+  const { users, gameId } = props
 
   const session = useSession()
 
@@ -21,11 +21,12 @@ function Preview(props: PreviewProps): JSX.Element {
       if (session.status !== 'authenticated') return
 
       const existUser = users.some((user) => user._id === session.data.user.id)
-      console.log({ existUser })
-      if (!existUser) {
-        const data = await updateUsersByGame(gameId, session.data.user.id)
 
-        console.log({ data })
+      //console.log({ existUser })
+      if (!existUser) {
+        await updateUsersByGame(gameId, session.data.user.id)
+
+        //console.log({ data })
       }
     }
 

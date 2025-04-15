@@ -2,7 +2,7 @@
 
 import { type JSX, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@nextui-org/react'
+import { Button } from '@heroui/react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { insertGame } from '@queries/game'

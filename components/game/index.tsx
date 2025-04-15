@@ -1,10 +1,10 @@
 'use client'
 
+import type { Cell } from '@/types/boardGrid'
+
 import { JSX, useState, useMemo, useCallback } from 'react'
 import Confetti from 'react-confetti'
-
 import WordList from '@components/wordList'
-import type { Cell } from '@/types/boardGrid'
 
 import BoardGrid from './components/board'
 import { GameProps } from './types'

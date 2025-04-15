@@ -2,11 +2,10 @@
 
 import { ObjectId, ChangeStream } from 'mongodb'
 import { Types } from 'mongoose'
-
 import Game from '@models/game'
-import { IGameDetailClient } from '@/types/game'
-
 import { updateGame } from '@queries/game'
+
+import { IGameDetailClient } from '@/types/game'
 
 let streams: ChangeStream[] = []
 
@@ -25,9 +24,8 @@ export async function watchGameChanges(
   ]
 
   const changeStream = Game.watch(pipeline)
-  changeStream.on('change', async (change) => {
-    console.log('Cambio detectado:', JSON.stringify(change))
 
+  changeStream.on('change', async (change) => {
     if (
       change.operationType === 'update' ||
       change.operationType === 'replace'

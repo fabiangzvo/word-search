@@ -1,7 +1,7 @@
 'use client'
 
 import { type JSX, useCallback } from 'react'
-import { Button } from '@nextui-org/react'
+import { Button } from '@heroui/react'
 import { ChevronRight } from 'lucide-react'
 
 export default function ClientButton(): JSX.Element {
