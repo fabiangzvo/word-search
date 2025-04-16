@@ -56,7 +56,6 @@ export default function Game(props: GameProps): JSX.Element {
       <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
       <WordList
         foundWords={foundWords}
-        mode="words"
         questions={puzzle.questions}
       />
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}

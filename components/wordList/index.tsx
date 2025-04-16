@@ -1,29 +1,52 @@
-import { type JSX, useMemo } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { type JSX, useMemo, useState, useCallback } from 'react'
 import { Listbox, ListboxItem } from '@heroui/listbox'
+import { Shuffle } from "lucide-react";
+import { Button } from '@heroui/button'
 
-import { type WordListProps } from './types'
+import { type WordListProps, type Mode } from './types'
 
 export default function WordList(props: WordListProps): JSX.Element {
-  const { questions, foundWords, mode } = props
+  const { questions, foundWords } = props
 
-  const title = useMemo(
-    () => (mode === 'words' ? 'Palabras' : 'Pistas'),
+  const [mode, setMode] = useState<Mode>("words");
+
+  const handleChangeMode = useCallback(() => setMode(currentMode => currentMode === 'words' ? 'questions' : 'words'), [])
+
+  const { title, switchButton, showWords } = useMemo(
+    () => {
+      const showWords = mode === 'words'
+
+      return {
+        showWords,
+        title: showWords ? 'Palabras' : 'Pistas',
+        switchButton: showWords ? 'Ver pistas' : 'Ver palabras'
+      }
+    },
     [mode]
   )
 
   const list = useMemo(
     () =>
-      questions.map((question) => ({
-        ...question,
-        isFound: foundWords.includes(question.answer),
+      questions.map(({ answer, label }) => ({
+        answer,
+        label: showWords ? '' : label,
+        isFound: foundWords.includes(answer),
       })),
-    [questions, foundWords]
+    [questions, foundWords, showWords]
   )
 
   return (
     <div className="bg-default-400 bg-opacity-10 rounded-xl h-min w-96 p-4 max-md:w-full">
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+      <div className='flex justify-between items-center mb-4'>
+        <h2 className="text-2xl font-bold">{title}</h2>
+        <Button
+          variant='light'
+          startContent={<Shuffle size={20} />}
+          onPress={handleChangeMode}
+        >
+          {switchButton}
+        </Button>
+      </div>
       <ul className="grid grid-cols-1 gap-4">
         <Listbox
           disallowEmptySelection
@@ -42,30 +65,14 @@ export default function WordList(props: WordListProps): JSX.Element {
                   'text-primary-500 h-5 w-5 [&>svg>polyline]:stroke-[3]',
                 base: 'px-4',
               }}
-            >
-              {mode === 'words' ? (
-                <span
-                  className={twMerge(
-                    'text-lg font-bold p-2 rounded flex text-default-600'
-                  )}
-                >
-                  {question.answer}
-                </span>
-              ) : (
-                <div>
-                  <p className="text-lg font-medium mb-1">{question.label}</p>
-                  {foundWords.includes(question.answer) ? (
-                    <span className="text-lg font-bold text-default-600 flex items-center">
-                      {question.answer}
-                    </span>
-                  ) : (
-                    <div className="flex text-lg font-bold">
-                      {Array(question.answer.length).fill('_ ')}
-                    </div>
-                  )}
-                </div>
-              )}
-            </ListboxItem>
+              title={question.label}
+              description={
+                <span className="text-lg font-bold text-default-600 flex">
+                  {foundWords.includes(question.answer) || showWords
+                    ? question.answer
+                    : Array(question.answer.length).fill('_ ')}
+                </span>}
+            />
           ))}
         </Listbox>
       </ul>
