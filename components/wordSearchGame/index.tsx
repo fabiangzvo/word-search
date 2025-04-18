@@ -311,7 +311,7 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
         onTouchEnd={handleTouchEnd}
         onTouchStart={handleTouchStart}
       />
-      <WordList foundWords={foundWords} mode={gameMode} questions={questions} />
+      <WordList foundWords={foundWords} questions={questions} />
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
       <CompletionModal
         completionTime={completionTime ?? 0}
