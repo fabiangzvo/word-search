@@ -18,7 +18,7 @@ export default function WordList(props: WordListProps): JSX.Element {
 
       return {
         showWords,
-        title: showWords ? 'Palabras' : 'Pistas',
+        title: showWords ? 'Palabra' : 'Pista',
         switchButton: showWords ? 'Ver pistas' : 'Ver palabras'
       }
     },
@@ -36,11 +36,12 @@ export default function WordList(props: WordListProps): JSX.Element {
   )
 
   return (
-    <div className="bg-default-400 bg-opacity-10 rounded-xl h-min w-96 p-4 max-md:w-full">
+    <div className="bg-white dark:bg-black shadow-sm rounded-xl h-min w-96 p-4 max-md:w-full">
       <div className='flex justify-between items-center mb-4'>
         <h2 className="text-2xl font-bold">{title}</h2>
         <Button
-          variant='light'
+          color='primary'
+          variant='flat'
           startContent={<Shuffle size={20} />}
           onPress={handleChangeMode}
         >
@@ -56,10 +57,10 @@ export default function WordList(props: WordListProps): JSX.Element {
           variant="flat"
           className="pointer-events-none"
         >
-          {list.map((question) => (
+          {list.filter(item=>!item.isFound).slice(0,1).map((question) => (
             <ListboxItem
               key={question.answer}
-              className="mb-2 bg-primary-200 bg-opacity-95 dark:bg-opacity-10"
+              className="mb-2 bg-default-200 bg-opacity-40 dark:bg-opacity-5"
               classNames={{
                 selectedIcon:
                   'text-primary-500 h-5 w-5 [&>svg>polyline]:stroke-[3]',
