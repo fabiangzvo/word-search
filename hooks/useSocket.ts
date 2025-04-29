@@ -5,7 +5,7 @@ export function useSocket(): Socket {
   const [socket, setSocket] = useState<Socket>()
 
   useEffect(() => {
-    const sock = io('ws://localhost:8080')
+    const sock = io(process.env.NEXT_PUBLIC_SOCKET_URL)
     sock.on('connect', () => console.log('established connection'))
     sock.on('error', (e) => console.log('error trying connect with backend', e))
 

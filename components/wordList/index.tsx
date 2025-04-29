@@ -2,6 +2,7 @@ import { type JSX, useMemo, useState, useCallback } from 'react'
 import { Listbox, ListboxItem } from '@heroui/listbox'
 import { Shuffle } from 'lucide-react'
 import { Button } from '@heroui/button'
+import { Card, CardHeader, CardBody } from "@heroui/card";
 
 import { type WordListProps, type Mode } from './types'
 
@@ -39,9 +40,9 @@ export default function WordList(props: WordListProps): JSX.Element {
   )
 
   return (
-    <div className="bg-white dark:bg-black shadow-sm rounded-xl h-min w-96 p-4 max-md:w-full">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">{title}</h2>
+    <Card className="h-min w-96 max-md:w-full">
+      <CardHeader className="flex justify-between items-center">
+        <h2 className="text-xl font-bold">{title}</h2>
         <Button
           color="primary"
           startContent={<Shuffle size={20} />}
@@ -50,8 +51,8 @@ export default function WordList(props: WordListProps): JSX.Element {
         >
           {switchButton}
         </Button>
-      </div>
-      <ul className="grid grid-cols-1 gap-4">
+      </CardHeader>
+      <CardBody className="grid grid-cols-1 gap-4">
         <Listbox
           disallowEmptySelection
           aria-label="Multiple selection example"
@@ -83,7 +84,7 @@ export default function WordList(props: WordListProps): JSX.Element {
               />
             ))}
         </Listbox>
-      </ul>
-    </div>
+      </CardBody>
+    </Card>
   )
 }

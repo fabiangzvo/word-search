@@ -1,20 +1,29 @@
 'use client'
 
-import type { Cell } from '@/types/boardGrid'
-
-import { JSX, useState, useMemo, useCallback } from 'react'
+import { JSX, useState, useMemo, useCallback, useReducer, useEffect } from 'react'
 import Confetti from 'react-confetti'
+import { useSession } from "next-auth/react";
+
 import WordList from '@components/wordList'
+import type { Cell } from '@/types/boardGrid'
+import { useSocket } from "@hooks/useSocket";
+import { IUserDetail } from '@/types/user';
 
 import BoardGrid from './components/board'
-import { GameProps } from './types'
+import ActivePlayers from "./components/activePlayers";
+import { GameProps, Actions } from './types'
+import { puzzleReducer } from "./utils";
 
 export default function Game(props: GameProps): JSX.Element {
-  const { puzzle } = props
+  const { puzzle, finishedAt, responses, startedAt, users, winner, gameId } = props
 
+  const [state, dispatch] = useReducer(puzzleReducer, { finishedAt, responses, startedAt, users, winner })
   const [foundWords, setFoundWords] = useState<string[]>([])
   const [foundCells, setFoundCells] = useState<Cell>([])
   const [showConfetti, setShowConfetti] = useState<boolean>(false)
+
+  const { data } = useSession()
+  const socket = useSocket()
 
   const { answers, grid } = useMemo(() => {
     const { matrix, questions } = puzzle
@@ -22,6 +31,16 @@ export default function Game(props: GameProps): JSX.Element {
 
     return { answers, grid: matrix }
   }, [puzzle])
+
+  useEffect(() => {
+    if (socket && data?.user) {
+      socket.emit('add-player', JSON.stringify({ gameId, user: data.user.id }))
+
+      socket.on('user-joined', (user: IUserDetail) => {
+        dispatch({ type: Actions.ADD_USER, payload: { user } })
+      })
+    }
+  }, [socket, gameId, data])
 
   const checkWord = useCallback(
     (cells: Cell): void => {
@@ -54,7 +73,10 @@ export default function Game(props: GameProps): JSX.Element {
   return (
     <div className="flex gap-6 max-md:flex-col max-md:overflow-x-auto">
       <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
-      <WordList foundWords={foundWords} questions={puzzle.questions} />
+      <div className='flex flex-col gap-6'>
+        <WordList foundWords={foundWords} questions={puzzle.questions} />
+        <ActivePlayers users={state.users} />
+      </div>
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
     </div>
   )
