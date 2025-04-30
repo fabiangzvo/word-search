@@ -3,6 +3,7 @@
 import { JSX, useState, useMemo, useCallback, useReducer, useEffect } from 'react'
 import Confetti from 'react-confetti'
 import { useSession } from "next-auth/react";
+import { toast } from 'react-toastify'
 
 import WordList from '@components/wordList'
 import type { Cell } from '@/types/boardGrid'
@@ -38,7 +39,27 @@ export default function Game(props: GameProps): JSX.Element {
 
       socket.on('user-joined', (user: IUserDetail) => {
         dispatch({ type: Actions.ADD_USER, payload: { user } })
+
+        user._id !== data?.user.id && toast.success(`${user.name} se ha unido a la partida`)
       })
+
+      socket.on('user-left', (user: IUserDetail) => {
+        dispatch({ type: Actions.DELETE_USER, payload: { userId: user._id } })
+
+        toast.warn(`${user.name} ha salido de la partida`)
+      })
+
+      const listener = () => {
+        socket.emit('disconnect-player', JSON.stringify({ gameId, user: data.user.id }))
+        socket.off('user-joined')
+        socket.off('user-left')
+      }
+
+      window.addEventListener('beforeunload', listener)
+
+      return () => {
+        window.removeEventListener('beforeunload', listener)
+      }
     }
   }, [socket, gameId, data])
 
@@ -73,7 +94,7 @@ export default function Game(props: GameProps): JSX.Element {
   return (
     <div className="flex gap-6 max-md:flex-col max-md:overflow-x-auto">
       <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
-      <div className='flex flex-col gap-6'>
+      <div className='flex flex-col gap-6 my-4 mx-2'>
         <WordList foundWords={foundWords} questions={puzzle.questions} />
         <ActivePlayers users={state.users} />
       </div>

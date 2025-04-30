@@ -28,7 +28,7 @@ module.exports = {
           colors: {
             primary: { ...colors.lime, DEFAULT: colors.lime[400] },
             default: { ...colors.lime, DEFAULT: colors.lime[400] },
-            background: colors.gray[100],
+            background: colors.white,
           },
         },
         dark: {

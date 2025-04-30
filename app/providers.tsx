@@ -28,7 +28,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
       <ToastContainer
         autoClose={3000}
         className="!text-black dark:!text-white bg-background"
-        position="bottom-right"
+        position="top-right"
         theme={theme as Theme}
       />
     </SessionProvider>
