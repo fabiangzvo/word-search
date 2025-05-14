@@ -40,7 +40,7 @@ export default function WordList(props: WordListProps): JSX.Element {
   )
 
   return (
-    <Card className="h-min w-96 max-md:w-full">
+    <Card className="h-min w-96 max-xl:w-full">
       <CardHeader className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{title}</h2>
         <Button

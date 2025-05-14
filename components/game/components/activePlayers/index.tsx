@@ -19,7 +19,7 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
     )), [users])
 
   return (
-    <Card>
+    <Card className='max-xl:w-full'>
       <CardHeader className='flex justify-between'>
         <h2 className="text-xl font-bold">Jugadores</h2>
         <Chip

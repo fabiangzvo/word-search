@@ -1,24 +1,38 @@
 'use client'
 
-import { JSX, useState, useMemo, useCallback, useReducer, useEffect } from 'react'
+import {
+  JSX,
+  useState,
+  useMemo,
+  useCallback,
+  useReducer,
+  useEffect,
+} from 'react'
 import Confetti from 'react-confetti'
-import { useSession } from "next-auth/react";
+import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 
 import WordList from '@components/wordList'
 import type { Cell } from '@/types/boardGrid'
-import { useSocket } from "@hooks/useSocket";
-import { IUserDetail } from '@/types/user';
+import { useSocket } from '@hooks/useSocket'
+import { IUserDetail } from '@/types/user'
 
 import BoardGrid from './components/board'
-import ActivePlayers from "./components/activePlayers";
+import ActivePlayers from './components/activePlayers'
 import { GameProps, Actions } from './types'
-import { puzzleReducer } from "./utils";
+import { puzzleReducer } from './utils'
 
 export default function Game(props: GameProps): JSX.Element {
-  const { puzzle, finishedAt, responses, startedAt, users, winner, gameId } = props
+  const { puzzle, finishedAt, responses, startedAt, users, winner, gameId } =
+    props
 
-  const [state, dispatch] = useReducer(puzzleReducer, { finishedAt, responses, startedAt, users, winner })
+  const [state, dispatch] = useReducer(puzzleReducer, {
+    finishedAt,
+    responses,
+    startedAt,
+    users,
+    winner,
+  })
   const [foundWords, setFoundWords] = useState<string[]>([])
   const [foundCells, setFoundCells] = useState<Cell>([])
   const [showConfetti, setShowConfetti] = useState<boolean>(false)
@@ -40,7 +54,8 @@ export default function Game(props: GameProps): JSX.Element {
       socket.on('user-joined', (user: IUserDetail) => {
         dispatch({ type: Actions.ADD_USER, payload: { user } })
 
-        user._id !== data?.user.id && toast.success(`${user.name} se ha unido a la partida`)
+        user._id !== data?.user.id &&
+          toast.success(`${user.name} se ha unido a la partida`)
       })
 
       socket.on('user-left', (user: IUserDetail) => {
@@ -50,7 +65,10 @@ export default function Game(props: GameProps): JSX.Element {
       })
 
       const listener = () => {
-        socket.emit('disconnect-player', JSON.stringify({ gameId, user: data.user.id }))
+        socket.emit(
+          'disconnect-player',
+          JSON.stringify({ gameId, user: data.user.id })
+        )
         socket.off('user-joined')
         socket.off('user-left')
       }
@@ -92,9 +110,11 @@ export default function Game(props: GameProps): JSX.Element {
   )
 
   return (
-    <div className="flex gap-6 max-md:flex-col max-md:overflow-x-auto">
-      <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
-      <div className='flex flex-col gap-6 my-4 mx-2'>
+    <div className="flex gap-6 max-xl:flex-col max-xl:items-center justify-center w-full lg:w-fit">
+      <div className="max-md:overflow-x-auto w-full flex justify-center">
+        <BoardGrid checkWord={checkWord} foundCells={foundCells} grid={grid} />
+      </div>
+      <div className="flex xl:flex-col gap-6 w-full max-xl:justify-center max-md:px-0 max-md:flex-col">
         <WordList foundWords={foundWords} questions={puzzle.questions} />
         <ActivePlayers users={state.users} />
       </div>

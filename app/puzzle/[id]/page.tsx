@@ -23,15 +23,17 @@ async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
           {game.puzzle.owner.name}
         </span>
       </h3>
-      <Game
-        finishedAt={game.finishedAt}
-        gameId={game._id}
-        puzzle={game.puzzle}
-        responses={game.responses}
-        startedAt={game.startedAt}
-        users={game.users}
-        winner={game.winner}
-      />
+      <div className="flex justify-center">
+        <Game
+          finishedAt={game.finishedAt}
+          gameId={game._id}
+          puzzle={game.puzzle}
+          responses={game.responses}
+          startedAt={game.startedAt}
+          users={game.users}
+          winner={game.winner}
+        />
+      </div>
     </div>
   )
 }
