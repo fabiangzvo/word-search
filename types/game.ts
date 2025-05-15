@@ -2,6 +2,7 @@ import { Document, Types } from 'mongoose'
 
 import { type IUserDetail } from './user'
 import { type IPuzzleDetail } from './puzzle'
+import { Cell } from './boardGrid'
 
 interface Response {
   user: Types.ObjectId
@@ -38,6 +39,10 @@ export interface IGameDetailClient {
   users: IUserDetail[]
   startedAt: Date
   finishedAt: Date
-  responses: { user: string; question: string }[]
+  responses: {
+    user: string
+    question: string
+    coords: Cell
+  }[]
   winner: IUserDetail
 }

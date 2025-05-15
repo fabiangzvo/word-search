@@ -17,8 +17,9 @@ const gameSchema = new Schema<IGame>(
     responses: {
       type: [
         {
-          label: String,
-          answer: String,
+          question: { type: Schema.Types.ObjectId, required: true },
+          user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+          coords: { type: Array<[Number, Number]>, required: true },
         },
       ],
       required: true,

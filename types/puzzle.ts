@@ -4,8 +4,9 @@ import { ICategoryDetail } from "./category";
 import { IUserDetail } from "./user";
 
 export interface Question {
-  label: string;
-  answer: string;
+  label: string
+  answer: string
+  _id: string
 }
 
 export type Difficult = "easy" | "medium" | "hard";

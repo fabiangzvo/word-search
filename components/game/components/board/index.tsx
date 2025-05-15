@@ -45,7 +45,12 @@ function Board(props: BoardProps): JSX.Element {
 
   const getCellSeverity = useCallback(
     (row: number, col: number) => {
-      if (foundCells.some(([r, c]) => r === row && c === col)) return 'found'
+      if (
+        foundCells?.some((cell) =>
+          cell?.some(([r, c]) => r === row && c === col)
+        )
+      )
+        return 'found'
       if (selectedCells.some(([r, c]) => r === row && c === col))
         return 'selected'
     },
