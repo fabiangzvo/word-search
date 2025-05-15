@@ -1,26 +1,20 @@
 'use client'
 
-import {
-  JSX,
-  useState,
-  useMemo,
-  useCallback,
-  useReducer,
-  useEffect,
-} from 'react'
+import type { Cell } from '@/types/boardGrid'
+
+import { JSX, useState, useCallback, useReducer, useEffect } from 'react'
 import Confetti from 'react-confetti'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-
 import WordList from '@components/wordList'
-import type { Cell } from '@/types/boardGrid'
 import { useSocket } from '@hooks/useSocket'
-import { IUserDetail } from '@/types/user'
 
 import BoardGrid from './components/board'
 import ActivePlayers from './components/activePlayers'
 import { GameProps, Actions } from './types'
 import { puzzleReducer } from './utils'
+
+import { IUserDetail } from '@/types/user'
 
 export default function Game(props: GameProps): JSX.Element {
   const { puzzle, finishedAt, responses, startedAt, users, winner, gameId } =
@@ -113,6 +107,7 @@ export default function Game(props: GameProps): JSX.Element {
 
       for (const question of puzzle.questions) {
         const { answer, _id: questionId } = question
+
         if (selectedWord === answer || reversedWord === answer) {
           if (!state.foundWords.includes(answer)) {
             dispatch({ type: Actions.ADD_WORD, payload: answer })

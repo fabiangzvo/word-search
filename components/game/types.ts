@@ -1,4 +1,5 @@
 import type { IGameDetailClient } from '@/types/game'
+
 import { type IUserDetail } from '@/types/user'
 import { type Cell } from '@/types/boardGrid'
 

@@ -1,5 +1,5 @@
-import { type IUserDetail } from "@/types/user";
+import { type IUserDetail } from '@/types/user'
 
 export interface ActivePlayersProps {
-  users:IUserDetail[]
+  users: IUserDetail[]
 }

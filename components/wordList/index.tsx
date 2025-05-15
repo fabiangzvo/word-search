@@ -2,7 +2,7 @@ import { type JSX, useMemo, useState, useCallback } from 'react'
 import { Listbox, ListboxItem } from '@heroui/listbox'
 import { Shuffle } from 'lucide-react'
 import { Button } from '@heroui/button'
-import { Card, CardHeader, CardBody } from "@heroui/card";
+import { Card, CardHeader, CardBody } from '@heroui/card'
 
 import { type WordListProps, type Mode } from './types'
 
