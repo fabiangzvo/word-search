@@ -173,7 +173,6 @@ export default function Game(props: GameProps): JSX.Element {
       </div>
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
       <WaitingRoom
-        gameId={gameId}
         isOpen={!state.startedAt}
         showStartButton={data?.user?.id === owner}
         users={state.users}
