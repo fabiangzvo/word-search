@@ -27,12 +27,12 @@ async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
         <Game
           finishedAt={game.finishedAt}
           gameId={game._id}
+          owner={game.owner}
           puzzle={game.puzzle}
           responses={game.responses}
           startedAt={game.startedAt}
           users={game.users}
           winner={game.winner}
-          owner={game.owner}
         />
       </div>
     </div>

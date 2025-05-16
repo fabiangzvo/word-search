@@ -2,7 +2,6 @@ import { JSX, useMemo } from 'react'
 import { Chip } from '@heroui/chip'
 import { Card, CardHeader, CardBody } from '@heroui/card'
 import { Listbox, ListboxItem } from '@heroui/listbox'
-
 import Avatar from '@components/avatar'
 import { mappedColors } from '@config/colors'
 

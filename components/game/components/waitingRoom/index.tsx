@@ -8,19 +8,20 @@ import {
 } from '@heroui/modal'
 import { Button } from '@heroui/button'
 
-import { WaitingRoomProps } from './types'
 import ActivePlayers from '../activePlayers'
 
+import { WaitingRoomProps } from './types'
+
 function WaitingRoomModal(props: WaitingRoomProps): JSX.Element {
-  const { isOpen, onStartGame, users, gameId, showStartButton } = props
+  const { isOpen, onStartGame, users, showStartButton } = props
 
   return (
     <Modal
-      isOpen={isOpen}
+      hideCloseButton
       backdrop="blur"
       isDismissable={false}
       isKeyboardDismissDisabled={true}
-      hideCloseButton
+      isOpen={isOpen}
     >
       <ModalContent>
         <ModalHeader>Esperando jugadores...</ModalHeader>
@@ -29,11 +30,11 @@ function WaitingRoomModal(props: WaitingRoomProps): JSX.Element {
             Esperando a que se unan todos los participantes para iniciar la
             partida.
           </p>
-          <ActivePlayers users={users} shadow="none" />
+          <ActivePlayers shadow="none" users={users} />
         </ModalBody>
         <ModalFooter>
           {showStartButton && (
-            <Button onPress={onStartGame} color="primary">
+            <Button color="primary" onPress={onStartGame}>
               Comenzar partida
             </Button>
           )}
