@@ -5,13 +5,15 @@ import { type IGame } from '@/types/game'
 const gameSchema = new Schema<IGame>(
   {
     puzzle: { type: Schema.Types.ObjectId, ref: 'puzzles', required: true },
-    users: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
-        required: true,
-      },
-    ],
+    users: {
+      type: [
+        {
+          user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+          color: { type: String, required: true },
+        },
+      ],
+      required: true,
+    },
     startedAt: { type: Date, required: false },
     finishedAt: { type: Date, required: false },
     responses: {

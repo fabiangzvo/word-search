@@ -1,20 +1,18 @@
 'use client'
 
-import type { Cell } from '@/types/boardGrid'
-
 import { JSX, useState, useCallback, useReducer, useEffect } from 'react'
 import Confetti from 'react-confetti'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import WordList from '@components/wordList'
 import { useSocket } from '@hooks/useSocket'
+import { IUserActive } from '@/types/user'
+import type { Cell } from '@/types/boardGrid'
 
 import BoardGrid from './components/board'
 import ActivePlayers from './components/activePlayers'
 import { GameProps, Actions } from './types'
 import { puzzleReducer } from './utils'
-
-import { IUserDetail } from '@/types/user'
 
 export default function Game(props: GameProps): JSX.Element {
   const { puzzle, finishedAt, responses, startedAt, users, winner, gameId } =
@@ -44,36 +42,39 @@ export default function Game(props: GameProps): JSX.Element {
     if (socket && data?.user) {
       socket.emit('add-player', JSON.stringify({ gameId, user: data.user.id }))
 
-      socket.on('user-joined', (user: IUserDetail) => {
-        dispatch({ type: Actions.ADD_USER, payload: { user } })
+      socket.on('user-joined', (userInfo: IUserActive) => {
+        dispatch({ type: Actions.ADD_USER, payload: userInfo })
 
-        user._id !== data?.user?.id &&
-          toast.success(`${user.name} se ha unido a la partida`)
+        userInfo.user._id !== data?.user?.id &&
+          toast.success(`${userInfo.user.name} se ha unido a la partida`)
       })
 
-      socket.on('user-left', (user: IUserDetail) => {
-        dispatch({ type: Actions.DELETE_USER, payload: { userId: user._id } })
+      socket.on('user-left', ({ user }: IUserActive) => {
+        dispatch({
+          type: Actions.DELETE_USER,
+          payload: { userId: user?._id },
+        })
 
-        toast.warn(`${user.name} ha salido de la partida`)
+        toast.warn(`${user?.name} ha salido de la partida`)
       })
 
       socket.on(
         'found-word',
         (info: { coords: Cell; question: string; user: string }) => {
           const question = puzzle.questions.find(
-            (questionItem) => questionItem._id === info.question
+            (questionItem) => questionItem?._id === info.question
           )
 
           dispatch({ type: Actions.ADD_WORD, payload: question?.answer ?? '' })
           dispatch({ type: Actions.ADD_CELL, payload: info.coords })
 
           const userDetail = state.users.find(
-            (userItem) => userItem._id === info.user
+            (userItem) => userItem.user?._id === info.user
           )
 
           info.user !== data?.user?.id &&
             toast.success(
-              `${userDetail?.name} ha encontrado la palabra ${question?.answer ?? ''}`
+              `${userDetail?.user.name} ha encontrado la palabra ${question?.answer ?? ''}`
             )
         }
       )

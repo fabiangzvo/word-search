@@ -24,7 +24,7 @@ export async function getDetailGame(
   const response = await Game.findById(gameId)
     .populate('puzzle')
     .populate({ path: 'puzzle', populate: { path: 'owner' } })
-    .populate('users', '-password')
+    .populate('users.user', '-password')
     .populate('winner')
     .exec()
 

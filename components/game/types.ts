@@ -1,6 +1,6 @@
 import type { IGameDetailClient } from '@/types/game'
 
-import { type IUserDetail } from '@/types/user'
+import { type IUserDetail, IUserActive } from '@/types/user'
 import { type Cell } from '@/types/boardGrid'
 
 export interface GameProps extends Omit<IGameDetailClient, '_id'> {
@@ -24,7 +24,7 @@ export enum Actions {
 }
 
 export type Action =
-  | { type: Actions.ADD_USER; payload: { user: IUserDetail } }
+  | { type: Actions.ADD_USER; payload: IUserActive }
   | { type: Actions.DELETE_USER; payload: { userId: string } }
   | { type: Actions.ADD_WINNER; payload: IUserDetail }
   | { type: Actions.SET_STARTED_AT; payload: Date }

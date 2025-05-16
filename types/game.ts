@@ -11,7 +11,7 @@ interface Response {
 
 export interface IGame extends Document {
   puzzle: Types.ObjectId
-  users: Types.ObjectId[]
+  users: { user: Types.ObjectId; color: string }[]
   startedAt: Date
   finishedAt: Date
   responses: Response[]
@@ -20,7 +20,7 @@ export interface IGame extends Document {
 
 export interface InsertGame {
   puzzle: string
-  users: string[]
+  users: { user: string; color: string }[]
 }
 
 export interface IGameClient {
@@ -36,7 +36,7 @@ export interface IGameClient {
 export interface IGameDetailClient {
   _id: string
   puzzle: IPuzzleDetail
-  users: IUserDetail[]
+  users: { user: IUserDetail; color: number }[]
   startedAt: Date
   finishedAt: Date
   responses: {

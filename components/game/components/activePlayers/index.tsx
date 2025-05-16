@@ -2,7 +2,9 @@ import { JSX, useMemo } from 'react'
 import { Chip } from '@heroui/chip'
 import { Card, CardHeader, CardBody } from '@heroui/card'
 import { Listbox, ListboxItem } from '@heroui/listbox'
-import { Avatar } from '@heroui/avatar'
+
+import Avatar from '@components/avatar'
+import { mappedColors } from '@config/colors'
 
 import { type ActivePlayersProps } from './types'
 
@@ -11,13 +13,19 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
 
   const userList = useMemo(
     () =>
-      users.map((user) => (
+      users.map(({ user, color }) => (
         <ListboxItem
           key={user._id}
           startContent={
-            <Avatar isBordered showFallback name={user.name.at(0)} size="sm" />
+            <Avatar
+              isBordered
+              showFallback
+              avatarColor={mappedColors[color]}
+              name={user?.name?.at(0)}
+              size="sm"
+            />
           }
-          title={user.name}
+          title={user?.name}
         />
       )),
     [users]

@@ -1,13 +1,18 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose'
 
 export interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
+  name: string
+  email: string
+  password: string
 }
 
 export interface IUserDetail {
-  _id: string;
-  name: string;
-  email: string;
+  _id: string
+  name: string
+  email: string
+}
+
+export interface IUserActive {
+  user: IUserDetail
+  color: number
 }
