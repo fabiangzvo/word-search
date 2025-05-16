@@ -16,11 +16,12 @@ export interface IGame extends Document {
   finishedAt: Date
   responses: Response[]
   winner: Types.ObjectId
+  owner: Types.ObjectId
 }
 
 export interface InsertGame {
   puzzle: string
-  users: { user: string; color: string }[]
+  owner: string
 }
 
 export interface IGameClient {
@@ -45,4 +46,5 @@ export interface IGameDetailClient {
     coords: Cell
   }[]
   winner: IUserDetail
+  owner: string
 }

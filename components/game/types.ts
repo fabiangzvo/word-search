@@ -7,7 +7,8 @@ export interface GameProps extends Omit<IGameDetailClient, '_id'> {
   gameId: string
 }
 
-export interface GameReducer extends Omit<IGameDetailClient, '_id' | 'puzzle'> {
+export interface GameReducer
+  extends Omit<IGameDetailClient, '_id' | 'puzzle' | 'owner'> {
   foundCells: Cell[]
   foundWords: string[]
 }

@@ -9,7 +9,7 @@ import { mappedColors } from '@config/colors'
 import { type ActivePlayersProps } from './types'
 
 function ActivePlayers(props: ActivePlayersProps): JSX.Element {
-  const { users } = props
+  const { users, shadow = 'lg' } = props
 
   const userList = useMemo(
     () =>
@@ -32,7 +32,7 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
   )
 
   return (
-    <Card className="max-xl:w-full">
+    <Card className="max-xl:w-full" shadow={shadow}>
       <CardHeader className="flex justify-between">
         <h2 className="text-xl font-bold">Jugadores</h2>
         <Chip color="primary" radius="sm" variant="flat">

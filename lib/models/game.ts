@@ -27,6 +27,7 @@ const gameSchema = new Schema<IGame>(
       required: true,
     },
     winner: { type: Schema.Types.ObjectId, ref: 'users', required: false },
+    owner: { type: Schema.Types.ObjectId, ref: 'users', required: true },
   },
   {
     timestamps: true,

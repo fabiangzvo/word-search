@@ -9,14 +9,23 @@ import { useSocket } from '@hooks/useSocket'
 import { IUserActive } from '@/types/user'
 import type { Cell } from '@/types/boardGrid'
 
+import WaitingRoom from './components/waitingRoom'
 import BoardGrid from './components/board'
 import ActivePlayers from './components/activePlayers'
 import { GameProps, Actions } from './types'
 import { puzzleReducer } from './utils'
 
 export default function Game(props: GameProps): JSX.Element {
-  const { puzzle, finishedAt, responses, startedAt, users, winner, gameId } =
-    props
+  const {
+    puzzle,
+    finishedAt,
+    responses,
+    startedAt,
+    users,
+    winner,
+    gameId,
+    owner,
+  } = props
 
   const [showConfetti, setShowConfetti] = useState<boolean>(false)
   const [state, dispatch] = useReducer(puzzleReducer, {
@@ -36,10 +45,10 @@ export default function Game(props: GameProps): JSX.Element {
   })
 
   const { data } = useSession()
-  const socket = useSocket()
+  const { socket } = useSocket()
 
   useEffect(() => {
-    if (socket && data?.user) {
+    if (socket && data?.user && gameId) {
       socket.emit('add-player', JSON.stringify({ gameId, user: data.user.id }))
 
       socket.on('user-joined', (userInfo: IUserActive) => {
@@ -79,6 +88,10 @@ export default function Game(props: GameProps): JSX.Element {
         }
       )
 
+      socket.on('start-game', (date: Date) =>
+        dispatch({ type: Actions.SET_STARTED_AT, payload: date })
+      )
+
       const listener = () => {
         socket.emit(
           'disconnect-player',
@@ -114,7 +127,7 @@ export default function Game(props: GameProps): JSX.Element {
             dispatch({ type: Actions.ADD_WORD, payload: answer })
             dispatch({ type: Actions.ADD_CELL, payload: cells })
 
-            socket.emit(
+            socket?.emit(
               'found-word',
               JSON.stringify({
                 gameId,
@@ -157,6 +170,15 @@ export default function Game(props: GameProps): JSX.Element {
         <ActivePlayers users={state.users} />
       </div>
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
+      <WaitingRoom
+        isOpen={!state.startedAt}
+        gameId={gameId}
+        users={state.users}
+        onStartGame={() =>
+          socket?.emit('start-game', JSON.stringify({ gameId }))
+        }
+        showStartButton={data?.user?.id === owner}
+      />
     </div>
   )
 }

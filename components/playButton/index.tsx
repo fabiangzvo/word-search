@@ -24,14 +24,10 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
 
     try {
       if (session.status === 'unauthenticated') return router.push('/login')
+
       const game = await insertGame({
         puzzle: puzzleId,
-        users: [
-          {
-            user: session.data?.user.id ?? '',
-            color: 'bg-default ring-default',
-          },
-        ],
+        owner: session.data?.user.id ?? '',
       })
 
       await navigator.clipboard.writeText(
