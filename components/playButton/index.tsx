@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@heroui/react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
+import copy from 'copy-to-clipboard'
 
 import { INotification } from '@/types/notification'
 import { type IGameClient } from '@/types/game'
@@ -38,9 +39,11 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
 
       const game: IGameClient = await response.json()
 
-      await navigator.clipboard.writeText(
-        `${window.location.origin}/puzzle/${game._id}`
-      )
+      const isCopied = copy(`${window.location.origin}/puzzle/${game._id}`)
+
+      if (!isCopied)
+        notification.message =
+          '¡Comparte la diversión! Copia esta URL y envíala a tus amigos para que se unan al juego.'
 
       toast(notification.message, notification.settings)
       router.push(`/puzzle/${game._id}`)
