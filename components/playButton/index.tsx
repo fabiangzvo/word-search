@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@heroui/react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-import { insertGame } from '@queries/game'
 
 import { INotification } from '@/types/notification'
+import { type IGameClient } from '@/types/game'
 
 function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
   const router = useRouter()
@@ -25,10 +25,17 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
     try {
       if (session.status === 'unauthenticated') return router.push('/login')
 
-      const game = await insertGame({
-        puzzle: puzzleId,
-        owner: session.data?.user.id ?? '',
+      const response = await fetch('/api/game', {
+        method: 'POST',
+        body: JSON.stringify({
+          puzzle: puzzleId,
+          owner: session.data?.user.id ?? '',
+        }),
       })
+
+      if (!response.ok) throw new Error("Couldn't create game")
+
+      const game: IGameClient = await response.json()
 
       await navigator.clipboard.writeText(
         `${window.location.origin}/puzzle/${game._id}`
@@ -42,7 +49,7 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
       console.error(e)
 
       notification.settings.type = 'error'
-      notification.message = (e as Error).message
+      notification.message = 'No se ha podido crear el juego.'
     }
 
     toast(notification.message, notification.settings)
