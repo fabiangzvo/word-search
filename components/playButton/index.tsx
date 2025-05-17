@@ -42,7 +42,7 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
       console.error(e)
 
       notification.settings.type = 'error'
-      notification.message = 'No se ha podido crear el juego.'
+      notification.message = (e as Error).message
     }
 
     toast(notification.message, notification.settings)
