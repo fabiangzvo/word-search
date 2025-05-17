@@ -33,7 +33,8 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
         }),
       })
 
-      if (!response.ok) throw new Error("Couldn't create game")
+      if (!response.ok && response.status !== 201)
+        throw new Error("Couldn't create game")
 
       const game: IGameClient = await response.json()
 
@@ -49,7 +50,7 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
       console.error(e)
 
       notification.settings.type = 'error'
-      notification.message = 'No se ha podido crear el juego.'
+      notification.message = (e as Error).message //'No se ha podido crear el juego.'
     }
 
     toast(notification.message, notification.settings)
