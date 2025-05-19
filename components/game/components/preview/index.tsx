@@ -22,12 +22,7 @@ function Preview(props: PreviewProps): JSX.Element {
 
       const existUser = users.some((user) => user._id === session.data.user.id)
 
-      //console.log({ existUser })
-      if (!existUser) {
-        await updateUsersByGame(gameId, session.data.user.id)
-
-        //console.log({ data })
-      }
+      if (!existUser) await updateUsersByGame(gameId, session.data.user.id)
     }
 
     updateUserGame()

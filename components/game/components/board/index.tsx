@@ -19,6 +19,8 @@ function Board(props: BoardProps): JSX.Element {
         setIsSelecting(true)
         setSelectedCells([[row, col]])
       } else {
+        if (selectedCells.some(([r, c]) => r === row && c === col)) return
+
         const newSelectedCells: Cell = [...selectedCells, [row, col]]
 
         setSelectedCells(newSelectedCells)
