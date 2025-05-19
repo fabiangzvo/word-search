@@ -20,12 +20,11 @@ export default function LetterCell(props: LetterCellProps): JSX.Element {
 
   const handleTouchMove = useCallback<TouchEventHandler<HTMLButtonElement>>(
     (e) => {
-      e.preventDefault()
       const touch = e.touches[0]
       const target = document.elementFromPoint(touch.clientX, touch.clientY)
 
       if (target && target !== e.currentTarget) {
-        const event = new MouseEvent('mouseenter', {
+        const event = new MouseEvent('mousedown', {
           view: window,
           bubbles: true,
           cancelable: true,
