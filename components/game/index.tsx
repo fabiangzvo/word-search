@@ -160,7 +160,7 @@ export default function Game(props: GameProps): JSX.Element {
 
   return (
     <div className="flex gap-6 max-xl:flex-col max-xl:items-center justify-center w-full lg:w-fit">
-      <div className="max-md:overflow-x-auto w-full flex justify-center">
+      <div className="w-full flex justify-center">
         <BoardGrid
           checkWord={checkWord}
           foundCells={state.foundCells}
