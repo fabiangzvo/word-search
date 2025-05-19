@@ -1,5 +1,6 @@
 import { JSX } from 'react'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
+
 import Game from '@components/game'
 import { getDetailGame } from '@lib/queries/game'
 import mongooseConnect from '@lib/db'
@@ -13,6 +14,7 @@ async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
   const game = await getDetailGame(id)
 
   if (!game) notFound()
+  if (game?.finishedAt) redirect(`/game/${game._id}/results`)
 
   return (
     <div>
