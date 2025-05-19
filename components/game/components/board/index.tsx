@@ -1,16 +1,17 @@
-import { JSX, useCallback, useState, useMemo } from 'react'
-
-import LetterCell from '../cell'
-
-import { BoardProps } from './types'
+import { JSX, useCallback, useState, useMemo, useRef } from 'react'
 
 import { Cell } from '@/types/boardGrid'
+
+import Controls from '../controls'
+import LetterCell from '../cell'
+import { BoardProps } from './types'
 
 function Board(props: BoardProps): JSX.Element {
   const { grid, foundCells, checkWord } = props
 
   const [selectedCells, setSelectedCells] = useState<Cell>([])
   const [isSelecting, setIsSelecting] = useState<boolean>(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const handleCellSelect = useCallback(
     (row: number, col: number): void => {
@@ -57,6 +58,13 @@ function Board(props: BoardProps): JSX.Element {
     [foundCells, selectedCells]
   )
 
+  const onMoveBoard = useCallback(
+    (dx: number, dy: number) =>
+      containerRef.current &&
+      containerRef.current.scrollBy({ left: dx, top: dy, behavior: 'smooth' }),
+    []
+  )
+
   const cells = useMemo(
     () =>
       grid.map((row, rowIndex) =>
@@ -76,17 +84,25 @@ function Board(props: BoardProps): JSX.Element {
   )
 
   return (
-    <div
-      className="grid gap-1 sm:gap-2 p-4 bg-default-400 bg-opacity-30 rounded-xl shadow-lg max-md:scale-75 w-fit"
-      role="button"
-      style={{ gridTemplateColumns: `repeat(${grid.length}, 1fr)` }}
-      tabIndex={0}
-      onMouseLeave={handleSelectionEnd}
-      onMouseUp={handleSelectionEnd}
-      onTouchEnd={handleTouchEnd}
-      onTouchStart={onTouchStart}
-    >
-      {cells}
+    <div className="w-full flex justify-center max-md:flex-col gap-4">
+      <Controls onMoveBoard={onMoveBoard} />
+      <div
+        ref={containerRef}
+        className="w-full  max-md:overflow-x-hidden max-md:touch-none max-md:overscroll-contain"
+      >
+        <div
+          className="grid gap-1 sm:gap-2 p-4 bg-default-400 bg-opacity-30 rounded-xl shadow-lg w-fit"
+          role="button"
+          style={{ gridTemplateColumns: `repeat(${grid.length}, 1fr)` }}
+          tabIndex={0}
+          onMouseLeave={handleSelectionEnd}
+          onMouseUp={handleSelectionEnd}
+          onTouchEnd={handleTouchEnd}
+          onTouchStart={onTouchStart}
+        >
+          {cells}
+        </div>
+      </div>
     </div>
   )
 }

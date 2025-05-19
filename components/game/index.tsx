@@ -160,13 +160,11 @@ export default function Game(props: GameProps): JSX.Element {
 
   return (
     <div className="flex gap-6 max-xl:flex-col max-xl:items-center justify-center w-full lg:w-fit">
-      <div className="w-full flex justify-center">
-        <BoardGrid
-          checkWord={checkWord}
-          foundCells={state.foundCells}
-          grid={puzzle.matrix}
-        />
-      </div>
+      <BoardGrid
+        checkWord={checkWord}
+        foundCells={state.foundCells}
+        grid={puzzle.matrix}
+      />
       <div className="flex xl:flex-col gap-6 w-full max-xl:justify-center max-md:px-0 max-md:flex-col">
         <WordList foundWords={state.foundWords} questions={puzzle.questions} />
         <ActivePlayers users={state.users} />
