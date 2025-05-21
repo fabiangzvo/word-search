@@ -1,6 +1,7 @@
+import { ReactNode } from 'react'
 import { Document, Types } from 'mongoose'
 
-import { type IUserDetail } from './user'
+import type { IUserActive, IUserDetail } from './user'
 import { type IPuzzleDetail } from './puzzle'
 import { Cell } from './boardGrid'
 
@@ -47,4 +48,10 @@ export interface IGameDetailClient {
   }[]
   winner: IUserDetail
   owner: string
+}
+
+export type Player = IUserActive & {
+  endContent?: ReactNode
+  foundWords?: number
+  initialName?: string
 }

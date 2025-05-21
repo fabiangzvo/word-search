@@ -1,3 +1,5 @@
+'use client'
+
 import { JSX, useMemo } from 'react'
 import { Chip } from '@heroui/chip'
 import { Card, CardHeader, CardBody } from '@heroui/card'
@@ -8,11 +10,16 @@ import { mappedColors } from '@config/colors'
 import { type ActivePlayersProps } from './types'
 
 function ActivePlayers(props: ActivePlayersProps): JSX.Element {
-  const { users, shadow = 'lg' } = props
+  const {
+    users,
+    shadow = 'lg',
+    showHeader = true,
+    hideEmptyContent = false,
+  } = props
 
   const userList = useMemo(
     () =>
-      users.map(({ user, color }) => (
+      users.map(({ user, color, endContent, initialName }, i) => (
         <ListboxItem
           key={user._id}
           startContent={
@@ -20,11 +27,12 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
               isBordered
               showFallback
               avatarColor={mappedColors[color]}
-              name={user?.name?.at(0)}
+              name={initialName || user?.name?.at(0)}
               size="sm"
             />
           }
           title={user?.name}
+          endContent={endContent}
         />
       )),
     [users]
@@ -32,12 +40,14 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
 
   return (
     <Card className="max-xl:w-full" shadow={shadow}>
-      <CardHeader className="flex justify-between">
-        <h2 className="text-xl font-bold">Jugadores</h2>
-        <Chip color="primary" radius="sm" variant="flat">
-          {users.length} En linea
-        </Chip>
-      </CardHeader>
+      {showHeader && (
+        <CardHeader className="flex justify-between">
+          <h2 className="text-xl font-bold">Jugadores</h2>
+          <Chip color="primary" radius="sm" variant="flat">
+            {users.length} En linea
+          </Chip>
+        </CardHeader>
+      )}
       <CardBody>
         <Listbox
           disallowEmptySelection
@@ -49,6 +59,11 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
           }}
           selectionMode="multiple"
           variant="flat"
+          classNames={{
+            emptyContent: 'text-center',
+          }}
+          hideEmptyContent={hideEmptyContent}
+          emptyContent="No hay jugadores"
         >
           {userList}
         </Listbox>

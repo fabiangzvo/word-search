@@ -1,8 +1,10 @@
 import { CardProps } from '@heroui/card'
 
-import { type IUserActive } from '@/types/user'
+import { Player } from '@/types/game'
 
 export interface ActivePlayersProps {
-  users: IUserActive[]
+  users: Player[]
   shadow?: CardProps['shadow']
+  showHeader?: boolean
+  hideEmptyContent?: boolean
 }
