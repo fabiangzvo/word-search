@@ -1,21 +1,22 @@
 'use client'
 
+import type { Cell } from '@/types/boardGrid'
+
 import { JSX, useState, useCallback, useReducer, useEffect } from 'react'
 import Confetti from 'react-confetti'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-
-import type { Cell } from '@/types/boardGrid'
 import WordList from '@components/wordList'
 import { useSocket } from '@hooks/useSocket'
-import { IUserActive } from '@/types/user'
 
 import WaitingRoom from './components/waitingRoom'
 import BoardGrid from './components/board'
 import ActivePlayers from './components/activePlayers'
 import { GameProps, Actions } from './types'
 import { puzzleReducer } from './utils'
+
+import { IUserActive } from '@/types/user'
 
 export default function Game(props: GameProps): JSX.Element {
   const {

@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-
 import { CreateGameSchema } from '@schemas/game'
 import { insertGame } from '@queries/game'
 import mongooseConnect from '@lib/db'

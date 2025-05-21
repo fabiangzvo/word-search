@@ -8,9 +8,9 @@ function Winner({ name, questions }: WinnerProps): JSX.Element {
   return (
     <Fragment>
       <Chip
-        variant="flat"
         avatar={<Crown size={24} />}
         classNames={{ content: 'font-bold text-lg' }}
+        variant="flat"
       >
         Ganador
       </Chip>

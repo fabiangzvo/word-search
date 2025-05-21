@@ -1,7 +1,8 @@
 import { JSX } from 'react'
 
-import { ResultListProps } from './types'
 import ListItem from '../listItem'
+
+import { ResultListProps } from './types'
 
 function ResultList({ list }: ResultListProps): JSX.Element {
   return (

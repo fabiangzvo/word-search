@@ -4,7 +4,6 @@ import { Card, CardHeader, CardBody } from '@heroui/card'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { BookOpen, Clock, Grid, Star } from 'lucide-react'
-
 import mongooseConnect from '@lib/db'
 import { getDetailGame } from '@lib/queries/game'
 import ActivePlayers from '@components/game/components/activePlayers'
@@ -31,6 +30,7 @@ async function Results({ params }: GameProps): Promise<JSX.Element> {
   const countByUser = game.responses.reduce<Record<string, number>>(
     (acc, item) => {
       acc[item.user] = (acc[item.user] || 0) + 1
+
       return acc
     },
     {}
@@ -93,10 +93,10 @@ async function Results({ params }: GameProps): Promise<JSX.Element> {
           </CardHeader>
           <CardBody className="text-center pt-0">
             <ActivePlayers
-              users={players}
-              showHeader={false}
-              shadow="none"
               hideEmptyContent
+              shadow="none"
+              showHeader={false}
+              users={players}
             />
           </CardBody>
         </Card>

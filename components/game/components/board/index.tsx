@@ -1,10 +1,11 @@
 import { JSX, useCallback, useState, useMemo, useRef } from 'react'
 
-import { Cell } from '@/types/boardGrid'
-
 import Controls from '../controls'
 import LetterCell from '../cell'
+
 import { BoardProps } from './types'
+
+import { Cell } from '@/types/boardGrid'
 
 function Board(props: BoardProps): JSX.Element {
   const { grid, foundCells, checkWord } = props

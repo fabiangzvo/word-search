@@ -19,9 +19,10 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
 
   const userList = useMemo(
     () =>
-      users.map(({ user, color, endContent, initialName }, i) => (
+      users.map(({ user, color, endContent, initialName }) => (
         <ListboxItem
           key={user._id}
+          endContent={endContent}
           startContent={
             <Avatar
               isBordered
@@ -32,7 +33,6 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
             />
           }
           title={user?.name}
-          endContent={endContent}
         />
       )),
     [users]
@@ -53,17 +53,17 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
           disallowEmptySelection
           aria-label="active users"
           className="pointer-events-none"
+          classNames={{
+            emptyContent: 'text-center',
+          }}
+          emptyContent="No hay jugadores"
+          hideEmptyContent={hideEmptyContent}
           itemClasses={{
             base: 'mb-2 bg-primary-50 p-3 dark:bg-opacity-5',
             title: 'ml-2 font-kanit',
           }}
           selectionMode="multiple"
           variant="flat"
-          classNames={{
-            emptyContent: 'text-center',
-          }}
-          hideEmptyContent={hideEmptyContent}
-          emptyContent="No hay jugadores"
         >
           {userList}
         </Listbox>

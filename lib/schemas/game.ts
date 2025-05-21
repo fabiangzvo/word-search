@@ -7,5 +7,4 @@ export const CreateGameSchema = z.object({
   owner: ObjectIdSchema,
 })
 
-
 export type CreateGame = z.infer<typeof CreateGameSchema>

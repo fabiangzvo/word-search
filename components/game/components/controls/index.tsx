@@ -11,16 +11,16 @@ function Controls(props: ControlsProps): JSX.Element {
     <div className="md:hidden flex justify-end gap-2">
       <Button
         isIconOnly
-        variant="flat"
         size="sm"
+        variant="flat"
         onPress={() => onMoveBoard(-100, 0)}
       >
         <ArrowLeft />
       </Button>
       <Button
         isIconOnly
-        variant="flat"
         size="sm"
+        variant="flat"
         onPress={() => onMoveBoard(100, 0)}
       >
         <ArrowRight />

@@ -2,7 +2,6 @@
 
 import { Types } from 'mongoose'
 import { redirect } from 'next/navigation'
-
 import { updateGame } from '@queries/game'
 
 export async function updateUsersByGame(
