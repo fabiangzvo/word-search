@@ -63,22 +63,22 @@ async function Results({ params }: GameProps): Promise<JSX.Element> {
           {
             label: 'Tiempo total',
             value: timeFormatted,
-            icon: <Clock className="text-default-500" />,
+            icon: <Clock className="text-default-500" size={32} />,
           },
           {
             label: 'Palabras',
             value: game.puzzle.questions.length,
-            icon: <BookOpen className="text-default-500" />,
+            icon: <BookOpen className="text-default-500" size={32} />,
           },
           {
             label: 'Dificultad',
             value: game.puzzle.difficult,
-            icon: <Star className="text-default-500" />,
+            icon: <Star className="text-default-500" size={32} />,
           },
           {
             label: 'Tamaño',
             value: `${cols}x${cols}`,
-            icon: <Grid className="text-default-500" />,
+            icon: <Grid className="text-default-500" size={32} />,
           },
         ]}
       />

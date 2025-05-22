@@ -116,7 +116,7 @@ export default function Game(props: GameProps): JSX.Element {
         window.removeEventListener('beforeunload', listener)
       }
     }
-  }, [socket, gameId, data?.user?.id])
+  }, [socket, gameId, data?.user?.id, router])
 
   const checkWord = useCallback(
     (cells: Cell): void => {
