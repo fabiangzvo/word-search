@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { checkNotCreatedCategories, createCategories } from '@queries/category'
 import { type FormCreatePuzzle } from '@schemas/puzzle'
 import { generateWordSearch } from '@utils/wordSearchGenerator'
-import { insertPuzzle } from '@queries/puzzle'
+import { insertPuzzle, updatePuzzle } from '@queries/puzzle'
 
 import { GenerateQuestions } from '../gemini'
 
@@ -64,4 +64,13 @@ export async function createPuzzle(
 
     return null
   }
+}
+
+export async function updateVisibility(
+  gameId: string,
+  isPublic: boolean
+): Promise<boolean> {
+  const puzzle = await updatePuzzle(gameId, { isPublic })
+
+  return puzzle.isPublic === isPublic
 }

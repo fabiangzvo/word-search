@@ -1,13 +1,15 @@
 'use server'
 
-import Puzzle from '@lib/models/puzzle'
-
-import {
-  type GetPuzzle,
-  type InsertPuzzle,
-  type IPuzzle,
-  type IPuzzleDetail,
+import type {
+  IPuzzleClient,
+  GetPuzzle,
+  InsertPuzzle,
+  IPuzzle,
+  IPuzzleDetail,
 } from '@/types/puzzle'
+
+import { UpdateQuery } from 'mongoose'
+import Puzzle from '@lib/models/puzzle'
 
 export async function getPuzzles<T>({
   filters,
@@ -46,4 +48,17 @@ export async function getDetailPuzzle(
     .exec()
 
   return response
+}
+
+export async function updatePuzzle(
+  puzzleId: string,
+  game: UpdateQuery<IPuzzle>
+): Promise<IPuzzleClient> {
+  const response = await Puzzle.findByIdAndUpdate(puzzleId, game, {
+    new: true,
+  })
+
+  return response?.toJSON({
+    flattenObjectIds: true,
+  }) as unknown as IPuzzleClient
 }

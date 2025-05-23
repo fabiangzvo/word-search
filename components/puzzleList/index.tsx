@@ -4,13 +4,7 @@ import { type JSX, useMemo } from 'react'
 
 import EmptyContent from './components/emptyContent'
 import PuzzleCard from './components/card'
-
-import { type IPuzzleItem } from '@/types/puzzle'
-
-interface PuzzleListProps {
-  puzzles: IPuzzleItem[]
-  hideOptions?: boolean
-}
+import { PuzzleListProps } from './types'
 
 function PuzzleList({
   puzzles,

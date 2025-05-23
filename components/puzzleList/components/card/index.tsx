@@ -23,7 +23,6 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
     categories,
     cols,
     difficult,
-    isPublic,
     questionCount,
     _id,
     hideOptions,
@@ -45,7 +44,7 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
       <CardHeader className="flex justify-between">
         <Link
           className="text-lg font-semibold text-default-500 cursor-pointer"
-          href={`/puzzle/detail/${_id}`}
+          href={`/puzzle/${_id}/detail`}
         >
           {title}
         </Link>
@@ -58,14 +57,10 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
           {questionCount}
         </p>
         <p>
-          <span className="font-semibold">Filas:</span>&nbsp;{cols}
-        </p>
-        <p>
           <span className="font-semibold">Dificultad:</span>&nbsp;{difficult}
         </p>
         <p>
-          <span className="font-semibold">Visibilidad:</span>&nbsp;
-          {isPublic ? 'Pública' : 'Privada'}
+          <span className="font-semibold">Tamaño:</span>&nbsp;{cols}x{cols}
         </p>
       </CardBody>
       <Divider />

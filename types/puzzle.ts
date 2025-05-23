@@ -55,7 +55,7 @@ export interface IPuzzleItem {
   _id: string;
   title: string;
   difficult: Difficult;
-  cols: number;
+  cols?: number;
   questionCount: number;
   isPublic: boolean;
   categories: ICategoryDetail[];
