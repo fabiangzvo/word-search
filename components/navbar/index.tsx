@@ -91,7 +91,7 @@ export default function Navbar(): JSX.Element {
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
-          <SearchInput />
+          <SearchInput handleSearch={() => {}} />
         </NavbarItem>
         <NavbarItem className="hidden md:flex">
           {session.status === 'authenticated' ? logoutButton : loginButton}
@@ -107,7 +107,7 @@ export default function Navbar(): JSX.Element {
       </NavbarContent>
 
       <NavbarMenu>
-        <SearchInput />
+        <SearchInput handleSearch={() => {}} />
         <div className="mx-4 mt-2 flex flex-col gap-2 items-center">
           {items}
         </div>

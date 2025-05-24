@@ -6,16 +6,20 @@ import type {
   InsertPuzzle,
   IPuzzle,
   IPuzzleDetail,
+  PaginatePuzzle,
+  PaginatePuzzleResponse,
 } from '@/types/puzzle'
+import { UpdateQuery, Types } from 'mongoose'
 
-import { UpdateQuery } from 'mongoose'
 import Puzzle from '@lib/models/puzzle'
+import { paginate } from '@utils/paginate'
 
 export async function getPuzzles<T>({
   filters,
   projection,
+  options,
 }: GetPuzzle): Promise<T> {
-  const response = await Puzzle.find(filters ?? {}, projection)
+  const response = await Puzzle.find(filters ?? {}, projection, options)
     .populate('categories')
     .sort('createdAt')
     .exec()
@@ -61,4 +65,29 @@ export async function updatePuzzle(
   return response?.toJSON({
     flattenObjectIds: true,
   }) as unknown as IPuzzleClient
+}
+
+export async function getPaginatePuzzle<T>({
+  owner,
+  title,
+  projection,
+  page,
+  pageSize,
+}: PaginatePuzzle): Promise<PaginatePuzzleResponse<T>> {
+  const response = await paginate<IPuzzle>({
+    model: Puzzle,
+    filters: {
+      owner: new Types.ObjectId(owner),
+      title: { $regex: title, $options: 'i' },
+    },
+    projection: projection ?? {},
+    page,
+    pageSize,
+  })
+
+  return {
+    data: response.data as T[],
+    total: response.total,
+    pages: Math.ceil(response.total / pageSize),
+  }
 }

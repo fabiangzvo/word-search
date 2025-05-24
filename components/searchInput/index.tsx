@@ -1,35 +1,41 @@
-import { type JSX } from 'react'
-import { Kbd } from '@heroui/kbd'
+import { useCallback, type JSX } from 'react'
 import { Input, InputProps } from '@heroui/input'
 import { SearchIcon } from 'lucide-react'
 
 interface SearchInputProps {
   variant?: InputProps['variant']
+  handleSearch: (value: string) => Promise<void> | void
 }
 
-function SearchInput({ variant }: SearchInputProps): JSX.Element {
+function SearchInput({ variant, handleSearch }: SearchInputProps): JSX.Element {
+  const handleKeyDown = useCallback(
+    async (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key !== 'Enter') return
+
+      event.preventDefault()
+      await handleSearch(event.currentTarget.value)
+    },
+    [handleSearch]
+  )
+
   return (
     <Input
+      isClearable
       aria-label="Search"
       classNames={{
         inputWrapper:
-          !variant &&
-          'bg-default-100 dark:bg-opacity-10 hover:bg-opacity-20 dark:group-data-[focus=true]:bg-opacity-10 dark:group-data-[hover=true]:bg-opacity-30',
+          'dark:bg-opacity-10 hover:bg-opacity-20 dark:group-data-[focus=true]:bg-opacity-10 dark:group-data-[hover=true]:bg-opacity-30 group-data-[focus=true]:border-default-500',
         input: 'text-sm',
+        clearButton: 'text-default-600',
       }}
-      endContent={
-        <Kbd
-          className="hidden lg:inline-block dark:bg-default-500 dark:bg-opacity-20 dark:text-default-500"
-          keys={['enter']}
-        />
-      }
       labelPlacement="outside"
-      placeholder="Search..."
+      placeholder="Buscar..."
       startContent={
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       }
-      type="search"
       variant={variant}
+      onClear={async () => await handleSearch('')}
+      onKeyDown={handleKeyDown}
     />
   )
 }
