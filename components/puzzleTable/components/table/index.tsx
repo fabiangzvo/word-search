@@ -15,7 +15,7 @@ import {
 } from '@heroui/react'
 import Link from 'next/link'
 
-import { type IPuzzleItem } from '@/types/puzzle'
+import { DifficultEnum, type IPuzzleItem } from '@/types/puzzle'
 
 import EmptyContent from '../emptyContent'
 import Actions from '../actions'
@@ -27,10 +27,12 @@ interface TableComponentProps {
   totalPages: number
   page: number
   handlePage: (page: number) => void
+  refreshData: () => void
 }
 
 function TableComponent(props: TableComponentProps): JSX.Element {
-  const { puzzles, isLoading, handlePage, page, totalPages } = props
+  const { puzzles, isLoading, handlePage, page, totalPages, refreshData } =
+    props
 
   const renderCell = useCallback(
     (puzzle: IPuzzleItem, columnKey: string | number) => {
@@ -63,9 +65,12 @@ function TableComponent(props: TableComponentProps): JSX.Element {
             <Actions
               isPublic={getKeyValue(puzzle, 'isPublic') || false}
               puzzleId={puzzle._id}
+              refreshData={refreshData}
               title={puzzle.title}
             />
           )
+        case 'difficult':
+          return DifficultEnum[cellValue as keyof typeof DifficultEnum]
         default:
           return cellValue
       }
@@ -75,28 +80,29 @@ function TableComponent(props: TableComponentProps): JSX.Element {
 
   return (
     <Table
-      classNames={{
-        th: 'bg-transparent text-foreground font-bold text-base',
-      }}
-      hideHeader={puzzles.length <= 0}
-      shadow="none"
       bottomContent={
-        !isLoading && (
+        !isLoading &&
+        puzzles.length > 0 && (
           <div className="flex w-full justify-center">
             <Pagination
               showControls
-              page={page}
-              total={totalPages}
-              onChange={handlePage}
               classNames={{
                 item: 'dark:bg-opacity-20 dark:[&[data-hover=true]]:bg-opacity-10',
                 next: 'dark:bg-opacity-20 dark:[&[data-hover=true]]:bg-opacity-10 dark:data-[disabled=true]:bg-opacity-60',
                 prev: 'dark:bg-opacity-20 dark:[&[data-hover=true]]:bg-opacity-10 dark:data-[disabled=true]:bg-opacity-60',
               }}
+              page={page}
+              total={totalPages}
+              onChange={handlePage}
             />
           </div>
         )
       }
+      classNames={{
+        th: 'bg-transparent text-foreground font-bold text-base',
+      }}
+      hideHeader={puzzles.length <= 0}
+      shadow="none"
     >
       <TableHeader
         columns={[
@@ -111,8 +117,8 @@ function TableComponent(props: TableComponentProps): JSX.Element {
       </TableHeader>
       <TableBody
         emptyContent={<EmptyContent />}
-        items={puzzles ?? []}
         isLoading={isLoading}
+        items={puzzles ?? []}
         loadingContent={<Spinner label="Cargando..." />}
       >
         {(item: IPuzzleItem) => (

@@ -11,7 +11,7 @@ import {
 
 import Options from '../options/index'
 
-import { type IPuzzleItem } from '@/types/puzzle'
+import { DifficultEnum, type IPuzzleItem } from '@/types/puzzle'
 
 interface PuzzleCardProps extends IPuzzleItem {
   hideOptions?: boolean
@@ -57,7 +57,8 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
           {questionCount}
         </p>
         <p>
-          <span className="font-semibold">Dificultad:</span>&nbsp;{difficult}
+          <span className="font-semibold">Dificultad:</span>&nbsp;
+          {DifficultEnum[difficult as keyof typeof DifficultEnum]}
         </p>
         <p>
           <span className="font-semibold">Tamaño:</span>&nbsp;{cols}x{cols}

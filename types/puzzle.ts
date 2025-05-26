@@ -19,6 +19,12 @@ export interface Question {
 
 export type Difficult = 'easy' | 'medium' | 'hard'
 
+export enum DifficultEnum {
+  easy = 'Fácil',
+  medium = 'Medio',
+  hard = 'Difícil',
+}
+
 export interface IPuzzle extends Document {
   title: string
   difficult: Difficult

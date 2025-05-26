@@ -1,5 +1,7 @@
 'use server'
 
+import { UpdateQuery, Types } from 'mongoose'
+
 import type {
   IPuzzleClient,
   GetPuzzle,
@@ -9,8 +11,6 @@ import type {
   PaginatePuzzle,
   PaginatePuzzleResponse,
 } from '@/types/puzzle'
-import { UpdateQuery, Types } from 'mongoose'
-
 import Puzzle from '@lib/models/puzzle'
 import { paginate } from '@utils/paginate'
 

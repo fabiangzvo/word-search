@@ -41,6 +41,7 @@ function PuzzleTable({ userId }: PuzzleTableProps): JSX.Element {
   const {
     data: { data, pages },
     isLoading,
+    mutate,
   } = useSWR({ ...state, owner: userId }, fetcher, {
     fallbackData: { data: [], total: 0, pages: 0 },
   })
@@ -58,15 +59,16 @@ function PuzzleTable({ userId }: PuzzleTableProps): JSX.Element {
     <Card>
       <CardHeader className="grid grid-cols-2 px-6 pt-6">
         <h2 className="text-lg font-medium">Tus sopas de letras</h2>
-        <SearchInput variant="bordered" handleSearch={handleSubmit} />
+        <SearchInput handleSearch={handleSubmit} variant="bordered" />
       </CardHeader>
       <CardBody>
         <Table
-          puzzles={data}
-          isLoading={isLoading}
-          totalPages={pages}
-          page={state.page}
           handlePage={handlePage}
+          isLoading={isLoading}
+          page={state.page}
+          puzzles={data}
+          refreshData={mutate}
+          totalPages={pages}
         />
       </CardBody>
     </Card>
