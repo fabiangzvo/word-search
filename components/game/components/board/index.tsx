@@ -1,3 +1,5 @@
+'use client'
+
 import { JSX, useCallback, useState, useMemo, useRef } from 'react'
 
 import Controls from '../controls'
