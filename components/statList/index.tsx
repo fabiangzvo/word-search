@@ -1,10 +1,9 @@
 import { JSX } from 'react'
 
-import ListItem from '../listItem'
+import ListItem from './components/listItem'
+import { StatListProps } from './types'
 
-import { ResultListProps } from './types'
-
-function ResultList({ list }: ResultListProps): JSX.Element {
+function StatList({ list }: StatListProps): JSX.Element {
   return (
     <div className="grid grid-cols-4 gap-4 max-md:grid-cols-2 max-sm:grid-cols-1">
       {list.map((item, index) => (
@@ -14,4 +13,4 @@ function ResultList({ list }: ResultListProps): JSX.Element {
   )
 }
 
-export default ResultList
+export default StatList

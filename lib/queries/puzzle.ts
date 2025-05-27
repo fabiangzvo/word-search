@@ -10,6 +10,7 @@ import type {
   IPuzzleDetail,
   PaginatePuzzle,
   PaginatePuzzleResponse,
+  IPuzzleStats,
 } from '@/types/puzzle'
 import Puzzle from '@lib/models/puzzle'
 import { paginate } from '@utils/paginate'
@@ -90,4 +91,63 @@ export async function getPaginatePuzzle<T>({
     total: response.total,
     pages: Math.ceil(response.total / pageSize),
   }
+}
+
+export async function getPuzzleStats(userId: string): Promise<IPuzzleStats> {
+  const response = await Puzzle.aggregate([
+    { $match: { owner: new Types.ObjectId(userId) } },
+    {
+      $group: {
+        _id: null,
+        totalPuzzles: { $sum: 1 },
+        publicPuzzles: {
+          $sum: { $cond: [{ $eq: ['$isPublic', true] }, 1, 0] },
+        },
+      },
+    },
+    { $project: { _id: 0, totalPuzzles: 1, publicPuzzles: 1 } },
+    {
+      $unionWith: {
+        coll: 'games',
+        pipeline: [
+          { $match: { 'users.user': new Types.ObjectId(userId) } },
+          {
+            $group: {
+              _id: null,
+              gamesPlayed: { $sum: 1 },
+              gamesWon: {
+                $sum: {
+                  $cond: [
+                    { $eq: ['$winner', new Types.ObjectId(userId)] },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+          { $project: { _id: 0, gamesPlayed: 1, gamesWon: 1 } },
+        ],
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalPuzzles: { $first: '$totalPuzzles' },
+        publicPuzzles: { $first: '$publicPuzzles' },
+        gamesPlayed: { $sum: '$gamesPlayed' },
+        gamesWon: { $sum: '$gamesWon' },
+      },
+    },
+    { $project: { _id: 0 } },
+  ])
+
+  return (
+    response[0] ?? {
+      totalPuzzles: 0,
+      publicPuzzles: 0,
+      gamesPlayed: 0,
+      gamesWon: 0,
+    }
+  )
 }

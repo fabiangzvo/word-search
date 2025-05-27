@@ -15,10 +15,10 @@ import {
 } from '@heroui/react'
 import Link from 'next/link'
 
-import { DifficultEnum, type IPuzzleItem } from '@/types/puzzle'
-
 import EmptyContent from '../emptyContent'
 import Actions from '../actions'
+
+import { DifficultEnum, type IPuzzleItem } from '@/types/puzzle'
 
 interface TableComponentProps {
   puzzles: IPuzzleItem[]

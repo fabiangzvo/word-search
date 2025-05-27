@@ -9,8 +9,8 @@ import { reducer } from '@utils/reducer'
 import { getPaginatePuzzle } from '@lib/queries/puzzle'
 import { IPuzzleItem, PaginatePuzzleResponse } from '@/types/puzzle'
 
-import type { PuzzleTableProps, SearchState } from './types'
 import Table from './components/table'
+import type { PuzzleTableProps, SearchState } from './types'
 
 async function fetcher(
   params: SearchState & { owner: string }

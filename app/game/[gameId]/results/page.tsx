@@ -4,10 +4,11 @@ import { Card, CardHeader, CardBody } from '@heroui/card'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import { BookOpen, Clock, Grid, Star } from 'lucide-react'
+
 import mongooseConnect from '@lib/db'
 import { getDetailGame } from '@lib/queries/game'
 import ActivePlayers from '@components/game/components/activePlayers'
-import ResultList from '@components/gameResult/components/resultList'
+import StatList from '@components/statList'
 import RebootGameButton from '@components/gameResult/components/rebootGameButton'
 import Winner from '@components/gameResult/components/winner'
 
@@ -58,7 +59,7 @@ async function Results({ params }: GameProps): Promise<JSX.Element> {
           {game.puzzle.owner.name}
         </span>
       </h3>
-      <ResultList
+      <StatList
         list={[
           {
             label: 'Tiempo total',

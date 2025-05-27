@@ -99,3 +99,10 @@ export interface IPuzzleDetail {
   owner: IUserDetail
   categories: ICategoryDetail[]
 }
+
+export interface IPuzzleStats {
+  totalPuzzles: number
+  publicPuzzles: number
+  gamesPlayed: number
+  gamesWon: number
+}

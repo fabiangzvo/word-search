@@ -1,9 +1,11 @@
+
 import { JSX, useCallback } from 'react'
 import { Trash2, Lock, LockOpen, PenLine } from 'lucide-react'
 import { toast } from 'react-toastify'
 import { Tooltip } from '@heroui/tooltip'
 import { Button } from '@heroui/button'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import ConfirmDialog from '@components/confirmDialog'
 import { removePuzzle } from '@lib/queries/puzzle'
@@ -14,6 +16,8 @@ import type { ActionProps } from './types'
 
 function Actions(props: ActionProps): JSX.Element {
   const { isPublic, puzzleId, title, refreshData } = props
+
+  const router = useRouter()
 
   const handleDelete = useCallback(async () => {
     const notification: INotification = {
@@ -40,8 +44,10 @@ function Actions(props: ActionProps): JSX.Element {
     }
 
     refreshData()
+    router.refresh()
+
     toast(notification.message, notification.settings)
-  }, [refreshData])
+  }, [refreshData, router])
 
   const handleVisibility = useCallback(async () => {
     const notification: INotification = {
@@ -65,8 +71,10 @@ function Actions(props: ActionProps): JSX.Element {
     }
 
     refreshData()
+    router.refresh()
+
     toast(notification.message, notification.settings)
-  }, [puzzleId, isPublic, refreshData])
+  }, [puzzleId, isPublic, refreshData, router])
 
   return (
     <div className="flex items-center gap-2">
