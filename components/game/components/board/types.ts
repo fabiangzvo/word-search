@@ -4,4 +4,5 @@ export interface BoardProps {
   grid: string[][]
   foundCells: Cell[]
   checkWord: (cells: Cell) => void
+  className?: string
 }

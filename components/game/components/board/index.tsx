@@ -2,15 +2,15 @@
 
 import { JSX, useCallback, useState, useMemo, useRef } from 'react'
 
-import Controls from '../controls'
-import LetterCell from '../cell'
-
-import { BoardProps } from './types'
-
 import { Cell } from '@/types/boardGrid'
 
+import Controls from '../controls'
+import LetterCell from '../cell'
+import { BoardProps } from './types'
+import { twMerge } from 'tailwind-merge'
+
 function Board(props: BoardProps): JSX.Element {
-  const { grid, foundCells, checkWord } = props
+  const { grid, foundCells, checkWord, className } = props
 
   const [selectedCells, setSelectedCells] = useState<Cell>([])
   const [isSelecting, setIsSelecting] = useState<boolean>(false)
@@ -89,7 +89,12 @@ function Board(props: BoardProps): JSX.Element {
   )
 
   return (
-    <div className="w-full flex justify-center max-md:flex-col gap-4">
+    <div
+      className={twMerge(
+        'w-full flex justify-center max-md:flex-col gap-4',
+        className
+      )}
+    >
       <Controls onMoveBoard={onMoveBoard} />
       <div
         ref={containerRef}
