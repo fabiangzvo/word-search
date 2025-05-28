@@ -2,6 +2,8 @@
 
 import { UpdateQuery, Types } from 'mongoose'
 
+import Puzzle from '@lib/models/puzzle'
+import { paginate } from '@utils/paginate'
 import type {
   IPuzzleClient,
   GetPuzzle,
@@ -12,8 +14,6 @@ import type {
   PaginatePuzzleResponse,
   IPuzzleStats,
 } from '@/types/puzzle'
-import Puzzle from '@lib/models/puzzle'
-import { paginate } from '@utils/paginate'
 
 export async function getPuzzles<T>({
   filters,

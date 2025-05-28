@@ -1,13 +1,13 @@
 'use client'
 
 import { JSX, useCallback, useState, useMemo, useRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import { Cell } from '@/types/boardGrid'
 
 import Controls from '../controls'
 import LetterCell from '../cell'
 import { BoardProps } from './types'
-import { twMerge } from 'tailwind-merge'
 
 function Board(props: BoardProps): JSX.Element {
   const { grid, foundCells, checkWord, className } = props

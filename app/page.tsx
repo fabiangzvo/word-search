@@ -1,27 +1,25 @@
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Button } from '@heroui/button'
 import { Star, Users, Brain, Trophy, ChevronRight } from 'lucide-react'
-import RedirectButton from '@components/registerButton'
+
 import SignUp from '@components/signUp'
+import PuzzleAction from '@components/puzzleAction'
+
+import { PLAY_DEFAULT_PUZZLE, PLAY_PUZZLE } from './constants'
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen">
-      <section className="py-32 px-6 text-center relative overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-yellow-400 dark:to-purple-600">
-            ¡Descubre el desafío definitivo en sopas de letras!
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Compite en tiempo real, invita a tus amigos y desafía la IA para
-            crear tus propias palabras.
-          </p>
-          <div className="flex gap-4 justify-center mb-12">
-            <RedirectButton />
-          </div>
-        </div>
-      </section>
-
+      <PuzzleAction
+        actionLink="/explore"
+        buttonLink="/#register"
+        description="Compite en tiempo real, invita a tus amigos y desafía la IA para crear tus propias sopas de letras. Encuentra la palabra 'Jugar' para ingresar a la app."
+        foundCells={PLAY_DEFAULT_PUZZLE}
+        gradientText="Descubre el desafío definitivo"
+        puzzle={PLAY_PUZZLE}
+        text="en sopas de letras"
+        word="jugar"
+      />
       {/* Features Section */}
       <section className="py-24 px-6" id="features">
         <div className="max-w-6xl mx-auto">
