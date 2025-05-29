@@ -119,9 +119,9 @@ export default function LandingPage() {
           <Button
             as={Link}
             className="dark:bg-primary-900"
+            color="primary"
             href="/explore"
             size="lg"
-            color="primary"
           >
             Explorar
             <Compass />
@@ -129,9 +129,9 @@ export default function LandingPage() {
           <Button
             as={Link}
             className="dark:bg-primary-900"
+            color="primary"
             href="/sign-up"
             size="lg"
-            color="primary"
           >
             Comenzar ahora
             <ChevronRight />

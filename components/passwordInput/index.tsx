@@ -48,11 +48,11 @@ function PasswordInput(props: Omit<InputProps, 'type'>): JSX.Element {
       }
       errorMessage="Completa este campo"
       label="Contraseña"
+      labelPlacement="outside"
       name="password"
       placeholder="tu contraseña"
       type={type}
       variant="bordered"
-      labelPlacement="outside"
       {...props}
     />
   )

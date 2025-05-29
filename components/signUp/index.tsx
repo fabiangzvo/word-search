@@ -43,7 +43,7 @@ export default function SignUp(): JSX.Element {
       if (!res.ok) {
         const error = await res.json()
 
-        console.log(error.error)
+        console.error(error.error)
         notification.message = 'No se ha podido crear el usuario.'
         notification.settings.type = 'error'
 
@@ -59,49 +59,49 @@ export default function SignUp(): JSX.Element {
   )
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+    <Form className="space-y-10" onSubmit={handleSubmit(onSubmit)}>
       <Input
+        isRequired
+        errorMessage={errors.username?.message}
+        isInvalid={!!errors.username?.message}
         label="Nombre de usuario"
+        labelPlacement="outside"
         placeholder="randomUser"
         type="text"
         variant="bordered"
-        labelPlacement="outside"
-        isRequired
-        isInvalid={!!errors.username?.message}
-        errorMessage={errors.username?.message}
         {...register('username')}
       />
       <Input
+        isRequired
+        errorMessage={errors.name?.message}
+        isInvalid={!!errors.name?.message}
         label="Nombre completio"
+        labelPlacement="outside"
         placeholder="John Doe"
         type="text"
         variant="bordered"
-        labelPlacement="outside"
-        isRequired
-        isInvalid={!!errors.name?.message}
-        errorMessage={errors.name?.message}
         {...register('name')}
       />
       <Input
+        isRequired
+        errorMessage={errors.email?.message}
+        isInvalid={!!errors.email?.message}
         label="Email"
+        labelPlacement="outside"
         placeholder="tu@email.com"
         type="email"
         variant="bordered"
-        labelPlacement="outside"
-        isRequired
-        isInvalid={!!errors.email?.message}
-        errorMessage={errors.email?.message}
         {...register('email')}
       />
       <PasswordInput
-        isInvalid={!!errors.password?.message}
         errorMessage={errors.password?.message}
+        isInvalid={!!errors.password?.message}
         {...register('password')}
       />
       <PasswordInput
-        label="Confirmar contraseña"
-        isInvalid={!!errors.confirmPassword?.message}
         errorMessage={errors.confirmPassword?.message}
+        isInvalid={!!errors.confirmPassword?.message}
+        label="Confirmar contraseña"
         {...register('confirmPassword')}
       />
       <Button className="w-full" color="primary" type="submit">
