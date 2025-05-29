@@ -33,8 +33,8 @@ function PasswordInput(props: Omit<InputProps, 'type'>): JSX.Element {
 
   return (
     <Input
-      classNames={{ inputWrapper: 'dark:border-default-500' }}
       isRequired
+      classNames={{ inputWrapper: 'dark:border-default-500' }}
       endContent={
         <Tooltip content={tooltip}>
           <button

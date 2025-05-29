@@ -61,8 +61,8 @@ export default function SignUp(): JSX.Element {
   return (
     <Form className="space-y-10" onSubmit={handleSubmit(onSubmit)}>
       <Input
-        classNames={{ inputWrapper: 'dark:border-default-500' }}
         isRequired
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
         errorMessage={errors.username?.message}
         isInvalid={!!errors.username?.message}
         label="Nombre de usuario"
@@ -73,8 +73,8 @@ export default function SignUp(): JSX.Element {
         {...register('username')}
       />
       <Input
-        classNames={{ inputWrapper: 'dark:border-default-500' }}
         isRequired
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
         errorMessage={errors.name?.message}
         isInvalid={!!errors.name?.message}
         label="Nombre completio"
@@ -85,8 +85,8 @@ export default function SignUp(): JSX.Element {
         {...register('name')}
       />
       <Input
-        classNames={{ inputWrapper: 'dark:border-default-500' }}
         isRequired
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
         errorMessage={errors.email?.message}
         isInvalid={!!errors.email?.message}
         label="Email"
@@ -110,8 +110,8 @@ export default function SignUp(): JSX.Element {
       <Button
         className="w-full"
         color="primary"
-        type="submit"
         isLoading={isLoading}
+        type="submit"
       >
         Crear Cuenta
       </Button>

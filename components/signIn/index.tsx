@@ -10,18 +10,18 @@ export default function SignIn(): JSX.Element {
   const [error, onSubmitForm, isLoading] = useActionState(handleSubmit, '')
 
   return (
-    <Form  action={onSubmitForm} className="space-y-10">
+    <Form action={onSubmitForm} className="space-y-10">
       <Input
-        classNames={{ inputWrapper: 'dark:border-default-500' }}
         isRequired
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
         disabled={isLoading}
         errorMessage="Completa este campo"
         label="Correo electrónico"
+        labelPlacement="outside"
         name="email"
         placeholder="tu@email.com"
         type="email"
         variant="bordered"
-        labelPlacement="outside"
       />
       <PasswordInput disabled={isLoading} />
       <p className="text-danger-400 font-semibold text-lg text-center w-full">

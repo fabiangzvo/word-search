@@ -4,7 +4,7 @@ import { getPuzzles } from '@lib/queries/puzzle'
 import Banner from '@components/svg/banner'
 import mongooseConnect from '@lib/db'
 import ExploreContent from '@components/explore'
-
+import Footer from '@components/footer'
 import { type IPuzzleItem } from '@/types/puzzle'
 
 export const dynamic = 'force-dynamic'
@@ -35,6 +35,7 @@ async function Explore(): Promise<JSX.Element> {
         <Banner />
       </div>
       <ExploreContent puzzles={puzzles} />
+      <Footer />
     </div>
   )
 }
