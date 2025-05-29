@@ -25,7 +25,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <h2 className="w-full text-3xl md:text-4xl font-bold text-center mb-6 max-lg:flex max-lg:flex-wrap max-lg:justify-center">
             Características&nbsp;
-            <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-400 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-500">
+            <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-600 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-500">
               principales
             </span>
           </h2>
@@ -68,7 +68,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">
             Cómo&nbsp;
-            <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-400 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-500">
+            <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-600 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-500">
               funciona
             </span>
           </h2>
@@ -80,7 +80,8 @@ export default function LandingPage() {
               {
                 step: 1,
                 title: 'Crea tu cuenta',
-                description: 'Regístrate gratis en segundos ó ingresa a tu cuenta.',
+                description:
+                  'Regístrate gratis en segundos ó ingresa a tu cuenta.',
               },
               {
                 step: 3,

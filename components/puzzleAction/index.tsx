@@ -63,7 +63,7 @@ function PuzzleWithAction(props: PuzzleWithActionProps): JSX.Element {
     <section className="relative min-h-[80vh] h-auto grid grid-cols-2 max-lg:grid-cols-1 max-lg:text-center">
       <div className="flex flex-col items-start text-start justify-center text-base max-lg:order-first max-lg:mb-8 max-lg:items-center">
         <h1 className="w-full text-5xl md:text-7xl font-bold mb-4 leading-tight max-lg:text-center">
-          <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-400 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-600 ">
+          <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-600 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-600 ">
             {gradientText}
           </span>
           <br />
