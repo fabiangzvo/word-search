@@ -61,8 +61,8 @@ function PuzzleWithAction(props: PuzzleWithActionProps): JSX.Element {
 
   return (
     <section className="relative min-h-[80vh] h-auto grid grid-cols-2 max-lg:grid-cols-1 max-lg:text-center">
-      <div className="flex flex-col items-start text-start justify-center text-gray-600 text-base max-lg:order-last max-lg:mt-9 max-lg:items-center">
-        <h1 className="w-full text-5xl md:text-7xl font-bold mb-4 leading-tight max-lg:absolute top-0 max-lg:left-1/2 max-lg:transform max-lg:-translate-x-1/2">
+      <div className="flex flex-col items-start text-start justify-center text-base max-lg:order-first max-lg:mb-8 max-lg:items-center">
+        <h1 className="w-full text-5xl md:text-7xl font-bold mb-4 leading-tight max-lg:text-center">
           <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-400 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-600 ">
             {gradientText}
           </span>
@@ -97,7 +97,7 @@ function PuzzleWithAction(props: PuzzleWithActionProps): JSX.Element {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center max-sm:mt-80 max-lg:mt-60 mt-24">
+      <div className="flex flex-col items-center justify-center max-lg:order-last max-lg:mt-6">
         <BoardGrid
           checkWord={checkWord}
           foundCells={foundWords}

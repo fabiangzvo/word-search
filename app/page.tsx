@@ -1,9 +1,8 @@
-import { Card, CardBody, CardHeader } from '@heroui/card'
-import { Button } from '@heroui/button'
-import { Star, Users, Brain, Trophy, ChevronRight } from 'lucide-react'
+import { Star, Users, Brain, Trophy } from 'lucide-react'
 
 import SignUp from '@components/signUp'
 import PuzzleAction from '@components/puzzleAction'
+import FeatureList from '@components/home/components/featureList'
 
 import { PLAY_DEFAULT_PUZZLE, PLAY_PUZZLE } from './constants'
 
@@ -21,61 +20,50 @@ export default function LandingPage() {
         word="jugar"
       />
       {/* Features Section */}
-      <section className="py-24 px-6" id="features">
+      <section className="py-24 px-6 md:mt-24" id="features">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Características Principales
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">
+            Características&nbsp;
+            <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-400 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-500">
+              principales
+            </span>
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="p-4">
-              <CardBody className="text-center">
-                <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
-                <h3 className="text-xl font-semibold mb-2">
-                  Multijugador en Tiempo Real
-                </h3>
-                <p className="text-gray-600">
-                  Juega con amigos y compite contra jugadores de todo el mundo
-                </p>
-              </CardBody>
-            </Card>
-            <Card className="p-4">
-              <CardBody className="text-center">
-                <Brain className="w-12 h-12 mx-auto mb-4 text-primary" />
-                <h3 className="text-xl font-semibold mb-2">IA Avanzada</h3>
-                <p className="text-gray-600">
-                  Sopas de letras personalizadas generadas por inteligencia
-                  artificial
-                </p>
-              </CardBody>
-            </Card>
-            <Card className="p-4">
-              <CardBody className="text-center">
-                <Trophy className="w-12 h-12 mx-auto mb-4 text-primary" />
-                <h3 className="text-xl font-semibold mb-2">
-                  Clasificaciones Globales
-                </h3>
-                <p className="text-gray-600">
-                  Compite por los primeros puestos en nuestras tablas de
-                  clasificación
-                </p>
-              </CardBody>
-            </Card>
-            <Card className="p-4">
-              <CardBody className="text-center">
-                <Star className="w-12 h-12 mx-auto mb-4 text-primary" />
-                <h3 className="text-xl font-semibold mb-2">
-                  Niveles Progresivos
-                </h3>
-                <p className="text-gray-600">
-                  Desbloquea nuevos desafíos y mejora tus habilidades
-                </p>
-              </CardBody>
-            </Card>
-          </div>
+          <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto text-center">
+            Hemos reimaginado completamente la experiencia de las sopas de
+            letras con tecnología de vanguardia.
+          </p>
+          <FeatureList
+            features={[
+              {
+                title: 'Multijugador en Tiempo Real',
+                description:
+                  'Juega con amigos y compite contra jugadores de todo el mundo. Conecta hasta 8 jugadores simultáneos',
+                icon: <Users />,
+              },
+              {
+                title: 'Impulsada por IA',
+                description:
+                  'Olvidate del trabajo tedioso, deja que nuestra inteligencia artificial cree la sopa de letras por ti.',
+                icon: <Brain />,
+              },
+              {
+                title: 'Clasificaciones Globales',
+                description:
+                  'Mantente al tanto de las clasificaciones globales y compite con amigos en cualquier momento.',
+                icon: <Trophy />,
+              },
+              {
+                title: 'Diferentes Niveles',
+                description:
+                  'Elige el nivel. Nosotros hacemos la magia. Sopas de letras fáciles, medias o difíciles con solo un clic.',
+                icon: <Star />,
+              },
+            ]}
+          />
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Pricing Section 
       <section className="py-24 px-6" id="pricing">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -143,7 +131,7 @@ export default function LandingPage() {
             </Card>
           </div>
         </div>
-      </section>
+      </section>*/}
       <SignUp />
     </div>
   )

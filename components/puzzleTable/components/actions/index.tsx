@@ -1,4 +1,3 @@
-
 import { JSX, useCallback } from 'react'
 import { Trash2, Lock, LockOpen, PenLine } from 'lucide-react'
 import { toast } from 'react-toastify'
