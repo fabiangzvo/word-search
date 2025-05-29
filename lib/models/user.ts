@@ -5,12 +5,10 @@ import { type IUser } from '@/types/user'
 
 const userSchema = new Schema<IUser>(
   {
-    name: {
-      type: String,
-      required: true,
-    },
+    name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
   },
   {
     timestamps: true,

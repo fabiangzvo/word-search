@@ -47,7 +47,7 @@ export default function SignIn(): JSX.Element {
               </Button>
               <p className="flex w-full justify-center">
                 ¿Ya estás registrado?&nbsp;
-                <Link className="font-bold" color="primary" href="/#register">
+                <Link className="font-bold" color="primary" href="/sign-up">
                   Crear cuenta
                 </Link>
               </p>

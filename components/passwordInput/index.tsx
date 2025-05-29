@@ -52,6 +52,7 @@ function PasswordInput(props: Omit<InputProps, 'type'>): JSX.Element {
       placeholder="tu contraseña"
       type={type}
       variant="bordered"
+      labelPlacement="outside"
       {...props}
     />
   )

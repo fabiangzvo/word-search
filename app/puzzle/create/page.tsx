@@ -10,8 +10,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+
 import { CreatePuzzleSchema, type FormCreatePuzzle } from '@lib/schemas/puzzle'
 import { createPuzzle } from '@lib/actions/puzzle'
+import { INotification } from '@/types/notification'
 
 function CreatePuzzle(): JSX.Element {
   const session = useSession()
@@ -30,19 +32,19 @@ function CreatePuzzle(): JSX.Element {
   })
 
   const onSubmit: SubmitHandler<FormCreatePuzzle> = async (data) => {
-    const response = await createPuzzle(data, session.data?.user?.id ?? '')
-
-    if (!response) {
-      return toast('No se ha podido crear la sopa de letras', {
-        type: 'error',
-        position: 'bottom-right',
-      })
+    const notification: INotification = {
+      message: 'No se ha podido crear la sopa de letras',
+      settings: { type: 'error', position: 'top-right' },
     }
 
-    toast('Sopa de letras creada!', {
-      type: 'success',
-      position: 'bottom-right',
-    })
+    const response = await createPuzzle(data, session.data?.user?.id ?? '')
+
+    if (!response) return toast(notification.message, notification.settings)
+
+    notification.message = 'Sopa de letras creada!'
+    notification.settings.type = 'success'
+
+    toast(notification.message, notification.settings)
 
     router.push('/dashboard')
   }

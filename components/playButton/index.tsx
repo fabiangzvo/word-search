@@ -20,6 +20,7 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
         'El enlace del juego se ha copiado al portapapeles. ¡Compártelo con tus amigos y empieza a jugar!',
       settings: {
         type: 'success',
+        position:"top-right"
       },
     }
 

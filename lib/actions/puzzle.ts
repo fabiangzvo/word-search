@@ -2,15 +2,15 @@
 
 import { Types } from 'mongoose'
 import { revalidatePath } from 'next/cache'
+
 import { checkNotCreatedCategories, createCategories } from '@queries/category'
 import { type FormCreatePuzzle } from '@schemas/puzzle'
 import { generateWordSearch } from '@utils/wordSearchGenerator'
 import { insertPuzzle, updatePuzzle } from '@queries/puzzle'
-
-import { GenerateQuestions } from '../gemini'
-
 import { type ICategory } from '@/types/category'
 import { type InsertPuzzle, type IPuzzleClient } from '@/types/puzzle'
+
+import { GenerateQuestions } from '../gemini'
 
 export async function createPuzzle(
   formData: FormCreatePuzzle,

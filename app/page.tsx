@@ -2,7 +2,6 @@ import { Star, Users, Brain, Trophy, ChevronRight, Compass } from 'lucide-react'
 import { Button } from '@heroui/button'
 import { Link } from '@heroui/link'
 
-//import SignUp from '@components/signUp'
 import PuzzleAction from '@components/puzzleAction'
 import FeatureList from '@components/home/components/featureList'
 import StepList from '@components/home/components/stepList'
@@ -14,7 +13,7 @@ export default function LandingPage() {
     <div className="min-h-screen mb-[55vh] max-md:mb-[60vh] 2xl:mb-[40vh]">
       <PuzzleAction
         actionLink="/explore"
-        buttonLink="/register"
+        buttonLink="/sign-up"
         description="Compite en tiempo real, invita a tus amigos y desafía la IA para crear tus propias sopas de letras. Encuentra la palabra 'Jugar' para ingresar a la app."
         foundCells={PLAY_DEFAULT_PUZZLE}
         gradientText="Descubre el desafío definitivo"
@@ -130,7 +129,7 @@ export default function LandingPage() {
           <Button
             as={Link}
             className="dark:bg-primary-900"
-            href="/register"
+            href="/sign-up"
             size="lg"
             color="primary"
           >
@@ -208,7 +207,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <SignUp />
       */}
     </div>
   )

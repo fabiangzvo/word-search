@@ -6,7 +6,7 @@ import { ChevronRight } from 'lucide-react'
 
 export default function ClientButton(): JSX.Element {
   const handleClick = useCallback(() => {
-    window.location.href = '#register'
+    window.location.href = '/sign-up'
   }, [])
 
   return (
