@@ -1,5 +1,5 @@
-import { FeatureItem } from "../featureItem/types";
+import { FeatureItem } from '../featureItem/types'
 
 export interface FeatureListProps {
-    features: FeatureItem[]
+  features: FeatureItem[]
 }

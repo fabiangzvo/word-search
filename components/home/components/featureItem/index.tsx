@@ -5,6 +5,7 @@ import type { FeatureItem } from './types'
 
 function FeatureItem(props: FeatureItem): JSX.Element {
   const { icon, title, description } = props
+
   return (
     <Card className="p-4">
       <CardBody className="text-center">

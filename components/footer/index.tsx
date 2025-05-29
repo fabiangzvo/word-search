@@ -23,24 +23,24 @@ export default function Footer(): JSX.Element {
           <h4 className="font-semibold mb-4">Enlaces</h4>
           <ul className="space-y-2">
             <li>
-              <Link color="foreground" href="#">
+              <Link color="foreground" href="/">
                 Inicio
               </Link>
             </li>
             <li>
-              <Link color="foreground" href="#">
+              <Link color="foreground" href="/#features">
                 Características
               </Link>
             </li>
             <li>
-              <Link color="foreground" href="#">
-                Precios
+              <Link color="foreground" href="/#how-it-works">
+                Cómo funciona
               </Link>
             </li>
           </ul>
         </div>
         <div>
-          <h4 className="font-semibold mb-4">Sígue al desarrollador</h4>
+          <h4 className="font-semibold mb-4">Sigue al creador</h4>
           <div className="flex space-x-4">
             <Link
               color="foreground"

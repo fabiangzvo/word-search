@@ -1,6 +1,8 @@
-import { Star, Users, Brain, Trophy } from 'lucide-react'
+import { Star, Users, Brain, Trophy, ChevronRight, Compass } from 'lucide-react'
+import { Button } from '@heroui/button'
+import { Link } from '@heroui/link'
 
-import SignUp from '@components/signUp'
+//import SignUp from '@components/signUp'
 import PuzzleAction from '@components/puzzleAction'
 import FeatureList from '@components/home/components/featureList'
 import StepList from '@components/home/components/stepList'
@@ -9,10 +11,10 @@ import { PLAY_DEFAULT_PUZZLE, PLAY_PUZZLE } from './constants'
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mb-[55vh] max-md:mb-[60vh] 2xl:mb-[40vh]">
       <PuzzleAction
         actionLink="/explore"
-        buttonLink="/#register"
+        buttonLink="/register"
         description="Compite en tiempo real, invita a tus amigos y desafía la IA para crear tus propias sopas de letras. Encuentra la palabra 'Jugar' para ingresar a la app."
         foundCells={PLAY_DEFAULT_PUZZLE}
         gradientText="Descubre el desafío definitivo"
@@ -105,6 +107,38 @@ export default function LandingPage() {
           />
         </div>
       </section>
+      {/* CTA section */}
+      <section className="w-full py-24 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:to-default-900 dark:via-default-600 absolute left-0 mt-36 text-white">
+        <p className="w-full text-3xl md:text-4xl font-bold text-center mb-6 max-lg:flex max-lg:flex-wrap max-lg:justify-center">
+          ¿Listo para el desafío?
+        </p>
+        <p className="text-lg mb-10 max-w-2xl mx-auto text-center">
+          Únete a miles de jugadores y descubre por qué MindGrid es el futuro de
+          las sopas de letras.
+        </p>
+        <div className="flex justify-center gap-4 max-md:flex-col max-md:px-8">
+          <Button
+            as={Link}
+            className="dark:bg-primary-900"
+            href="/explore"
+            size="lg"
+            color="primary"
+          >
+            Explorar
+            <Compass />
+          </Button>
+          <Button
+            as={Link}
+            className="dark:bg-primary-900"
+            href="/register"
+            size="lg"
+            color="primary"
+          >
+            Comenzar ahora
+            <ChevronRight />
+          </Button>
+        </div>
+      </section>
       {/* Pricing Section
       <section className="py-24 px-6" id="pricing">
         <div className="max-w-6xl mx-auto">
@@ -173,8 +207,9 @@ export default function LandingPage() {
             </Card>
           </div>
         </div>
-      </section>*/}
+      </section>
       <SignUp />
+      */}
     </div>
   )
 }
