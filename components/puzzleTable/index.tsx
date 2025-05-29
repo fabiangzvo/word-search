@@ -56,9 +56,11 @@ function PuzzleTable({ userId }: PuzzleTableProps): JSX.Element {
   }, [])
 
   return (
-    <Card>
-      <CardHeader className="grid grid-cols-2 px-6 pt-6">
-        <h2 className="text-lg font-medium">Tus sopas de letras</h2>
+    <Card className="mb-8">
+      <CardHeader className="grid grid-cols-2 px-6 pt-6 max-md:grid-cols-1 max-md:gap-y-6">
+        <h2 className="text-lg font-semibold max-md:text-center">
+          Tus sopas de letras
+        </h2>
         <SearchInput handleSearch={handleSubmit} variant="bordered" />
       </CardHeader>
       <CardBody>
