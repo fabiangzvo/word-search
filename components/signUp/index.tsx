@@ -17,7 +17,7 @@ export default function SignUp(): JSX.Element {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = useForm<RegisterUserType>({
     resolver: zodResolver(RegisterUserSchema),
   })
@@ -61,6 +61,7 @@ export default function SignUp(): JSX.Element {
   return (
     <Form className="space-y-10" onSubmit={handleSubmit(onSubmit)}>
       <Input
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
         isRequired
         errorMessage={errors.username?.message}
         isInvalid={!!errors.username?.message}
@@ -72,6 +73,7 @@ export default function SignUp(): JSX.Element {
         {...register('username')}
       />
       <Input
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
         isRequired
         errorMessage={errors.name?.message}
         isInvalid={!!errors.name?.message}
@@ -83,6 +85,7 @@ export default function SignUp(): JSX.Element {
         {...register('name')}
       />
       <Input
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
         isRequired
         errorMessage={errors.email?.message}
         isInvalid={!!errors.email?.message}
@@ -104,7 +107,12 @@ export default function SignUp(): JSX.Element {
         label="Confirmar contraseña"
         {...register('confirmPassword')}
       />
-      <Button className="w-full" color="primary" type="submit">
+      <Button
+        className="w-full"
+        color="primary"
+        type="submit"
+        isLoading={isLoading}
+      >
         Crear Cuenta
       </Button>
       <p className="flex w-full justify-center max-md:flex-col max-md:items-center">

@@ -1,7 +1,7 @@
 'use client'
 
 import { type JSX, useActionState } from 'react'
-import { Button, Card, CardBody, Input, Link, CardHeader } from '@heroui/react'
+import { Button, Input, Link, Form } from '@heroui/react'
 import PasswordInput from '@components/passwordInput'
 
 import { handleSubmit } from '@/lib/actions/authentication'
@@ -10,51 +10,37 @@ export default function SignIn(): JSX.Element {
   const [error, onSubmitForm, isLoading] = useActionState(handleSubmit, '')
 
   return (
-    <section
-      className="py-24 container mx-auto max-w-7xl px-6 flex-grow"
-      id="register"
-    >
-      <div className="max-w-2xl mx-auto text-center">
-        <Card className="p-6">
-          <CardHeader className="flex justify-center">
-            <h2 className="text-3xl font-bold mb-8">
-              Ingresa y empieza a jugar ahora
-            </h2>
-          </CardHeader>
-          <CardBody>
-            <form action={onSubmitForm} className="space-y-8">
-              <Input
-                isRequired
-                disabled={isLoading}
-                errorMessage="Completa este campo"
-                label="Email"
-                name="email"
-                placeholder="tu@email.com"
-                type="email"
-                variant="bordered"
-              />
-              <PasswordInput disabled={isLoading} />
-              <p className="text-danger-400 font-semibold text-lg text-center">
-                {error}
-              </p>
-              <Button
-                className="w-full"
-                color="primary"
-                isLoading={isLoading}
-                type="submit"
-              >
-                Ingresar
-              </Button>
-              <p className="flex w-full justify-center">
-                ¿Ya estás registrado?&nbsp;
-                <Link className="font-bold" color="primary" href="/sign-up">
-                  Crear cuenta
-                </Link>
-              </p>
-            </form>
-          </CardBody>
-        </Card>
-      </div>
-    </section>
+    <Form  action={onSubmitForm} className="space-y-10">
+      <Input
+        classNames={{ inputWrapper: 'dark:border-default-500' }}
+        isRequired
+        disabled={isLoading}
+        errorMessage="Completa este campo"
+        label="Correo electrónico"
+        name="email"
+        placeholder="tu@email.com"
+        type="email"
+        variant="bordered"
+        labelPlacement="outside"
+      />
+      <PasswordInput disabled={isLoading} />
+      <p className="text-danger-400 font-semibold text-lg text-center w-full">
+        {error}
+      </p>
+      <Button
+        className="w-full"
+        color="primary"
+        isLoading={isLoading}
+        type="submit"
+      >
+        Ingresar
+      </Button>
+      <p className="flex w-full justify-center max-md:flex-col max-md:items-center">
+        ¿Ya estás registrado?&nbsp;
+        <Link className="font-bold" color="primary" href="/sign-up">
+          Crear cuenta
+        </Link>
+      </p>
+    </Form>
   )
 }
