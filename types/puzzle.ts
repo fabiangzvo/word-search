@@ -27,6 +27,7 @@ export enum DifficultEnum {
 
 export interface IPuzzle extends Document {
   title: string
+  description: string
   difficult: Difficult
   cols: number
   questions: Question[]
@@ -55,11 +56,11 @@ export interface GetPuzzle {
 }
 
 export interface PaginatePuzzle {
-  owner: string
+  filters: FilterQuery<IPuzzle>
   page: number
   pageSize: number
-  title?: string
   projection?: ProjectionFields<IPuzzle>
+  orderBy?: string
 }
 
 export interface PaginatePuzzleResponse<T> extends PaginateResult<T> {

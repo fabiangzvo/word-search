@@ -17,9 +17,12 @@ async function fetcher(
 ): Promise<PaginatePuzzleResponse<IPuzzleItem>> {
   if (!params.owner) return { data: [], total: 0, pages: 0 }
 
+  const filters: Record<string, any> = { owner: params.owner }
+
+  if (params.search) filters.title = params.search
+
   return getPaginatePuzzle<IPuzzleItem>({
-    owner: params.owner,
-    title: params.search,
+    filters,
     projection: {
       questionsCount: { $size: '$questions' },
       title: true,

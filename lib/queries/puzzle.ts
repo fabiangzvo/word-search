@@ -69,21 +69,34 @@ export async function updatePuzzle(
 }
 
 export async function getPaginatePuzzle<T>({
-  owner,
-  title,
+  filters,
   projection,
   page,
   pageSize,
+  orderBy,
 }: PaginatePuzzle): Promise<PaginatePuzzleResponse<T>> {
+  if (filters?.owner) filters.owner = new Types.ObjectId(filters.owner)
+  if (filters?._id) filters.owner = new Types.ObjectId(filters._id)
+  if (filters?.title) filters.title = { $regex: filters.title, $options: 'i' }
+
   const response = await paginate<IPuzzle>({
     model: Puzzle,
-    filters: {
-      owner: new Types.ObjectId(owner),
-      title: { $regex: title, $options: 'i' },
-    },
+    filters,
     projection: projection ?? {},
     page,
     pageSize,
+    additionalStages: [
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'categories',
+          foreignField: '_id',
+          as: 'categories',
+        },
+      },
+    ],
+    orderBy,
+    sort: orderBy === 'createdAt' ? -1 : 1,
   })
 
   return {

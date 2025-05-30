@@ -4,14 +4,14 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Divider,
   Chip,
   Link,
 } from '@heroui/react'
-
-import Options from '../options/index'
+import { List, Component, Grid2X2 } from 'lucide-react'
 
 import { DifficultEnum, type IPuzzleItem } from '@/types/puzzle'
+
+import Options from '../options/index'
 
 interface PuzzleCardProps extends IPuzzleItem {
   hideOptions?: boolean
@@ -40,8 +40,8 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
   )
 
   return (
-    <Card className="w-full cursor-default">
-      <CardHeader className="flex justify-between">
+    <Card className="w-full cursor-default px-2">
+      <CardHeader className="flex justify-between pb-0">
         <Link
           className="text-lg font-semibold text-default-500 cursor-pointer"
           href={`/puzzle/${_id}/detail`}
@@ -50,22 +50,26 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
         </Link>
         {!hideOptions && <Options puzzleId={_id} />}
       </CardHeader>
-      <Divider />
-      <CardBody className="w-full gap-2">
-        <p>
-          <span className="font-semibold">Número de preguntas:</span>&nbsp;
-          {questionCount}
+      <CardBody className="w-full pt-2">
+        <p className="mb-2 text-sm text-foreground-600">
+          Esta es la descripción de la sopa de letras
         </p>
-        <p>
-          <span className="font-semibold">Dificultad:</span>&nbsp;
-          {DifficultEnum[difficult as keyof typeof DifficultEnum]}
-        </p>
-        <p>
-          <span className="font-semibold">Tamaño:</span>&nbsp;{cols}x{cols}
-        </p>
+        <div className="gap-4 grid grid-cols-2">
+          <p className="flex gap-4">
+            <List className="text-default-500" />
+            {questionCount} Palabras
+          </p>
+          <p className="flex gap-4">
+            <Component className="text-default-500" />
+            {DifficultEnum[difficult as keyof typeof DifficultEnum]}
+          </p>
+          <p className="flex gap-4">
+            <Grid2X2 className="text-default-500" />
+            {cols}x{cols}
+          </p>
+        </div>
       </CardBody>
-      <Divider />
-      <CardFooter className="flex gap-5">{categoryItems}</CardFooter>
+      <CardFooter className="flex gap-2">{categoryItems}</CardFooter>
     </Card>
   )
 }

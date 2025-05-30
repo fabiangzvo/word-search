@@ -11,16 +11,29 @@ export interface PaginateParams<T> {
   page: number
   pageSize: number
   projection?: PipelineStage.Project['$project']
+  additionalStages?: PipelineStage[]
+  orderBy?: string
+  sort?: -1 | 1
 }
 
 export async function paginate<T>(
   params: PaginateParams<T>
 ): Promise<PaginateResult<T>> {
-  const { model, filters, projection, page = 1, pageSize = 10 } = params
+  const {
+    model,
+    filters,
+    projection,
+    page = 1,
+    pageSize = 10,
+    additionalStages = [],
+    orderBy = 'createdAt',
+    sort = 1,
+  } = params
 
   const stages: PipelineStage[] = [
     { $match: filters },
-    { $sort: { createdAt: -1 } },
+    { $sort: { [orderBy]: sort } },
+    ...additionalStages,
   ]
 
   if (projection) stages.push({ $project: projection })
@@ -32,7 +45,9 @@ export async function paginate<T>(
     },
   })
 
-  const result = await model.aggregate(stages)
+  const result = await model.aggregate(stages, {
+    collation: { strength: 1, locale: 'es' },
+  })
 
   const data = result[0].data
   const total = result[0].total[0]?.count || 0

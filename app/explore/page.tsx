@@ -1,40 +1,24 @@
-import type { JSX } from 'react'
+import { type JSX } from 'react'
 
-import { getPuzzles } from '@lib/queries/puzzle'
-import Banner from '@components/svg/banner'
-import mongooseConnect from '@lib/db'
 import ExploreContent from '@components/explore'
 import Footer from '@components/footer'
-import { type IPuzzleItem } from '@/types/puzzle'
 
 export const dynamic = 'force-dynamic'
 
-async function Explore(): Promise<JSX.Element> {
-  await mongooseConnect()
-
-  const puzzles = await getPuzzles<IPuzzleItem[]>({
-    filters: { isPublic: true },
-    projection: {
-      questionCount: { $size: '$questions' },
-      title: true,
-      categories: true,
-      difficult: true,
-      cols: true,
-      isPublic: true,
-      _id: true,
-    },
-  })
-
+function Explore(): JSX.Element {
   return (
     <div>
-      <div className="relative w-full h-[30vh] flex items-center justify-center bg-default-200 rounded-xl overflow-hidden mb-24 max-lg:mb-12">
-        <h1 className="z-10 text-5xl text-center font-medium mb-6 px-4 drop-shadow-2xl font-kanit text-white max-md:text-2xl">
-          Explora todas las sopas de letras que han sido compartidad por los
-          usuarios.
-        </h1>
-        <Banner />
-      </div>
-      <ExploreContent puzzles={puzzles} />
+      <h2 className="w-full text-3xl md:text-4xl font-bold text-center mb-6 max-lg:flex max-lg:flex-wrap max-lg:justify-center">
+        Explora&nbsp;
+        <span className="bg-gradient-to-r from-primary-500 via-primary-300 to-primary-600 bg-clip-text text-transparent dark:to-purple-600 dark:via-rose-500">
+          sopas de letras
+        </span>
+      </h2>
+      <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto text-center">
+        Explora las sopas de letras que han sido compartidas por los usuarios.
+        Encuentra tu próximo desafío perfecto.
+      </p>
+      <ExploreContent />
       <Footer />
     </div>
   )
