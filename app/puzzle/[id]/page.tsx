@@ -1,5 +1,6 @@
 import { JSX } from 'react'
 import { notFound, redirect } from 'next/navigation'
+
 import Game from '@components/game'
 import { getDetailGame } from '@lib/queries/game'
 import mongooseConnect from '@lib/db'
