@@ -111,30 +111,30 @@ function CreatePuzzle(): JSX.Element {
         </span>
       </h2>
       <Stepper
-        steps={TabItems}
         currentStep={TabItems.findIndex((item) => selected === item.key)}
+        steps={TabItems}
       />
       <Form
         className="w-full"
         validationBehavior="native"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Tabs selectedKey={selected} classNames={{ tabList: 'hidden' }}>
+        <Tabs classNames={{ tabList: 'hidden' }} selectedKey={selected}>
           <Tab key="main" className="w-full">
             <Card className="w-full bg-transparent" shadow="none">
               <CardBody className="grid grid-cols-2 gap-y-8 gap-x-8 px-8 w-full">
                 <Alert
                   hideIconWrapper
-                  icon={<Sparkles />}
-                  title="Generación automática"
-                  description="Con base en el contexto, generaremos automáticamente las preguntas y respuestas para crear la sopa de letras. Podrás revisarlas y editarlas en el siguiente paso."
-                  variant="flat"
-                  color="primary"
                   classNames={{
                     base: 'col-span-2 dark:bg-default-500/10 bg-default-100',
                     title: 'font-bold',
                     description: 'text-gray-600 dark:text-gray-400',
                   }}
+                  color="primary"
+                  description="Con base en el contexto, generaremos automáticamente las preguntas y respuestas para crear la sopa de letras. Podrás revisarlas y editarlas en el siguiente paso."
+                  icon={<Sparkles />}
+                  title="Generación automática"
+                  variant="flat"
                 />
                 <Input
                   classNames={{
@@ -144,19 +144,19 @@ function CreatePuzzle(): JSX.Element {
                   errorMessage={errors.title?.message}
                   isInvalid={!!errors.title?.message}
                   label="Titulo"
+                  labelPlacement="outside"
                   placeholder="Titulo de la sopa de letras"
                   variant="bordered"
-                  labelPlacement="outside"
                   {...register('title', {
                     required: 'Este campo es requerido.',
                   })}
                 />
                 <Select
-                classNames={{
-                  trigger: 'dark:border-default-500',
-                  base: 'max-md:col-span-2',
-                  selectorIcon:"text-default-500"
-                }}
+                  classNames={{
+                    trigger: 'dark:border-default-500',
+                    base: 'max-md:col-span-2',
+                    selectorIcon: 'text-default-500',
+                  }}
                   errorMessage={
                     errors.difficult?.type !== 'invalid_enum_value'
                       ? errors.difficult?.message
@@ -164,9 +164,9 @@ function CreatePuzzle(): JSX.Element {
                   }
                   isInvalid={!!errors.difficult?.message}
                   label="Dificultad"
+                  labelPlacement="outside"
                   placeholder="Selecciona una opción"
                   variant="bordered"
-                  labelPlacement="outside"
                   {...register('difficult')}
                 >
                   <SelectItem key="easy">Fácil</SelectItem>
@@ -181,9 +181,9 @@ function CreatePuzzle(): JSX.Element {
                   errorMessage={errors.prompt?.message}
                   isInvalid={!!errors.prompt?.message}
                   label="Contexto"
+                  labelPlacement="outside"
                   placeholder="Cuéntanos el tema de tu sopa de letras y deja que nuestra IA se encargue del resto"
                   variant="bordered"
-                  labelPlacement="outside"
                   {...register('prompt')}
                 />
                 <Input
@@ -194,10 +194,10 @@ function CreatePuzzle(): JSX.Element {
                   errorMessage={errors.numberOfQuestions?.message}
                   isInvalid={!!errors.numberOfQuestions?.message}
                   label="Número de columnas"
+                  labelPlacement="outside"
                   placeholder="Minimo número de columnas es 15"
                   type="number"
                   variant="bordered"
-                  labelPlacement="outside"
                   {...register('numberOfRows', {
                     valueAsNumber: true,
                     min: 15,
@@ -212,10 +212,10 @@ function CreatePuzzle(): JSX.Element {
                   errorMessage={errors.numberOfQuestions?.message}
                   isInvalid={!!errors.numberOfQuestions?.message}
                   label="Número de preguntas"
+                  labelPlacement="outside"
                   placeholder="Minimo número de preguntas es 1"
                   type="number"
                   variant="bordered"
-                  labelPlacement="outside"
                   {...register('numberOfQuestions', { valueAsNumber: true })}
                 />
               </CardBody>
@@ -253,32 +253,32 @@ function CreatePuzzle(): JSX.Element {
                         isInvalid={
                           !!errors.questions?.[index]?.question?.message
                         }
+                        label="Pregunta"
+                        labelPlacement="outside"
                         placeholder="Escribe tu pregunta"
                         variant="bordered"
-                        labelPlacement="outside"
-                        label="Pregunta"
                         {...register(`questions.${index}.question`)}
                       />
                       <Input
-                        label="Repuesta"
                         className="max-md:col-span-2"
                         errorMessage={
                           errors.questions?.[index]?.answer?.message
                         }
                         isInvalid={!!errors.questions?.[index]?.answer?.message}
+                        label="Repuesta"
+                        labelPlacement="outside"
                         placeholder="Escribe la respuesta"
                         variant="bordered"
-                        labelPlacement="outside"
                         {...register(`questions.${index}.answer`)}
                       />
                     </CardBody>
                     <CardFooter className="flex justify-end items-center">
                       <Button
+                        isIconOnly
                         color="danger"
                         size="sm"
                         variant="light"
                         onPress={() => remove(index)}
-                        isIconOnly
                       >
                         <Trash2 />
                       </Button>
