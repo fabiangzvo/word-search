@@ -98,10 +98,10 @@ function Board(props: BoardProps): JSX.Element {
       <Controls onMoveBoard={onMoveBoard} />
       <div
         ref={containerRef}
-        className="w-full max-md:overflow-x-hidden max-md:touch-none max-md:overscroll-contain md:flex md:justify-center"
+        className="w-full max-md:overflow-x-hidden max-md:touch-none max-md:overscroll-contain sm:flex sm:justify-center "
       >
         <div
-          className="grid gap-1 sm:gap-2 p-4 bg-default-400 bg-opacity-30 rounded-xl shadow-lg w-fit"
+          className="grid gap-1 p-4 bg-default-400 bg-opacity-30 rounded-xl shadow-lg w-fit"
           role="button"
           style={{ gridTemplateColumns: `repeat(${grid.length}, 1fr)` }}
           tabIndex={0}

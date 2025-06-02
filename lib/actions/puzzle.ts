@@ -30,7 +30,7 @@ export async function createPuzzle(
       matches.push(...createdCategory)
     }
 
-    const { questions } = await GenerateQuestions(
+    const { questions, description } = await GenerateQuestions(
       formData.numberOfQuestions,
       formData.topic
     )
@@ -52,6 +52,7 @@ export async function createPuzzle(
       isPublic: true,
       owner: new Types.ObjectId(userId),
       categories,
+      description
     }
 
     const insertResult = await insertPuzzle(record)

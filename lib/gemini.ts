@@ -12,6 +12,10 @@ import { type GeminiResponse } from '@/types/gemini'
 const schemaResponse: ResponseSchema = {
   type: SchemaType.OBJECT,
   properties: {
+    description:{
+      type: SchemaType.STRING,
+      description: 'short description to attract the attention of users',
+    },
     questions: {
       type: SchemaType.ARRAY,
       description: 'list of word search questions and answers',
@@ -48,7 +52,7 @@ export async function GenerateQuestions(
   numberOfQuestions: number,
   topics: string
 ): Promise<GeminiResponse> {
-  const prompt = `Generate ${numberOfQuestions} questions on the topic '${topics}' with one-word answers.`
+  const prompt = `Generate ${numberOfQuestions} questions on the topic '${topics}' with one-word answers. additionally add a short description to attract the attention of users.`
 
   const result = await model.generateContent(prompt)
 

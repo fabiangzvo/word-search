@@ -47,6 +47,7 @@ export type InsertPuzzle = Pick<
   | 'categories'
   | 'difficult'
   | 'cols'
+  | 'description'
 >
 
 export interface GetPuzzle {
@@ -87,6 +88,7 @@ export interface IPuzzleItem {
   questionCount: number
   isPublic: boolean
   categories: ICategoryDetail[]
+  description: string
 }
 
 export interface IPuzzleDetail {

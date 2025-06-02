@@ -21,10 +21,10 @@ async function PuzzleGame({ params }: PuzzleGameProps): Promise<JSX.Element> {
       <h3 className="text-sm mb-8 text-center">
         Creada por:&nbsp;
         <span className="font-bold text-default-500">
-          {game.puzzle.owner.name}
+          {game.puzzle.owner.username}
         </span>
       </h3>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-8">
         <Game
           finishedAt={game.finishedAt}
           gameId={game._id}

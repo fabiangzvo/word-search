@@ -13,7 +13,7 @@ import { PLAY_DEFAULT_PUZZLE, PLAY_PUZZLE } from './constants'
 export default function LandingPage() {
   return (
     <Fragment>
-      <div className="min-h-screen mb-[55vh] max-md:mb-[60vh] 2xl:mb-[40vh]">
+      <div className="min-h-screen max-sm:mb-[85vh] sm:mb-[80vh] md:mb-[75vh] 2xl:mb-[80vh]">
         <PuzzleAction
           actionLink="/explore"
           buttonLink="/sign-up"
@@ -110,7 +110,7 @@ export default function LandingPage() {
           </div>
         </section>
         {/* CTA section */}
-        <section className="w-full py-24 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:to-default-900 dark:via-default-600 absolute left-0 mt-36 text-white">
+        <section className="w-full py-24 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 dark:to-default-900 dark:via-default-600 absolute left-0 mt-36 text-white px-6">
           <p className="w-full text-3xl md:text-4xl font-bold text-center mb-6 max-lg:flex max-lg:flex-wrap max-lg:justify-center">
             ¿Listo para el desafío?
           </p>
@@ -212,7 +212,7 @@ export default function LandingPage() {
       </section>
       */}
       </div>
-      <Footer />
+      <Footer classname='mt-32' />
     </Fragment>
   )
 }

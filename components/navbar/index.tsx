@@ -77,37 +77,27 @@ export default function Navbar(): JSX.Element {
             <p className="font-bold text-inherit">MindGrid</p>
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">{items}</ul>
+        <ul className="hidden md:flex gap-4 justify-start ml-2">{items}</ul>
       </NavbarContent>
 
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-            <GithubIcon className="text-default-500" />
-          </Link>
+        <NavbarItem className="hidden md:flex gap-2">
           <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">
-          <SearchInput handleSearch={() => {}} />
         </NavbarItem>
         <NavbarItem className="hidden md:flex">
           {session.status === 'authenticated' ? logoutButton : loginButton}
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
+      <NavbarContent className="md:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
 
       <NavbarMenu>
-        <SearchInput handleSearch={() => {}} />
         <div className="mx-4 mt-2 flex flex-col gap-2 items-center">
           {items}
         </div>
