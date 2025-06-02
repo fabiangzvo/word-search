@@ -12,7 +12,7 @@ import { type GeminiResponse } from '@/types/gemini'
 const schemaResponse: ResponseSchema = {
   type: SchemaType.OBJECT,
   properties: {
-    description:{
+    description: {
       type: SchemaType.STRING,
       description: 'short description to attract the attention of users',
     },
@@ -50,9 +50,9 @@ const model = genAI.getGenerativeModel({
 
 export async function GenerateQuestions(
   numberOfQuestions: number,
-  topics: string
+  context: string
 ): Promise<GeminiResponse> {
-  const prompt = `Generate ${numberOfQuestions} questions on the topic '${topics}' with one-word answers. additionally add a short description to attract the attention of users.`
+  const prompt = `Generate ${numberOfQuestions} questions about '${context}' with one-word answers. additionally add a short description to attract the attention of users to play the word search puzzle. generate all content in spanish.`
 
   const result = await model.generateContent(prompt)
 
