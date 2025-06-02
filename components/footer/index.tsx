@@ -1,15 +1,15 @@
 import { type JSX } from 'react'
 import { Link } from '@heroui/link'
 import Image from 'next/image'
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge'
 
 import { siteConfig } from '@config/site'
 
-import type { FooterProps } from "./types";
+import type { FooterProps } from './types'
 
 export default function Footer({ classname }: FooterProps): JSX.Element {
   return (
-    <footer className={twMerge("dark:text-gray-300 py-12 px-6", classname)}>
+    <footer className={twMerge('dark:text-gray-300 py-12 px-6', classname)}>
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center max-md:text-center">
         <div className="max-md:flex max-md:w-full max-md:justify-center">
           <div className="flex items-center mb-4">

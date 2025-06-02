@@ -212,7 +212,7 @@ export default function LandingPage() {
       </section>
       */}
       </div>
-      <Footer classname='mt-32' />
+      <Footer classname="mt-32" />
     </Fragment>
   )
 }
