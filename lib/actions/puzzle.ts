@@ -17,7 +17,7 @@ export async function createPuzzle(
   userId: string
 ): Promise<IPuzzleClient | null> {
   try {
-    const categoriesSplit = formData.topic.split(/,|,\s/g)
+    const categoriesSplit = formData.topics
 
     const { matches, notCreated } =
       await checkNotCreatedCategories(categoriesSplit)
@@ -32,7 +32,7 @@ export async function createPuzzle(
 
     const { questions, description } = await GenerateQuestions(
       formData.numberOfQuestions,
-      formData.topic
+      JSON.stringify(formData.topics)
     )
 
     const { grid } = generateWordSearch(
@@ -52,7 +52,7 @@ export async function createPuzzle(
       isPublic: true,
       owner: new Types.ObjectId(userId),
       categories,
-      description
+      description,
     }
 
     const insertResult = await insertPuzzle(record)

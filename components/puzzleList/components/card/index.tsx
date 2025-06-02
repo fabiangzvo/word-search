@@ -26,7 +26,7 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
     questionCount,
     _id,
     hideOptions,
-    description
+    description,
   } = props
 
   const categoryItems = useMemo(
@@ -53,7 +53,7 @@ function PuzzleCard(props: PuzzleCardProps): JSX.Element {
       </CardHeader>
       <CardBody className="w-full pt-2">
         <p className="mb-2 text-sm text-foreground-600">
-          {description || "Compite y divierte con este reto con tus amigos."}
+          {description || 'Compite y divierte con este reto con tus amigos.'}
         </p>
         <div className="gap-4 grid grid-cols-2">
           <p className="flex gap-4">

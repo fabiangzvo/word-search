@@ -44,7 +44,7 @@ async function fetcher(
         },
       },
       cols: true,
-      description: true
+      description: true,
     },
     page: params.page,
     pageSize: 5,
