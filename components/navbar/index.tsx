@@ -10,16 +10,14 @@ import {
   NavbarItem,
 } from '@heroui/navbar'
 import { Button } from '@heroui/button'
-import { Link } from '@heroui/link'
 import { link as linkStyles } from '@heroui/theme'
 import NextLink from 'next/link'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { GithubIcon } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
+
 import { siteConfig } from '@config/site'
 import ThemeSwitch from '@components/themeSwitch'
-import SearchInput from '@components/searchInput'
 
 const loginButton = (
   <Button prefetch as={NextLink} color="primary" href="/login" variant="flat">
