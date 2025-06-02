@@ -32,6 +32,7 @@ async function fetcher(
     },
     page: params.page,
     pageSize: 5,
+    orderBy: 'createdAt',
   })
 }
 
