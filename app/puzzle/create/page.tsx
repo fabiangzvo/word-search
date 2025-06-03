@@ -12,14 +12,18 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { Tabs, Tab } from '@heroui/tabs'
 import { Card, CardBody, CardFooter } from '@heroui/card'
-import { Trash2, Sparkles } from 'lucide-react'
+import { Rocket, Sparkles } from 'lucide-react'
 import { Alert } from '@heroui/alert'
+import { Listbox, ListboxItem } from '@heroui/listbox'
 
 import { CreatePuzzleSchema, type FormCreatePuzzle } from '@lib/schemas/puzzle'
 import { createPuzzle } from '@lib/actions/puzzle'
 import { INotification } from '@/types/notification'
 import Stepper from '@components/stepper'
 import { GenerateQuestions } from '@lib/gemini'
+import QuestionCard from '@components/puzzleForm/components/questionCard'
+import { DifficultEnum } from '@/types/puzzle'
+import Avatar from '@components/avatar'
 
 const TabItems = [
   { title: 'Información esencial', key: 'main' },
@@ -41,6 +45,7 @@ function CreatePuzzle(): JSX.Element {
     trigger,
     getValues,
     setValue,
+    watch,
   } = useForm<FormCreatePuzzle>({
     resolver: zodResolver(CreatePuzzleSchema),
     defaultValues: {
@@ -50,7 +55,9 @@ function CreatePuzzle(): JSX.Element {
     },
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const watchQuestion = watch('questions')
+  const puzzleData = watch()
+  const { append, remove, replace } = useFieldArray({
     control,
     name: 'questions',
   })
@@ -92,7 +99,7 @@ function CreatePuzzle(): JSX.Element {
     const response = await GenerateQuestions(numberOfQuestions, context)
 
     setValue('description', response.description)
-    append(
+    replace(
       response.questions.map(({ label, answer }) => ({
         question: label,
         answer,
@@ -100,7 +107,7 @@ function CreatePuzzle(): JSX.Element {
     )
 
     setSelected('edit')
-  }, [trigger, append])
+  }, [trigger, replace])
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -128,7 +135,7 @@ function CreatePuzzle(): JSX.Element {
                   classNames={{
                     base: 'col-span-2 dark:bg-default-500/10 bg-default-100',
                     title: 'font-bold',
-                    description: 'text-gray-600 dark:text-gray-400',
+                    description: 'text-foreground-500',
                   }}
                   color="primary"
                   description="Con base en el contexto, generaremos automáticamente las preguntas y respuestas para crear la sopa de letras. Podrás revisarlas y editarlas en el siguiente paso."
@@ -191,8 +198,8 @@ function CreatePuzzle(): JSX.Element {
                     inputWrapper: 'dark:border-default-500',
                     base: 'max-md:col-span-2',
                   }}
-                  errorMessage={errors.numberOfQuestions?.message}
-                  isInvalid={!!errors.numberOfQuestions?.message}
+                  errorMessage={errors.numberOfRows?.message}
+                  isInvalid={!!errors.numberOfRows?.message}
                   label="Número de columnas"
                   labelPlacement="outside"
                   placeholder="Minimo número de columnas es 15"
@@ -225,15 +232,15 @@ function CreatePuzzle(): JSX.Element {
                   color="primary"
                   onPress={onCreateQuestions}
                 >
-                  Siguiente paso
+                  Siguiente
                 </Button>
               </CardFooter>
             </Card>
           </Tab>
           <Tab key="edit" className="w-full">
-            <Card className="w-full " shadow="none">
-              <CardBody className="grid grid-cols-2 gap-y-10 gap-x-8 px-8 w-full">
-                <div className="col-span-2 flex justify-end">
+            <Card className="w-full bg-transparent" shadow="none">
+              <CardBody className="grid grid-cols-1 gap-y-4 w-full">
+                <div className="flex justify-end mb-4">
                   <Button
                     className="mt-4"
                     color="primary"
@@ -242,87 +249,150 @@ function CreatePuzzle(): JSX.Element {
                     Agregar pregunta
                   </Button>
                 </div>
-                {fields.map((field, index) => (
-                  <Card key={field.id} className="">
-                    <CardBody className="mt-4">
-                      <Input
-                        className="max-md:col-span-2"
-                        errorMessage={
-                          errors.questions?.[index]?.question?.message
-                        }
-                        isInvalid={
-                          !!errors.questions?.[index]?.question?.message
-                        }
-                        label="Pregunta"
-                        labelPlacement="outside"
-                        placeholder="Escribe tu pregunta"
-                        variant="bordered"
-                        {...register(`questions.${index}.question`)}
-                      />
-                      <Input
-                        className="max-md:col-span-2"
-                        errorMessage={
-                          errors.questions?.[index]?.answer?.message
-                        }
-                        isInvalid={!!errors.questions?.[index]?.answer?.message}
-                        label="Repuesta"
-                        labelPlacement="outside"
-                        placeholder="Escribe la respuesta"
-                        variant="bordered"
-                        {...register(`questions.${index}.answer`)}
-                      />
-                    </CardBody>
-                    <CardFooter className="flex justify-end items-center">
-                      <Button
-                        isIconOnly
-                        color="danger"
-                        size="sm"
-                        variant="light"
-                        onPress={() => remove(index)}
-                      >
-                        <Trash2 />
-                      </Button>
-                    </CardFooter>
-                  </Card>
+                {watchQuestion.map((field, index) => (
+                  <QuestionCard
+                    key={index}
+                    answer={watchQuestion[index].answer}
+                    answerError={errors.questions?.[index]?.answer?.message}
+                    handleRemove={remove}
+                    index={index}
+                    question={watchQuestion[index].question}
+                    questionError={errors.questions?.[index]?.question?.message}
+                    register={register}
+                  />
                 ))}
               </CardBody>
-              <CardFooter className="flex justify-between">
+              <CardFooter className="flex justify-between gap-4">
                 <Button
                   className="px-8 font-semibold text-medium"
                   color="primary"
                   onPress={() => setSelected('main')}
                 >
-                  Anterior paso
+                  Atrás
                 </Button>
                 <Button
                   className="px-8 font-semibold text-medium"
                   color="primary"
                   onPress={() => setSelected('confirm')}
                 >
-                  Siguiente paso
+                  Siguiente
                 </Button>
               </CardFooter>
             </Card>
           </Tab>
           <Tab key="confirm" className="w-full">
-            <Card className="w-full " shadow="none">
+            <Card className="w-full bg-transparent" shadow="none">
               <CardBody className="grid grid-cols-2 gap-y-10 gap-x-8 px-8 w-full">
-                MElo caramelo
+                <Alert
+                  hideIconWrapper
+                  classNames={{
+                    base: 'col-span-2 dark:bg-default-500/10 bg-default-100',
+                    title: 'font-bold',
+                    description: 'text-foreground-500',
+                  }}
+                  color="primary"
+                  description="Tu sopa de letras será pública y otros usuarios podrán jugarlo. Podrás editarlo o eliminarlo en cualquier momento desde tu perfil."
+                  icon={<Rocket />}
+                  title="¡Todo listo para crear!"
+                  variant="flat"
+                />
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">
+                      Información del Puzzle
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-foreground-500">Título:</span>
+                        <span>{puzzleData.title}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-foreground-500">Dificultad:</span>
+                        <span>
+                          {
+                            DifficultEnum[
+                              puzzleData.difficult as keyof typeof DifficultEnum
+                            ]
+                          }
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-foreground-500">Tamaño:</span>
+                        <span className="text-white">
+                          {puzzleData.numberOfRows}x{puzzleData.numberOfRows}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-foreground-500">Preguntas:</span>
+                        <span className="text-white">
+                          {puzzleData.questions.length}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-2">
+                      Descripción
+                    </h3>
+                    <p className="text-gray-300 text-sm bg-gray-800/50 p-3 rounded">
+                      {puzzleData.description}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Preguntas y respuestas
+                  </h3>
+                  <Listbox
+                    disallowEmptySelection
+                    aria-label="questions"
+                    className="pointer-events-none"
+                    selectionMode="multiple"
+                  >
+                    {puzzleData.questions.map((question, index) => (
+                      <ListboxItem
+                        key={question.answer}
+                        className="mb-2 border-b rounded-none"
+                        classNames={{
+                          base: 'px-4',
+                          title: 'flex flex-wrap h-auto',
+                          selectedIcon: 'hidden',
+                        }}
+                        description={
+                          <span className="text-lg font-bold text-default-600 flex">
+                            {question.answer}
+                          </span>
+                        }
+                        startContent={
+                          <Avatar
+                            classNames={{
+                              name: 'text-xs',
+                              base: 'bg-default-500 h-9 w-10',
+                            }}
+                            name={`#${index + 1}`}
+                          />
+                        }
+                        title={question.question}
+                      />
+                    ))}
+                  </Listbox>
+                </div>
               </CardBody>
-              <CardFooter className="flex justify-between">
+              <CardFooter className="flex justify-between gap-4">
                 <Button
                   className="px-8 font-semibold text-medium"
                   color="primary"
                   onPress={() => setSelected('edit')}
                 >
-                  Anterior paso
+                  Atrás
                 </Button>
                 <Button
                   className="px-8 font-semibold text-medium"
                   color="primary"
                   onPress={() => setSelected('confirm')}
                 >
-                  Siguiente paso
+                  Siguiente
                 </Button>
               </CardFooter>
             </Card>

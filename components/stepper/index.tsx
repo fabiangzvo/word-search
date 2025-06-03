@@ -157,13 +157,14 @@ const Stepper = forwardRef<HTMLButtonElement, StepperProps>(
                             variants={{
                               inactive: {
                                 backgroundColor: 'transparent',
-                                borderColor: 'var(--inactive-border-color)',
-                                color: 'var(--inactive-color)',
+                                borderColor: 'var(--complete-border-color)',
+                                color: 'var(--active-color)',
                               },
                               active: {
-                                backgroundColor: 'transparent',
-                                borderColor: 'var(--active-border-color)',
-                                color: 'var(--active-color)',
+                                backgroundColor:
+                                  'var(--complete-background-color)',
+                                borderColor: 'var(--complete-border-color)',
+                                color: 'var(--active-fg-color)',
                               },
                               complete: {
                                 backgroundColor:
