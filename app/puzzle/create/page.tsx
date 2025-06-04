@@ -311,7 +311,7 @@ function CreatePuzzle(): JSX.Element {
                         <span>
                           {
                             DifficultEnum[
-                              puzzleData.difficult as keyof typeof DifficultEnum
+                            puzzleData.difficult as keyof typeof DifficultEnum
                             ]
                           }
                         </span>
@@ -347,15 +347,15 @@ function CreatePuzzle(): JSX.Element {
                   <Listbox
                     disallowEmptySelection
                     aria-label="questions"
-                    className="pointer-events-none"
                     selectionMode="multiple"
+                    classNames={{ list: "max-h-[300px] overflow-y-auto overflow-x-hidden pr-2", }}
                   >
                     {puzzleData.questions.map((question, index) => (
                       <ListboxItem
                         key={question.answer}
                         className="mb-2 border-b rounded-none"
                         classNames={{
-                          base: 'px-4',
+                          base: 'px-4 pointer-events-none',
                           title: 'flex flex-wrap h-auto',
                           selectedIcon: 'hidden',
                         }}
