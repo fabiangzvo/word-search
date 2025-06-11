@@ -3,22 +3,11 @@ import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Button } from '@heroui/button'
 import { Trash2, PenLine } from 'lucide-react'
 import { Chip } from '@heroui/chip'
-import { Input } from '@heroui/input'
-import type { UseFieldArrayRemove, UseFormRegister } from 'react-hook-form'
 
-import { FormCreatePuzzle } from '@lib/schemas/puzzle'
+import { QuestionForm } from '../questionForm/index'
+import { type QuestionItemProps } from './types'
 
-export interface QuestionCardProps {
-  index: number
-  handleRemove: UseFieldArrayRemove
-  register: UseFormRegister<FormCreatePuzzle>
-  questionError?: string
-  answerError?: string
-  question: string
-  answer: string
-}
-
-function QuestionCard(props: QuestionCardProps): JSX.Element {
+export function QuestionItem(props: QuestionItemProps): JSX.Element {
   const {
     index,
     handleRemove,
@@ -34,36 +23,13 @@ function QuestionCard(props: QuestionCardProps): JSX.Element {
   const component = useMemo(() => {
     if (isEdit)
       return (
-        <div className="flex flex-col gap-4">
-          <Input
-            errorMessage={questionError}
-            isInvalid={!!questionError}
-            label="Pregunta"
-            labelPlacement="outside"
-            placeholder="Escribe tu pregunta"
-            variant="bordered"
-            {...register(`questions.${index}.question`)}
-          />
-          <Input
-            className="max-md:col-span-2"
-            errorMessage={answerError}
-            isInvalid={!!answerError}
-            label="Repuesta"
-            labelPlacement="outside"
-            placeholder="Escribe la respuesta"
-            variant="bordered"
-            {...register(`questions.${index}.answer`)}
-          />
-          <div className="w-full flex justify-end mt-4">
-            <Button
-              color="primary"
-              variant="solid"
-              onPress={() => setIsEdit((prev) => !prev)}
-            >
-              Guardar
-            </Button>
-          </div>
-        </div>
+        <QuestionForm
+          answerError={answerError}
+          fieldIndex={index}
+          handelSave={() => setIsEdit((prev) => !prev)}
+          questionError={questionError}
+          register={register}
+        />
       )
 
     return (
@@ -82,7 +48,7 @@ function QuestionCard(props: QuestionCardProps): JSX.Element {
         </div>
       </Fragment>
     )
-  }, [isEdit])
+  }, [isEdit, index, register, answerError, questionError])
 
   return (
     <Card shadow="sm">
@@ -115,5 +81,3 @@ function QuestionCard(props: QuestionCardProps): JSX.Element {
     </Card>
   )
 }
-
-export default QuestionCard

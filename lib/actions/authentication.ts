@@ -5,14 +5,20 @@ export async function handleSubmit(
   _: string,
   formData: FormData
 ): Promise<string> {
-  const response = await signIn('credentials', {
-    email: formData.get('email'),
-    password: formData.get('password'),
-    callbackUrl: '/dashboard',
-    redirect: false,
-  })
+  try {
+    const response = await signIn('credentials', {
+      email: formData.get('email'),
+      password: formData.get('password'),
+      callbackUrl: '/dashboard',
+      redirect: false,
+    })
 
-  if (response?.status === 200) redirect('/dashboard')
+    if (response?.status === 200) redirect('/dashboard')
 
-  return response?.error ?? ''
+    return response?.error ?? ''
+  } catch (error) {
+    console.error(error)
+
+    return 'Se produjo un error al iniciar sesión'
+  }
 }

@@ -32,4 +32,4 @@ export const CreatePuzzleSchema = z.object({
     .min(1, 'Debe agregar al menos una pregunta'),
 })
 
-export type FormCreatePuzzle = z.infer<typeof CreatePuzzleSchema>
+export type FormCreatePuzzleType = z.infer<typeof CreatePuzzleSchema>
