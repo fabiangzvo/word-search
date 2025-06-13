@@ -66,9 +66,7 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
           </div>
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-2">
-            Preguntas y respuestas
-          </h3>
+          <h3 className="text-lg font-semibold mb-2">Preguntas y respuestas</h3>
           <Listbox
             disallowEmptySelection
             aria-label="questions"
@@ -79,7 +77,7 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
           >
             {questions.map((question, index) => (
               <ListboxItem
-                key={question.answer}
+                key={index}
                 className="mb-2 border-b rounded-none"
                 classNames={{
                   base: 'px-4 pointer-events-none',

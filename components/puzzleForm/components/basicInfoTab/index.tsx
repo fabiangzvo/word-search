@@ -1,4 +1,4 @@
-import { type JSX } from 'react'
+import { type JSX, useState, useCallback } from 'react'
 import { Card, CardBody, CardFooter } from '@heroui/card'
 import { Button } from '@heroui/button'
 import { Alert } from '@heroui/alert'
@@ -9,7 +9,17 @@ import { Sparkles } from 'lucide-react'
 import { BasicInfoTabProps } from './types'
 
 export function BasicInfoTab(props: BasicInfoTabProps): JSX.Element {
-  const { errors, handleNext, register } = props
+  const { errors, onCreateQuestions, register } = props
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleCreateQuestions = useCallback(async () => {
+    setIsLoading(true)
+
+    await onCreateQuestions()
+
+    setIsLoading(false)
+  }, [onCreateQuestions])
 
   return (
     <Card className="w-full bg-transparent" shadow="none">
@@ -114,7 +124,8 @@ export function BasicInfoTab(props: BasicInfoTabProps): JSX.Element {
         <Button
           className="px-8 font-semibold text-medium"
           color="primary"
-          onPress={handleNext}
+          isLoading={isLoading}
+          onPress={handleCreateQuestions}
         >
           Siguiente
         </Button>

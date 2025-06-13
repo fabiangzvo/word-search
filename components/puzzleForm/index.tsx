@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { Tab, Tabs } from '@heroui/tabs'
+import { motion } from 'framer-motion'
 
 import {
   CreatePuzzleSchema,
@@ -21,6 +22,7 @@ import { GenerateQuestions } from '@lib/gemini'
 import { QuestionsTab } from './components/questionsTab'
 import { BasicInfoTab } from './components/basicInfoTab'
 import { ConfirmationTab } from './components/confirmationTab'
+import { constants } from './constans'
 
 const TabItems = [
   { title: 'Información esencial', key: 'main' },
@@ -30,6 +32,7 @@ const TabItems = [
 
 export function PuzzleForm(): JSX.Element {
   const [selected, setSelected] = useState('main')
+  const [isLeft, setIsLeft] = useState(false)
 
   const session = useSession()
   const router = useRouter()
@@ -103,6 +106,7 @@ export function PuzzleForm(): JSX.Element {
       }))
     )
 
+    setIsLeft(false)
     setSelected('edit')
   }, [trigger, replace])
 
@@ -118,34 +122,70 @@ export function PuzzleForm(): JSX.Element {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Tabs classNames={{ tabList: 'hidden' }} selectedKey={selected}>
-          <Tab key="main" className="w-full">
-            <BasicInfoTab
-              errors={errors}
-              handleNext={onCreateQuestions}
-              register={register}
-            />
+          <Tab
+            key="main"
+            className="w-full relative"
+            title="Información esencial"
+          >
+            <motion.div
+              transition={{ duration: 0.2 }}
+              {...constants[isLeft ? 'animationFromLeft' : 'initialAnimation']}
+            >
+              <BasicInfoTab
+                errors={errors}
+                register={register}
+                onCreateQuestions={onCreateQuestions}
+              />
+            </motion.div>
           </Tab>
-          <Tab key="edit" className="w-full">
-            <QuestionsTab
-              errors={errors}
-              handleAdd={() => append({ question: '', answer: '' })}
-              handleBack={() => setSelected('main')}
-              handleNext={() => setSelected('confirm')}
-              handleRemove={remove}
-              questions={watchQuestion}
-              register={register}
-            />
+          <Tab key="edit" className="w-full" title="Preguntas">
+            <motion.div
+              transition={{ duration: 0.2 }}
+              {...constants[
+                isLeft ? 'animationFromLeft' : 'animationFromRight'
+              ]}
+            >
+              <QuestionsTab
+                errors={errors}
+                handleAdd={() => append({ question: '', answer: '' })}
+                handleBack={() => {
+                  setSelected('main')
+                  setIsLeft(true)
+                }}
+                handleNext={async () => {
+                  const isFilled = await trigger(['questions'])
+
+                  if (!isFilled) return
+
+                  setSelected('confirm')
+                  setIsLeft(false)
+                }}
+                handleRemove={remove}
+                questions={watchQuestion}
+                register={register}
+              />
+            </motion.div>
           </Tab>
-          <Tab key="confirm" className="w-full">
-            <ConfirmationTab
-              description={puzzleData.description}
-              difficult={puzzleData.difficult}
-              handleBack={() => setSelected('edit')}
-              numberOfQuestions={puzzleData.numberOfQuestions}
-              numberOfRows={puzzleData.numberOfRows}
-              questions={watchQuestion}
-              title={puzzleData.title}
-            />
+          <Tab key="confirm" className="w-full" title="Confirmación">
+            <motion.div
+              transition={{ duration: 0.2 }}
+              {...constants[
+                isLeft ? 'animationFromLeft' : 'animationFromRight'
+              ]}
+            >
+              <ConfirmationTab
+                description={puzzleData.description}
+                difficult={puzzleData.difficult}
+                handleBack={() => {
+                  setSelected('edit')
+                  setIsLeft(true)
+                }}
+                numberOfQuestions={puzzleData.numberOfQuestions}
+                numberOfRows={puzzleData.numberOfRows}
+                questions={watchQuestion}
+                title={puzzleData.title}
+              />
+            </motion.div>
           </Tab>
         </Tabs>
       </Form>

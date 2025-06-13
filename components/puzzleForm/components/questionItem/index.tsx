@@ -38,11 +38,17 @@ export function QuestionItem(props: QuestionItemProps): JSX.Element {
           <div>
             <span className="text-gray-500 text-xs">Pregunta/Pista</span>
             <p>{question || 'Sin pregunta'}</p>
+            <p className="text-small text-danger-500 font-normal">
+              {questionError}
+            </p>
           </div>
           <div>
             <span className="text-gray-500 text-xs">Respuesta</span>
             <p className="text-default-400 font-mono font-bold">
               {answer || 'Sin respuesta'}
+            </p>
+            <p className="text-small text-danger-500 font-normal">
+              {answerError}
             </p>
           </div>
         </div>
