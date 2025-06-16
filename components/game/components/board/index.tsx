@@ -27,7 +27,7 @@ function Board(props: BoardProps): JSX.Element {
         const newSelectedCells: Cell = [...selectedCells, [row, col]]
 
         setSelectedCells(newSelectedCells)
-        checkWord(newSelectedCells)
+        checkWord && checkWord(newSelectedCells)
       }
     },
     [isSelecting, checkWord, selectedCells]
@@ -36,7 +36,7 @@ function Board(props: BoardProps): JSX.Element {
   const handleSelectionEnd = useCallback((): void => {
     setIsSelecting(false)
 
-    if (selectedCells.length > 1) checkWord(selectedCells)
+    if (selectedCells.length > 1 && checkWord) checkWord(selectedCells)
 
     setSelectedCells([])
   }, [selectedCells, checkWord])

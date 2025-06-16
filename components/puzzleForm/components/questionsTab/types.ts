@@ -3,6 +3,7 @@ import {
   UseFieldArrayAppend,
   UseFieldArrayRemove,
 } from 'react-hook-form'
+
 import { QuestionItemProps } from '../questionItem/types'
 
 import { FormCreatePuzzleType } from '@lib/schemas/puzzle'
@@ -18,4 +19,7 @@ export interface QuestionsTabProps
   handleRemove: UseFieldArrayRemove
   handleNext: () => void
   handleBack: () => void
+  checkQuestions: () => Promise<boolean>
+  categories: FormCreatePuzzleType['categories']
+  updateCategory: (categories: string[]) => void
 }

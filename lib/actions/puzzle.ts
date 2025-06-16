@@ -8,7 +8,7 @@ import { type FormCreatePuzzleType } from '@schemas/puzzle'
 import { generateWordSearch } from '@utils/wordSearchGenerator'
 import { insertPuzzle, updatePuzzle } from '@queries/puzzle'
 import { type ICategory } from '@/types/category'
-import { type InsertPuzzle, type IPuzzleClient } from '@/types/puzzle'
+import { Question, type InsertPuzzle, type IPuzzleClient } from '@/types/puzzle'
 
 import { GenerateQuestions } from '../gemini'
 
@@ -17,10 +17,9 @@ export async function createPuzzle(
   userId: string
 ): Promise<IPuzzleClient | null> {
   try {
-    const categoriesSplit = formData.topics
-
-    const { matches, notCreated } =
-      await checkNotCreatedCategories(categoriesSplit)
+    const { matches, notCreated } = await checkNotCreatedCategories(
+      formData.categories
+    )
 
     if (notCreated.length > 0) {
       const createdCategory = await createCategories(
@@ -30,16 +29,6 @@ export async function createPuzzle(
       matches.push(...createdCategory)
     }
 
-    const { questions, description } = await GenerateQuestions(
-      formData.numberOfQuestions,
-      JSON.stringify(formData.topics)
-    )
-
-    const { grid } = generateWordSearch(
-      questions.map((item: any) => item.answer.toUpperCase()),
-      formData.numberOfRows
-    )
-
     const categories: Types.ObjectId[] = matches.map(
       (category) => category._id as Types.ObjectId
     )
@@ -47,12 +36,12 @@ export async function createPuzzle(
       title: formData.title,
       difficult: formData.difficult,
       cols: formData.numberOfRows,
-      questions,
-      matrix: grid,
+      questions: formData.questions as Question[],
+      matrix: formData.matrix,
       isPublic: true,
       owner: new Types.ObjectId(userId),
       categories,
-      description,
+      description: formData.description,
     }
 
     const insertResult = await insertPuzzle(record)

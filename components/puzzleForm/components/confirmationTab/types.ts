@@ -9,4 +9,5 @@ export interface ConfirmationTabProps {
   numberOfQuestions: number
   numberOfRows: number
   handleBack: () => void
+  categories: FormCreatePuzzleType['categories']
 }

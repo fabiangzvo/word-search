@@ -24,12 +24,6 @@ import { BasicInfoTab } from './components/basicInfoTab'
 import { ConfirmationTab } from './components/confirmationTab'
 import { constants } from './constans'
 
-const TabItems = [
-  { title: 'Información esencial', key: 'main' },
-  { title: 'Modificar información', key: 'edit' },
-  { title: 'Finalizar creación', key: 'confirm' },
-]
-
 export function PuzzleForm(): JSX.Element {
   const [selected, setSelected] = useState('main')
   const [isLeft, setIsLeft] = useState(false)
@@ -50,8 +44,8 @@ export function PuzzleForm(): JSX.Element {
     resolver: zodResolver(CreatePuzzleSchema),
     defaultValues: {
       title: '',
-      topics: [],
       questions: [],
+      categories: [],
     },
   })
 
@@ -99,22 +93,25 @@ export function PuzzleForm(): JSX.Element {
     const response = await GenerateQuestions(numberOfQuestions, context)
 
     setValue('description', response.description)
-    replace(
-      response.questions.map(({ label, answer }) => ({
-        question: label,
-        answer,
-      }))
-    )
+    replace(response.questions)
+    setValue('categories', response.categories)
 
     setIsLeft(false)
     setSelected('edit')
   }, [trigger, replace])
 
+  const checkQuestions = useCallback(
+    async () => trigger(['questions']),
+    [trigger]
+  )
+
   return (
     <div className="flex flex-col items-center w-full">
       <Stepper
-        currentStep={TabItems.findIndex((item) => selected === item.key)}
-        steps={TabItems}
+        currentStep={constants.tabItems.findIndex(
+          (item: { key: string }) => selected === item.key
+        )}
+        steps={constants.tabItems}
       />
       <Form
         className="w-full"
@@ -142,18 +139,20 @@ export function PuzzleForm(): JSX.Element {
             <motion.div
               transition={{ duration: 0.2 }}
               {...constants[
-                isLeft ? 'animationFromLeft' : 'animationFromRight'
+              isLeft ? 'animationFromLeft' : 'animationFromRight'
               ]}
             >
               <QuestionsTab
+                categories={puzzleData.categories}
+                checkQuestions={checkQuestions}
                 errors={errors}
-                handleAdd={() => append({ question: '', answer: '' })}
+                handleAdd={() => append({ label: '', answer: '' })}
                 handleBack={() => {
                   setSelected('main')
                   setIsLeft(true)
                 }}
                 handleNext={async () => {
-                  const isFilled = await trigger(['questions'])
+                  const isFilled = await checkQuestions()
 
                   if (!isFilled) return
 
@@ -163,6 +162,9 @@ export function PuzzleForm(): JSX.Element {
                 handleRemove={remove}
                 questions={watchQuestion}
                 register={register}
+                updateCategory={(categories: string[]) =>
+                  setValue('categories', categories)
+                }
               />
             </motion.div>
           </Tab>
@@ -170,10 +172,11 @@ export function PuzzleForm(): JSX.Element {
             <motion.div
               transition={{ duration: 0.2 }}
               {...constants[
-                isLeft ? 'animationFromLeft' : 'animationFromRight'
+              isLeft ? 'animationFromLeft' : 'animationFromRight'
               ]}
             >
               <ConfirmationTab
+                categories={puzzleData.categories}
                 description={puzzleData.description}
                 difficult={puzzleData.difficult}
                 handleBack={() => {

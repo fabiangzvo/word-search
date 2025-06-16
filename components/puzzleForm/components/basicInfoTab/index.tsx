@@ -43,6 +43,7 @@ export function BasicInfoTab(props: BasicInfoTabProps): JSX.Element {
             base: 'max-md:col-span-2',
           }}
           errorMessage={errors.title?.message}
+          isDisabled={isLoading}
           isInvalid={!!errors.title?.message}
           label="Titulo"
           labelPlacement="outside"
@@ -52,34 +53,28 @@ export function BasicInfoTab(props: BasicInfoTabProps): JSX.Element {
             required: 'Este campo es requerido.',
           })}
         />
-        <Select
+        <Input
           classNames={{
-            trigger: 'dark:border-default-500',
+            inputWrapper: 'dark:border-default-500',
             base: 'max-md:col-span-2',
-            selectorIcon: 'text-default-500',
           }}
-          errorMessage={
-            errors.difficult?.type !== 'invalid_enum_value'
-              ? errors.difficult?.message
-              : 'Debe seleccionar una opción.'
-          }
-          isInvalid={!!errors.difficult?.message}
-          label="Dificultad"
+          errorMessage={errors.numberOfQuestions?.message}
+          isDisabled={isLoading}
+          isInvalid={!!errors.numberOfQuestions?.message}
+          label="Número de preguntas"
           labelPlacement="outside"
-          placeholder="Selecciona una opción"
+          placeholder="Minimo número de preguntas es 1"
+          type="number"
           variant="bordered"
-          {...register('difficult')}
-        >
-          <SelectItem key="easy">Fácil</SelectItem>
-          <SelectItem key="medium">Medio</SelectItem>
-          <SelectItem key="hard">Difícil</SelectItem>
-        </Select>
+          {...register('numberOfQuestions', { valueAsNumber: true })}
+        />
         <Textarea
           classNames={{
             inputWrapper: 'dark:border-default-500',
             base: 'col-span-2',
           }}
           errorMessage={errors.prompt?.message}
+          isDisabled={isLoading}
           isInvalid={!!errors.prompt?.message}
           label="Contexto"
           labelPlacement="outside"
@@ -93,6 +88,7 @@ export function BasicInfoTab(props: BasicInfoTabProps): JSX.Element {
             base: 'max-md:col-span-2',
           }}
           errorMessage={errors.numberOfRows?.message}
+          isDisabled={isLoading}
           isInvalid={!!errors.numberOfRows?.message}
           label="Número de columnas"
           labelPlacement="outside"
@@ -105,20 +101,29 @@ export function BasicInfoTab(props: BasicInfoTabProps): JSX.Element {
             max: 27,
           })}
         />
-        <Input
+        <Select
           classNames={{
-            inputWrapper: 'dark:border-default-500',
+            trigger: 'dark:border-default-500',
             base: 'max-md:col-span-2',
+            selectorIcon: 'text-default-500',
           }}
-          errorMessage={errors.numberOfQuestions?.message}
-          isInvalid={!!errors.numberOfQuestions?.message}
-          label="Número de preguntas"
+          errorMessage={
+            errors.difficult?.type !== 'invalid_enum_value'
+              ? errors.difficult?.message
+              : 'Debe seleccionar una opción.'
+          }
+          isDisabled={isLoading}
+          isInvalid={!!errors.difficult?.message}
+          label="Dificultad"
           labelPlacement="outside"
-          placeholder="Minimo número de preguntas es 1"
-          type="number"
+          placeholder="Selecciona una opción"
           variant="bordered"
-          {...register('numberOfQuestions', { valueAsNumber: true })}
-        />
+          {...register('difficult')}
+        >
+          <SelectItem key="easy">Fácil</SelectItem>
+          <SelectItem key="medium">Medio</SelectItem>
+          <SelectItem key="hard">Difícil</SelectItem>
+        </Select>
       </CardBody>
       <CardFooter className="flex justify-end mt-4">
         <Button

@@ -7,5 +7,5 @@ export interface QuestionFormProps {
   questionError?: string
   answerError?: string
   fieldIndex: number
-  handelSave: () => void
+  handleSave: () => void
 }

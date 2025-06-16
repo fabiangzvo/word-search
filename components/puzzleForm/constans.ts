@@ -18,4 +18,10 @@ constants.initialAnimation = {
   exit: { opacity: 0 },
 }
 
+constants.tabItems = [
+  { title: 'Información esencial', key: 'main' },
+  { title: 'Modificar información', key: 'edit' },
+  { title: 'Finalizar creación', key: 'confirm' },
+]
+
 export { constants }

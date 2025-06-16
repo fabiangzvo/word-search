@@ -5,7 +5,7 @@ import { Button } from '@heroui/button'
 import { type QuestionFormProps } from './types'
 
 export function QuestionForm(props: QuestionFormProps): JSX.Element {
-  const { register, answerError, questionError, fieldIndex, handelSave } = props
+  const { register, answerError, questionError, fieldIndex, handleSave } = props
 
   return (
     <div className="flex flex-col gap-4">
@@ -16,7 +16,7 @@ export function QuestionForm(props: QuestionFormProps): JSX.Element {
         labelPlacement="outside"
         placeholder="Escribe tu pregunta"
         variant="bordered"
-        {...register(`questions.${fieldIndex}.question`)}
+        {...register(`questions.${fieldIndex}.label`)}
       />
       <Input
         className="max-md:col-span-2"
@@ -29,7 +29,7 @@ export function QuestionForm(props: QuestionFormProps): JSX.Element {
         {...register(`questions.${fieldIndex}.answer`)}
       />
       <div className="w-full flex justify-end mt-4">
-        <Button color="primary" variant="solid" onPress={handelSave}>
+        <Button color="primary" variant="solid" onPress={handleSave}>
           Guardar
         </Button>
       </div>

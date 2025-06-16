@@ -2,11 +2,12 @@ import { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { Check } from 'lucide-react'
 import { Chip } from '@heroui/react'
+
 import { getDetailPuzzle } from '@lib/queries/puzzle'
-import WordSearchDetail from '@components/wordSearchDetail'
 import { getSession } from '@lib/session'
 import PlayButton from '@components/playButton'
 import mongooseConnect from '@lib/db'
+import BoardGrid from '@components/game/components/board'
 
 import { PuzzleDetailProps } from './types'
 
@@ -43,7 +44,7 @@ async function PuzzleDetail({
 
   const isOwner = session?.user?.id === puzzle.owner._id.toString()
   const gridComponent = isOwner ? (
-    <WordSearchDetail grid={puzzle.matrix} />
+    <BoardGrid grid={puzzle.matrix} foundCells={[]} className="pointer-events-none" />
   ) : (
     <p className="text-foreground-400 text-center my-8">
       El tablero solo es visible para el creador o al momento de jugar.

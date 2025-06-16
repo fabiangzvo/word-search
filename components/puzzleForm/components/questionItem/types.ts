@@ -10,4 +10,5 @@ export interface QuestionItemProps {
   answerError?: string
   question: string
   answer: string
+  checkQuestions: () => Promise<boolean>
 }
