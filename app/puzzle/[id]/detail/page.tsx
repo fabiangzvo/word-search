@@ -1,6 +1,5 @@
 import { JSX } from 'react'
 import { notFound } from 'next/navigation'
-import { Check } from 'lucide-react'
 import { Chip } from '@heroui/react'
 
 import { getDetailPuzzle } from '@lib/queries/puzzle'
@@ -10,6 +9,8 @@ import mongooseConnect from '@lib/db'
 import BoardGrid from '@components/game/components/board'
 
 import { PuzzleDetailProps } from './types'
+import Avatar from '@components/avatar'
+import { CategoryList } from '@components/puzzleForm/components/categoryList'
 
 async function PuzzleDetail({
   params,
@@ -24,27 +25,34 @@ async function PuzzleDetail({
 
   if (!puzzle) notFound()
 
-  const questionList = puzzle.questions.map((question) => (
-    <li key={question.answer} className="mb-2">
+  const questionList = puzzle.questions.map((question, index) => (
+    <li
+      key={index}
+      className="flex gap-4 items-center px-4 py-2 box-border bg-content1 outline-none shadow-small rounded-large transition-transform-background"
+    >
+      <Avatar
+        classNames={{
+          name: 'text-sm text-primary-600 font-bold',
+          base: 'bg-primary/20 h-9 w-9',
+        }}
+        name={`#${index + 1}`}
+      />
       <div>
-        <p className="text-lg font-medium mb-1">{question.label}</p>
-        <span className="text-lg font-bold text-default-600 flex items-center">
-          <Check className="w-6 h-6 mr-2" strokeWidth={4} />
+        <span className="flex">{question.label}</span>
+        <span className="font-bold text-default-600 flex">
           {question.answer}
         </span>
       </div>
     </li>
   ))
 
-  const categories = puzzle.categories.map((category, i) => (
-    <Chip key={i} color="primary" variant="flat">
-      <p className="font-semibold">{category.name}</p>
-    </Chip>
-  ))
-
   const isOwner = session?.user?.id === puzzle.owner._id.toString()
   const gridComponent = isOwner ? (
-    <BoardGrid grid={puzzle.matrix} foundCells={[]} className="pointer-events-none" />
+    <BoardGrid
+      className="pointer-events-none"
+      foundCells={[]}
+      grid={puzzle.matrix}
+    />
   ) : (
     <p className="text-foreground-400 text-center my-8">
       El tablero solo es visible para el creador o al momento de jugar.
@@ -52,7 +60,7 @@ async function PuzzleDetail({
   )
 
   return (
-    <div className="cursor-default">
+    <div className="cursor-default mb-10">
       <h1 className="text-2xl font-bold text-center">
         {puzzle.title}&nbsp;
         <Chip color={puzzle.isPublic ? 'primary' : 'warning'} variant="flat">
@@ -69,10 +77,14 @@ async function PuzzleDetail({
         <PlayButton puzzleId={id} />
       </div>
       {gridComponent}
-      <h2 className="text-2xl font-bold mb-4 mt-10">Preguntas:</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">{questionList}</ul>
-      <h2 className="text-2xl font-bold mb-4 mt-10">Categorias:</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">{categories}</div>
+      <h2 className="text-2xl font-bold mb-4 mt-10">Preguntas</h2>
+      <ol className="list-none list-inside grid grid-cols-1 gap-4">
+        {questionList}
+      </ol>
+      <h2 className="text-2xl font-bold mb-4 mt-10">Categorias</h2>
+      <span className="flex gap-2 flex-wrap">
+        <CategoryList categories={puzzle.categories.map((item) => item.name)} />
+      </span>
     </div>
   )
 }

@@ -25,11 +25,20 @@ export function QuestionsTab(props: QuestionsTabProps): JSX.Element {
   return (
     <Card className="w-full bg-transparent" shadow="none">
       <CardBody className="grid grid-cols-1 gap-y-4 w-full">
-        <CategorySection categories={categories} updateCategory={updateCategory} />
+        <CategorySection
+          categories={categories}
+          updateCategory={updateCategory}
+        />
         <div className="flex justify-between items-center mb-4 gap-2">
           <span className="font-bold text-xl">Preguntas</span>
           <Tooltip content="Agregar pregunta">
-            <Button color="primary" variant="solid" size='sm' onPress={handleAdd} isIconOnly>
+            <Button
+              isIconOnly
+              color="primary"
+              size="sm"
+              variant="solid"
+              onPress={handleAdd}
+            >
               <Plus />
             </Button>
           </Tooltip>

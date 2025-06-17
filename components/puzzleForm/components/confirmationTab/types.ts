@@ -10,4 +10,6 @@ export interface ConfirmationTabProps {
   numberOfRows: number
   handleBack: () => void
   categories: FormCreatePuzzleType['categories']
+  matrix: FormCreatePuzzleType['matrix']
+  regenerateBoard: () => void
 }

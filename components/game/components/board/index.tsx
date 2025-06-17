@@ -10,7 +10,7 @@ import LetterCell from '../cell'
 import { BoardProps } from './types'
 
 function Board(props: BoardProps): JSX.Element {
-  const { grid, foundCells, checkWord, className } = props
+  const { grid, foundCells, checkWord, className, gridClassName } = props
 
   const [selectedCells, setSelectedCells] = useState<Cell>([])
   const [isSelecting, setIsSelecting] = useState<boolean>(false)
@@ -98,7 +98,10 @@ function Board(props: BoardProps): JSX.Element {
       <Controls onMoveBoard={onMoveBoard} />
       <div
         ref={containerRef}
-        className="w-full max-md:overflow-x-hidden max-md:touch-none max-md:overscroll-contain sm:flex sm:justify-center "
+        className={twMerge(
+          'w-full max-md:overflow-x-hidden max-md:touch-none max-md:overscroll-contain sm:flex sm:justify-center',
+          gridClassName
+        )}
       >
         <div
           className="grid gap-1 p-4 bg-default-400 bg-opacity-30 rounded-xl shadow-lg w-fit"

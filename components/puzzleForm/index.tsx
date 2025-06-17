@@ -23,6 +23,7 @@ import { QuestionsTab } from './components/questionsTab'
 import { BasicInfoTab } from './components/basicInfoTab'
 import { ConfirmationTab } from './components/confirmationTab'
 import { constants } from './constans'
+import { generateWordSearch } from '@utils/wordSearchGenerator'
 
 export function PuzzleForm(): JSX.Element {
   const [selected, setSelected] = useState('main')
@@ -49,7 +50,6 @@ export function PuzzleForm(): JSX.Element {
     },
   })
 
-  const watchQuestion = watch('questions')
   const puzzleData = watch()
   const { append, remove, replace } = useFieldArray({
     control,
@@ -105,6 +105,21 @@ export function PuzzleForm(): JSX.Element {
     [trigger]
   )
 
+  const generateBoard = useCallback(() => {
+    const { grid } = generateWordSearch(
+      puzzleData.questions.map((question) => question.answer),
+      puzzleData.numberOfRows,
+      puzzleData.difficult
+    )
+
+    setValue('matrix', grid)
+  }, [
+    setValue,
+    puzzleData.questions,
+    puzzleData.numberOfRows,
+    puzzleData.difficult,
+  ])
+
   return (
     <div className="flex flex-col items-center w-full">
       <Stepper
@@ -139,7 +154,7 @@ export function PuzzleForm(): JSX.Element {
             <motion.div
               transition={{ duration: 0.2 }}
               {...constants[
-              isLeft ? 'animationFromLeft' : 'animationFromRight'
+                isLeft ? 'animationFromLeft' : 'animationFromRight'
               ]}
             >
               <QuestionsTab
@@ -156,11 +171,14 @@ export function PuzzleForm(): JSX.Element {
 
                   if (!isFilled) return
 
+                  if (!puzzleData?.matrix || puzzleData.matrix?.length <= 0)
+                    generateBoard()
+
                   setSelected('confirm')
                   setIsLeft(false)
                 }}
                 handleRemove={remove}
-                questions={watchQuestion}
+                questions={puzzleData.questions}
                 register={register}
                 updateCategory={(categories: string[]) =>
                   setValue('categories', categories)
@@ -172,7 +190,7 @@ export function PuzzleForm(): JSX.Element {
             <motion.div
               transition={{ duration: 0.2 }}
               {...constants[
-              isLeft ? 'animationFromLeft' : 'animationFromRight'
+                isLeft ? 'animationFromLeft' : 'animationFromRight'
               ]}
             >
               <ConfirmationTab
@@ -183,9 +201,11 @@ export function PuzzleForm(): JSX.Element {
                   setSelected('edit')
                   setIsLeft(true)
                 }}
+                matrix={puzzleData.matrix}
                 numberOfQuestions={puzzleData.numberOfQuestions}
                 numberOfRows={puzzleData.numberOfRows}
-                questions={watchQuestion}
+                questions={puzzleData.questions}
+                regenerateBoard={generateBoard}
                 title={puzzleData.title}
               />
             </motion.div>

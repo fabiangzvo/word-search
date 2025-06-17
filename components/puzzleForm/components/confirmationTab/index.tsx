@@ -1,8 +1,9 @@
 import { useMemo, type JSX } from 'react'
 import { Card, CardBody, CardFooter } from '@heroui/card'
-import { Rocket } from 'lucide-react'
+import { Rocket, RotateCcw } from 'lucide-react'
 import { Alert } from '@heroui/alert'
 import { Button } from '@heroui/button'
+import { Tooltip } from '@heroui/tooltip'
 
 import { CategoryList } from '../categoryList'
 import { ConfirmationTabProps } from './types'
@@ -19,6 +20,8 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
     numberOfRows,
     handleBack,
     categories,
+    matrix,
+    regenerateBoard,
   } = props
 
   const questionsList = useMemo(
@@ -63,6 +66,9 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
           variant="flat"
         />
         <div className="space-y-2 grid grid-cols-3 max-md:grid-cols-1 gap-y-2">
+          <h3 className="text-lg font-semibold text-center mb-4 col-span-full">
+            Información general
+          </h3>
           <div className="flex flex-col items-center gap-y-2">
             <span className="text-foreground-500">Título</span>
             <span>{title}</span>
@@ -88,9 +94,29 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
             </span>
           </div>
         </div>
-        <BoardGrid grid={grid} foundCells={[]} className="pointer-events-none" />
         <div>
-          <h3 className="text-lg font-semibold mb-4">
+          <h3 className="text-lg font-semibold flex justify-center items-center mb-4 gap-2">
+            Tablero de juego
+            <Tooltip content="Regenerar tablero">
+              <Button
+                isIconOnly
+                color="primary"
+                size="sm"
+                variant="light"
+                onPress={regenerateBoard}
+              >
+                <RotateCcw size={18} />
+              </Button>
+            </Tooltip>
+          </h3>
+          <BoardGrid
+            foundCells={[]}
+            grid={matrix}
+            gridClassName="pointer-events-none"
+          />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-center">
             Preguntas y respuestas ({questions.length})
           </h3>
           <ol className="list-none list-inside grid grid-cols-1 gap-4">

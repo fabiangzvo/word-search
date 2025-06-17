@@ -1,8 +1,8 @@
-import { Fragment, useCallback, type JSX } from "react";
+import { Fragment, useCallback, type JSX } from 'react'
 
-import { CategoryForm } from "../categoryForm";
-import { CategoryList } from "../categoryList";
-import { CategorySectionProps } from "./types";
+import { CategoryForm } from '../categoryForm'
+import { CategoryList } from '../categoryList'
+import { CategorySectionProps } from './types'
 
 export function CategorySection({
   categories,

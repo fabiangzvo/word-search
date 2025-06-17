@@ -5,4 +5,5 @@ export interface BoardProps {
   foundCells: Cell[]
   checkWord?: (cells: Cell) => void
   className?: string
+  gridClassName?: string
 }

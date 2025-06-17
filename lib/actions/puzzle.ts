@@ -5,12 +5,9 @@ import { revalidatePath } from 'next/cache'
 
 import { checkNotCreatedCategories, createCategories } from '@queries/category'
 import { type FormCreatePuzzleType } from '@schemas/puzzle'
-import { generateWordSearch } from '@utils/wordSearchGenerator'
 import { insertPuzzle, updatePuzzle } from '@queries/puzzle'
 import { type ICategory } from '@/types/category'
 import { Question, type InsertPuzzle, type IPuzzleClient } from '@/types/puzzle'
-
-import { GenerateQuestions } from '../gemini'
 
 export async function createPuzzle(
   formData: FormCreatePuzzleType,

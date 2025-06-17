@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, ReactElement, JSX } from 'react'
+import { Fragment, JSX } from 'react'
 import { Modal, ModalContent, ModalBody, ModalHeader } from '@heroui/modal'
 import { Tooltip } from '@heroui/tooltip'
 import { Button } from '@heroui/button'
@@ -19,7 +19,7 @@ export function DialogFormButton(props: DialogButtonProps): JSX.Element {
     onOpen,
     onOpenChange,
     buttonClass,
-    isIcon = false
+    isIcon = false,
   } = props
 
   return (
@@ -29,9 +29,9 @@ export function DialogFormButton(props: DialogButtonProps): JSX.Element {
           className={buttonClass}
           color={color}
           isIconOnly={isIcon}
+          size={isIcon ? 'sm' : 'lg'}
           variant={variant}
           onPress={onOpen}
-          size={isIcon ? 'sm' : 'lg'}
         >
           {buttonLabel}
         </Button>
