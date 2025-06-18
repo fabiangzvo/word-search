@@ -65,11 +65,11 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
           title="¡Todo listo para crear!"
           variant="flat"
         />
-        <div className="space-y-2 grid grid-cols-3 max-md:grid-cols-1 gap-y-2">
+        <div className="space-y-2 grid grid-cols-3 max-md:grid-cols-2 gap-y-2">
           <h3 className="text-lg font-semibold text-center mb-4 col-span-full">
             Información general
           </h3>
-          <div className="flex flex-col items-center gap-y-2">
+          <div className="flex flex-col items-center gap-y-2 max-md:col-span-full">
             <span className="text-foreground-500">Título</span>
             <span>{title}</span>
           </div>

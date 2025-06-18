@@ -101,6 +101,7 @@ export interface IPuzzleDetail {
   isPublic: boolean
   owner: IUserDetail
   categories: ICategoryDetail[]
+  description: string
 }
 
 export interface IPuzzleStats {

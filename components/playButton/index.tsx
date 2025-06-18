@@ -54,14 +54,18 @@ function PlayButton({ puzzleId }: { puzzleId: string }): JSX.Element {
       console.error(e)
 
       notification.settings.type = 'error'
-      notification.message = (e as Error).message //'No se ha podido crear el juego.'
+      notification.message = 'No se ha podido iniciar el juego.'
     }
 
     toast(notification.message, notification.settings)
   }, [router, session, puzzleId])
 
   return (
-    <Button className="font-bold" color="primary" onPress={handlePlay}>
+    <Button
+      className="font-bold md:absolute md:top-0 md:right-0 max-md:w-full"
+      color="primary"
+      onPress={handlePlay}
+    >
       Jugar
     </Button>
   )

@@ -1,14 +1,17 @@
-import { type JSX } from 'react'
+'use client'
+
+import { type JSX, useMemo } from 'react'
 import { Chip } from '@heroui/chip'
+import { twMerge } from 'tailwind-merge'
 
 import { CategoryListProps } from './types'
 
 export function CategoryList(props: CategoryListProps): JSX.Element {
-  const { categories, updateCategory } = props
+  const { categories, updateCategory, className } = props
 
-  return (
-    <span className="flex gap-2 flex-wrap justify-center">
-      {categories.map((category, index) => (
+  const categoryItems = useMemo(() => {
+    if (categories.length > 0)
+      return categories.map((category, index) => (
         <Chip
           key={index}
           color="primary"
@@ -21,7 +24,18 @@ export function CategoryList(props: CategoryListProps): JSX.Element {
         >
           {category}
         </Chip>
-      ))}
+      ))
+
+    return (
+      <span className="text-foreground-500 font-semibold text-center w-full">
+        No hay categorías
+      </span>
+    )
+  }, [categories])
+
+  return (
+    <span className={twMerge('flex gap-2 flex-wrap justify-center', className)}>
+      {categoryItems}
     </span>
   )
 }

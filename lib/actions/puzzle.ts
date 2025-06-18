@@ -17,7 +17,6 @@ export async function createPuzzle(
   userId: string
 ): Promise<IPuzzleClient | null> {
   try {
-
     const { matches, notCreated } = await checkNotCreatedCategories(
       formData.categories
     )

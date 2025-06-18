@@ -7,10 +7,10 @@ import { getSession } from '@lib/session'
 import PlayButton from '@components/playButton'
 import mongooseConnect from '@lib/db'
 import BoardGrid from '@components/game/components/board'
+import { CategoryList } from '@components/puzzleForm/components/categoryList'
+import Avatar from '@components/avatar'
 
 import { PuzzleDetailProps } from './types'
-import Avatar from '@components/avatar'
-import { CategoryList } from '@components/puzzleForm/components/categoryList'
 
 async function PuzzleDetail({
   params,
@@ -47,44 +47,72 @@ async function PuzzleDetail({
   ))
 
   const isOwner = session?.user?.id === puzzle.owner._id.toString()
-  const gridComponent = isOwner ? (
-    <BoardGrid
-      className="pointer-events-none"
-      foundCells={[]}
-      grid={puzzle.matrix}
-    />
-  ) : (
-    <p className="text-foreground-400 text-center my-8">
-      El tablero solo es visible para el creador o al momento de jugar.
-    </p>
-  )
 
   return (
     <div className="cursor-default mb-10">
-      <h1 className="text-2xl font-bold text-center">
-        {puzzle.title}&nbsp;
-        <Chip color={puzzle.isPublic ? 'primary' : 'warning'} variant="flat">
-          <p className="font-semibold">
-            {puzzle.isPublic ? 'Pública' : 'Privada'}
-          </p>
-        </Chip>
-      </h1>
-      <h3 className="text-sm mb-8 text-center">
-        Creada por:&nbsp;
-        <span className="font-bold text-default-500">{puzzle.owner.name}</span>
-      </h3>
-      <div className="w-full flex justify-end mb-8">
-        <PlayButton puzzleId={id} />
+      <div className="w-full flex flex-col items-start gap-y-2">
+        <div className="w-full flex justify-center items-center max-md:flex-col max-md:items-center relative max-md:gap-3 mb-4">
+          <div>
+            <h1 className="text-2xl font-bold flex items-center gap-4">
+              {puzzle.title}
+              <Chip
+                color={puzzle.isPublic ? 'primary' : 'warning'}
+                variant="flat"
+              >
+                <p className="font-semibold">
+                  {puzzle.isPublic ? 'Pública' : 'Privada'}
+                </p>
+              </Chip>
+            </h1>
+            <h3 className="text-sm text-center w-full">
+              Creada por:&nbsp;
+              <span className="font-bold text-default-500">
+                {puzzle.owner.name}
+              </span>
+            </h3>
+          </div>
+          <PlayButton puzzleId={id} />
+        </div>
+        <p className="w-full text-base text-center">{puzzle.description}</p>
+        <div className="space-y-2 grid grid-cols-3 max-md:grid-cols-2 gap-y-2 w-full mb-3">
+          <div className="flex flex-col items-center gap-y-2 max-md:col-span-full">
+            <span className="text-foreground-500">dificultad</span>
+            <span>{puzzle.difficult}</span>
+          </div>
+          <div className="flex flex-col items-center gap-y-2">
+            <span className="text-foreground-500">tamaño</span>
+            <span>
+              {puzzle.matrix.length}x{puzzle.matrix.length}
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-y-2">
+            <span className="text-foreground-500">Preguntas</span>
+            <span>{puzzle.questions.length}</span>
+          </div>
+        </div>
+        {puzzle.categories.length > 0 && (
+          <CategoryList
+            categories={puzzle.categories.map((item) => item.name)}
+            className="justify-center w-full mb-8"
+          />
+        )}
       </div>
-      {gridComponent}
+      <div className="relative flex items-center justify-center">
+        <BoardGrid
+          foundCells={[]}
+          grid={puzzle.matrix}
+          gridClassName={'pointer-events-none' + (isOwner ? '' : ' blur-sm')}
+        />
+        {!isOwner && (
+          <div className="absolute z-10 font-semibold text-lg text-wrap text-center">
+            Solo es visible para el creador
+          </div>
+        )}
+      </div>
       <h2 className="text-2xl font-bold mb-4 mt-10">Preguntas</h2>
       <ol className="list-none list-inside grid grid-cols-1 gap-4">
         {questionList}
       </ol>
-      <h2 className="text-2xl font-bold mb-4 mt-10">Categorias</h2>
-      <span className="flex gap-2 flex-wrap">
-        <CategoryList categories={puzzle.categories.map((item) => item.name)} />
-      </span>
     </div>
   )
 }
