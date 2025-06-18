@@ -8,12 +8,16 @@ import { type FormCreatePuzzleType } from '@schemas/puzzle'
 import { insertPuzzle, updatePuzzle } from '@queries/puzzle'
 import { type ICategory } from '@/types/category'
 import { Question, type InsertPuzzle, type IPuzzleClient } from '@/types/puzzle'
+import mongooseConnect from '@lib/db'
+
+mongooseConnect()
 
 export async function createPuzzle(
   formData: FormCreatePuzzleType,
   userId: string
 ): Promise<IPuzzleClient | null> {
   try {
+
     const { matches, notCreated } = await checkNotCreatedCategories(
       formData.categories
     )

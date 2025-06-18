@@ -324,21 +324,11 @@ export function generateWordSearch(
     if (placement) {
       wordPositions[word] = placement
       placedCount++
-    } else if (process.env.NODE_ENV === 'development') {
-      console.warn(`Failed to place: "${word}"`)
     }
   }
 
   // Fill empty cells efficiently
   fillEmptyCells(grid, gridSize)
-
-  // Performance logging
-  if (process.env.NODE_ENV === 'development') {
-    const endTime = performance.now()
-    console.log(
-      `Performance: ${(endTime - startTime).toFixed(2)}ms, Success: ${placedCount}/${optimizedWords.length}`
-    )
-  }
 
   return { grid, wordPositions }
 }
@@ -378,30 +368,5 @@ export function getDifficultyStats(difficulty: Difficult): {
         : difficulty === 'medium'
           ? 'Medium'
           : 'High',
-  }
-}
-
-/**
- * Benchmark function for performance testing
- */
-export function benchmarkGeneration(
-  words: string[],
-  gridSize: number,
-  difficulty: Difficult,
-  iterations: number = 10
-): { avgTime: number; minTime: number; maxTime: number } {
-  const times: number[] = []
-
-  for (let i = 0; i < iterations; i++) {
-    const start = performance.now()
-    generateWordSearch(words, gridSize, difficulty)
-    const end = performance.now()
-    times.push(end - start)
-  }
-
-  return {
-    avgTime: times.reduce((a, b) => a + b, 0) / times.length,
-    minTime: Math.min(...times),
-    maxTime: Math.max(...times),
   }
 }
