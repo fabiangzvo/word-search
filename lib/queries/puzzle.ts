@@ -14,6 +14,11 @@ import type {
   PaginatePuzzleResponse,
   IPuzzleStats,
 } from '@/types/puzzle'
+import mongooseConnect from '@lib/db'
+
+import { upsertCategories } from './category'
+
+mongooseConnect()
 
 export async function getPuzzles<T>({
   filters,
@@ -59,6 +64,8 @@ export async function updatePuzzle(
   puzzleId: string,
   game: UpdateQuery<IPuzzle>
 ): Promise<IPuzzleClient> {
+  game.categories = await upsertCategories(game.categories)
+
   const response = await Puzzle.findByIdAndUpdate(puzzleId, game, {
     new: true,
   })

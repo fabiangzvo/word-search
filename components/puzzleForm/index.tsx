@@ -9,6 +9,7 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { Tab, Tabs } from '@heroui/tabs'
 import { motion } from 'framer-motion'
+import _isEqual from 'lodash/isEqual'
 
 import {
   CreatePuzzleSchema,
@@ -18,14 +19,20 @@ import { createPuzzle } from '@lib/actions/puzzle'
 import { INotification } from '@/types/notification'
 import Stepper from '@components/stepper'
 import { GenerateQuestions } from '@lib/gemini'
+import { generateWordSearch } from '@utils/wordSearchGenerator'
+import { IPuzzleClient } from '@/types/puzzle'
 
 import { QuestionsTab } from './components/questionsTab'
 import { BasicInfoTab } from './components/basicInfoTab'
 import { ConfirmationTab } from './components/confirmationTab'
-import { constants } from './constans'
-import { generateWordSearch } from '@utils/wordSearchGenerator'
+import { constants } from './constants'
+import { PuzzleFormProps } from './types'
+import { updatePuzzle } from '@lib/queries/puzzle'
 
-export function PuzzleForm(): JSX.Element {
+export function PuzzleForm({
+  defaultValues,
+  puzzleId,
+}: PuzzleFormProps): JSX.Element {
   const [selected, setSelected] = useState('main')
   const [isLeft, setIsLeft] = useState(false)
 
@@ -43,11 +50,7 @@ export function PuzzleForm(): JSX.Element {
     watch,
   } = useForm<FormCreatePuzzleType>({
     resolver: zodResolver(CreatePuzzleSchema),
-    defaultValues: {
-      title: '',
-      questions: [],
-      categories: [],
-    },
+    defaultValues,
   })
 
   const puzzleData = watch()
@@ -57,16 +60,30 @@ export function PuzzleForm(): JSX.Element {
   })
 
   const onSubmit: SubmitHandler<FormCreatePuzzleType> = async (data) => {
+    let response: IPuzzleClient | null = null
     const notification: INotification = {
       message: 'No se ha podido crear la sopa de letras',
       settings: { type: 'error', position: 'top-right' },
     }
 
-    const response = await createPuzzle(data, session.data?.user?.id ?? '')
+    if (puzzleId) {
+      response = await updatePuzzle(puzzleId, data)
 
-    if (!response) return toast(notification.message, notification.settings)
+      notification.message = 'Sopa de letras actualizada!'
+    } else {
+      response = await createPuzzle(data, session.data?.user?.id ?? '')
 
-    notification.message = 'Sopa de letras creada!'
+      notification.message = 'Sopa de letras creada!'
+    }
+
+    if (!response)
+      return toast(
+        !puzzleId
+          ? notification.message
+          : 'No se ha podido actualizar la sopa de letras',
+        notification.settings
+      )
+
     notification.settings.type = 'success'
 
     toast(notification.message, notification.settings)
@@ -90,15 +107,25 @@ export function PuzzleForm(): JSX.Element {
       'numberOfQuestions',
     ])
 
-    const response = await GenerateQuestions(numberOfQuestions, context)
+    if (
+      context !== defaultValues?.prompt ||
+      numberOfQuestions !== defaultValues?.numberOfQuestions
+    ) {
+      const response = await GenerateQuestions(numberOfQuestions, context)
 
-    setValue('description', response.description)
-    replace(response.questions)
-    setValue('categories', response.categories)
+      setValue('description', response.description)
+      replace(response.questions)
+      setValue('categories', response.categories)
+    }
 
     setIsLeft(false)
     setSelected('edit')
-  }, [trigger, replace])
+  }, [
+    trigger,
+    replace,
+    defaultValues?.prompt,
+    defaultValues?.numberOfQuestions,
+  ])
 
   const checkQuestions = useCallback(
     async () => trigger(['questions']),
@@ -118,6 +145,31 @@ export function PuzzleForm(): JSX.Element {
     puzzleData.questions,
     puzzleData.numberOfRows,
     puzzleData.difficult,
+  ])
+
+  const handleLastStep = useCallback(async () => {
+    const isFilled = await checkQuestions()
+
+    if (!isFilled) return
+
+    if (
+      !puzzleData?.matrix ||
+      puzzleData.matrix?.length <= 0 ||
+      defaultValues?.prompt !== puzzleData.prompt ||
+      defaultValues?.difficult !== puzzleData.difficult ||
+      !_isEqual(defaultValues?.questions, puzzleData.questions)
+    )
+      generateBoard()
+
+    setSelected('confirm')
+    setIsLeft(false)
+  }, [
+    checkQuestions,
+    generateBoard,
+    puzzleData.questions,
+    puzzleData.numberOfRows,
+    puzzleData.difficult,
+    puzzleData.matrix,
   ])
 
   return (
@@ -166,17 +218,7 @@ export function PuzzleForm(): JSX.Element {
                   setSelected('main')
                   setIsLeft(true)
                 }}
-                handleNext={async () => {
-                  const isFilled = await checkQuestions()
-
-                  if (!isFilled) return
-
-                  if (!puzzleData?.matrix || puzzleData.matrix?.length <= 0)
-                    generateBoard()
-
-                  setSelected('confirm')
-                  setIsLeft(false)
-                }}
+                handleNext={handleLastStep}
                 handleRemove={remove}
                 questions={puzzleData.questions}
                 register={register}
@@ -201,6 +243,7 @@ export function PuzzleForm(): JSX.Element {
                   setSelected('edit')
                   setIsLeft(true)
                 }}
+                isUpdate={!!puzzleId}
                 matrix={puzzleData.matrix}
                 numberOfQuestions={puzzleData.numberOfQuestions}
                 numberOfRows={puzzleData.numberOfRows}

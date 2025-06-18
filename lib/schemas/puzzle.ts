@@ -8,7 +8,8 @@ export const CreatePuzzleSchema = z.object({
   }),
   numberOfQuestions: z
     .number({ invalid_type_error: 'Este campo es obligatorio.' })
-    .gte(1, 'El minimo número de preguntas es de 1'),
+    .gte(1, 'El minimo número de preguntas es de 1')
+    .max(20, 'El maximo número de preguntas es de 20'),
   categories: z.array(
     z.string().min(3, 'La categoria debe contener minimo 3 caracteres')
   ),

@@ -35,6 +35,7 @@ export interface IPuzzle extends Document {
   isPublic: boolean
   owner: Types.ObjectId
   categories: Types.ObjectId[]
+  prompt: string
 }
 
 export type InsertPuzzle = Pick<
@@ -48,6 +49,7 @@ export type InsertPuzzle = Pick<
   | 'difficult'
   | 'cols'
   | 'description'
+  | 'prompt'
 >
 
 export interface GetPuzzle {
@@ -78,6 +80,7 @@ export interface IPuzzleClient {
   isPublic: boolean
   owner: string
   categories: string[]
+  prompt: string
 }
 
 export interface IPuzzleItem {
@@ -89,6 +92,7 @@ export interface IPuzzleItem {
   isPublic: boolean
   categories: ICategoryDetail[]
   description: string
+  prompt: string
 }
 
 export interface IPuzzleDetail {
@@ -102,6 +106,7 @@ export interface IPuzzleDetail {
   owner: IUserDetail
   categories: ICategoryDetail[]
   description: string
+  prompt: string
 }
 
 export interface IPuzzleStats {

@@ -6,6 +6,7 @@ const puzzleSchema = new Schema<IPuzzle>(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
+    prompt: { type: String, required: true },
     difficult: { type: String, required: true },
     cols: { type: Number, required: true },
     questions: {

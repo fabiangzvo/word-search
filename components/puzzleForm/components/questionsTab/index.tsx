@@ -45,7 +45,7 @@ export function QuestionsTab(props: QuestionsTabProps): JSX.Element {
         </div>
         {questions.map((field, index) => (
           <QuestionItem
-            key={index}
+            key={index + field.label}
             answer={field.answer}
             answerError={errors.questions?.[index]?.answer?.message}
             checkQuestions={checkQuestions}

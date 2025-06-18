@@ -22,6 +22,7 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
     categories,
     matrix,
     regenerateBoard,
+    isUpdate,
   } = props
 
   const questionsList = useMemo(
@@ -137,7 +138,7 @@ export function ConfirmationTab(props: ConfirmationTabProps): JSX.Element {
           color="primary"
           type="submit"
         >
-          Crear
+          {isUpdate ? 'Actualizar' : 'Crear'}
         </Button>
       </CardFooter>
     </Card>

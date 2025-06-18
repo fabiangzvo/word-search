@@ -12,4 +12,5 @@ export interface ConfirmationTabProps {
   categories: FormCreatePuzzleType['categories']
   matrix: FormCreatePuzzleType['matrix']
   regenerateBoard: () => void
+  isUpdate: boolean
 }
