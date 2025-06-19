@@ -67,6 +67,12 @@ export function PuzzleForm({
     }
 
     if (puzzleId) {
+      if (_isEqual(defaultValues, data))
+        return toast('No hay informacion para actualizar', {
+          ...notification.settings,
+          type: 'warning',
+        })
+
       response = await updatePuzzle(puzzleId, data)
 
       notification.message = 'Sopa de letras actualizada!'
