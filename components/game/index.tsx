@@ -129,8 +129,9 @@ export default function Game(props: GameProps): JSX.Element {
 
       for (const question of puzzle.questions) {
         const { answer, _id: questionId } = question
+        const answerLower = answer.toLowerCase()
 
-        if (selectedWord === answer || reversedWord === answer) {
+        if (selectedWord === answerLower || reversedWord === answerLower) {
           if (!state.foundWords.includes(answer)) {
             dispatch({ type: Actions.ADD_WORD, payload: answer })
             dispatch({ type: Actions.ADD_CELL, payload: cells })

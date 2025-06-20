@@ -1,4 +1,4 @@
-export const mappedColors = [
+export default [
   'bg-blue-500 ring-blue-500',
   'bg-red-700 ring-red-700',
   'bg-fuchsia-700 ring-fuchsia-700',

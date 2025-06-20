@@ -5,7 +5,7 @@ import { Chip } from '@heroui/chip'
 import { Card, CardHeader, CardBody } from '@heroui/card'
 import { Listbox, ListboxItem } from '@heroui/listbox'
 import Avatar from '@components/avatar'
-import { mappedColors } from '@config/colors'
+import mappedColors from '@config/colors'
 
 import { type ActivePlayersProps } from './types'
 
@@ -35,7 +35,7 @@ function ActivePlayers(props: ActivePlayersProps): JSX.Element {
           title={user?.name}
         />
       )),
-    [users]
+    [users, mappedColors]
   )
 
   return (
