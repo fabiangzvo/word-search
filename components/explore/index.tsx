@@ -1,7 +1,14 @@
 'use client'
 
-import { Fragment, JSX, useReducer, useCallback, ChangeEvent } from 'react'
-import useInfinitySWR from 'swr/infinite'
+import {
+  Fragment,
+  JSX,
+  useReducer,
+  useCallback,
+  ChangeEvent,
+  useMemo,
+} from 'react'
+import useInfiniteSWR from 'swr/infinite'
 import { FilterX } from 'lucide-react'
 import { Tooltip } from '@heroui/tooltip'
 import { Button } from '@heroui/button'
@@ -15,6 +22,8 @@ import type { IPuzzleItem, PaginatePuzzleResponse } from '@/types/puzzle'
 import type { Filters } from './types'
 import DifficultDropdown from './components/difficultDropdown'
 import OrderDropdown from './components/orderDropdown'
+import { useIntersection } from '@hooks/intersectionObserver'
+import { PaginateResult } from '@utils/paginate'
 
 interface FilterFetcher extends Filters {
   page: number
@@ -60,11 +69,26 @@ function Explore(): JSX.Element {
     order: 'createdAt',
   })
 
-  const { data = [], isLoading } = useInfinitySWR(
-    (page) => ({ ...state, page: page + 1 }),
+  const { data, isLoading, size, setSize, isValidating } = useInfiniteSWR(
+    (
+      pageIndex: number,
+      previousPageData: PaginatePuzzleResponse<IPuzzleItem>
+    ) => {
+      if (
+        previousPageData?.data?.length === 0 ||
+        previousPageData?.pages <= pageIndex
+      )
+        return null
+
+      return { ...state, page: pageIndex + 1 }
+    },
     fetcher,
     {
       fallbackData: [{ data: [], total: 0, pages: 0 }],
+      initialSize: 1,
+      persistSize: true,
+      revalidateFirstPage: false,
+      revalidateAll: false,
     }
   )
 
@@ -88,6 +112,36 @@ function Explore(): JSX.Element {
     },
     [state.difficult]
   )
+  const { totalPages, puzzles, total } = useMemo(() => {
+    const puzzles =
+      data
+        ?.map((response: PaginateResult<IPuzzleItem>) => response.data)
+        ?.flat() || []
+    const lastData = data?.at(-1)
+
+    return {
+      totalPages: lastData?.pages || 1,
+      total: lastData?.total || 0,
+      puzzles,
+    }
+  }, [data])
+
+  const handleLoadMore = useCallback(() => {
+    if (!isLoading && totalPages > size && !isValidating) {
+      setSize((prevSize) => prevSize + 1)
+    }
+  }, [isLoading, size, totalPages, isValidating])
+
+  const isLoadingMore = useMemo(
+    () =>
+      isLoading ||
+      size < totalPages ||
+      isValidating ||
+      (isLoading && size === totalPages),
+    [isLoading, size, totalPages, isValidating]
+  )
+
+  const [ref] = useIntersection<HTMLDivElement>(handleLoadMore)
 
   return (
     <Fragment>
@@ -142,13 +196,15 @@ function Explore(): JSX.Element {
           </Tooltip>
         </div>
       </div>
-      <p className="my-6 text-center">
-        Mostrando {data[0]?.data.length} de {data[0]?.total} resultados
+      <p className="my-6 text-start">
+        Mostrando {puzzles.length} de {total} resultados.
       </p>
       <PuzzleList
         hideOptions
-        isLoading={isLoading}
-        puzzles={data[0]?.data || []}
+        isFinished={size >= totalPages && !isLoading && !isValidating}
+        isLoading={isLoadingMore}
+        loaderRef={ref}
+        puzzles={puzzles}
       />
     </Fragment>
   )
