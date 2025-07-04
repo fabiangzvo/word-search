@@ -26,8 +26,8 @@ module.exports = {
       themes: {
         light: {
           colors: {
-            primary: { ...colors.lime, DEFAULT: colors.lime[400] },
-            default: { ...colors.lime, DEFAULT: colors.lime[400] },
+            primary: { ...colors.cyan, DEFAULT: colors.cyan[400] },
+            default: { ...colors.cyan, DEFAULT: colors.cyan[400] },
             background: colors.white,
           },
         },
