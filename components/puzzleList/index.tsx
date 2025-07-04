@@ -20,7 +20,7 @@ function PuzzleList(props: PuzzleListProps): JSX.Element {
     if (isLoading)
       return (
         <Fragment>
-          {Array.from({ length: 3 }).map((_, i) => (
+          {Array.from({ length: 4 }).map((_, i) => (
             <LoadingCard key={i} loaderRef={loaderRef} />
           ))}
         </Fragment>

@@ -56,7 +56,7 @@ async function fetcher(
       description: true,
     },
     page: params.page,
-    pageSize: 5,
+    pageSize: 4,
     orderBy: params.order,
   })
 }
