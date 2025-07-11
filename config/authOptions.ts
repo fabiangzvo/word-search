@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 
 import { getClient } from '@lib/db'
+import mongooseConnect from '@lib/db'
 import Users from '@lib/models/user'
 
 export const authOptions: AuthOptions = {
@@ -20,6 +21,8 @@ export const authOptions: AuthOptions = {
         if (!credentials?.email || !credentials?.password)
           throw new Error('El correo y la contraseña son campos obligatorios')
 
+        await mongooseConnect()
+
         const user = await Users.findOne({
           email: credentials.email,
         }).exec()
@@ -29,9 +32,7 @@ export const authOptions: AuthOptions = {
           credentials.password,
           user.password
         )
-
-        if (!isPasswordValid)
-          throw new Error('Credenciales inválidas')
+        if (!isPasswordValid) throw new Error('Credenciales inválidas')
 
         return {
           id: user?._id?.toString() ?? '',
